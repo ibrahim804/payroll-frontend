@@ -1,0 +1,106 @@
+<div class="card m-3 shadow-sm">
+    <div class="card-header" style="background: #263238">
+        <h4 class="text-center" style="color: white">Attendance</h4>
+    </div>
+
+    <div class="card-body">
+        <div class="row d-flex justify-content-center">
+            <div class="col-3"></div>
+            <div class="col-6">
+                <canvas height="95%" baseChart [data]="demodoughnutChartData" [colors]="chartColors" [labels]="doughnutChartLabels" [chartType]="doughnutChartType" (chartHover)="chartHovered($event)" (chartClick)="chartClicked($event)"></canvas>
+            </div>
+            <div class="col-3"></div>
+        </div>
+    </div>
+</div>
+
+<div class="card m-3 shadow-sm">
+    <div class="card-header" style="background: #263238">
+        <h4 class="text-center" style="color: white">Department Wise Attendance</h4>
+    </div>
+
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Department</th>
+                        <th>Present</th>
+                        <th>Late</th>
+                        <th>Absent</th>
+                        <th>On Leave</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr>
+                        <td>
+                            <div (click)="isCollapsed = !isCollapsed" style="cursor: pointer; ">
+                                Cutting
+                            </div>
+                        </td>
+                        <td>5</td>
+                        <td>2</td>
+                        <td>1</td>
+                        <td>0</td>
+                    </tr>
+
+
+                    <tr *ngIf="isCollapsed">
+                        <td class="padding-left-4" style="color:#5cb85c;">
+                            Moshiur
+                        </td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+
+
+                    <tr *ngIf="isCollapsed">
+                        <td class="padding-left-4" style="color:#f0ad4e">
+                            Salman Siddique
+                        </td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+
+
+                    <tr *ngIf="isCollapsed">
+                        <td class="padding-left-4" style="color:#5cb85c;">
+                            Ratul biswas
+                        </td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+
+                    <tr>
+                        <td>Sewing</td>
+                        <td>15</td>
+                        <td>2</td>
+                        <td>3</td>
+                        <td>1</td>
+                    </tr>
+                    <tr>
+                        <td>Quality Control</td>
+                        <td>7</td>
+                        <td>1</td>
+                        <td>2</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <td>Finishing</td>
+                        <td>12</td>
+                        <td>5</td>
+                        <td>1</td>
+                        <td>0</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

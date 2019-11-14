@@ -1,0 +1,127 @@
+<div class="mat-elevation-z8">
+    <h1 class="mat-h1 m-3">Payroll</h1>
+
+
+
+    <div class="card m-3">
+        <div class="card-header" style="background: #263238">
+            <h4 class="text-center" style="color: white">Generate Payroll</h4>
+        </div>
+
+        <div class="row">
+            <div class="col-4"></div>
+            <div class="col-4">
+                <div class="card-body">
+                    <div class="form-group">
+                        <label for="name">Select Month</label>
+                        <select class="form-control form-control-sm" id="marital_status">
+                                <option value="1">January</option>
+                                <option value="2">February</option>
+                                <option value="3">March</option>
+                                <option value="4">April</option>
+                                <option value="5">May</option>
+                                <option value="6">June</option>
+                                <option value="7">July</option>
+                                <option value="8">August</option>
+                                <option value="9">September</option>
+                                <option value="10">October</option>
+                                <option value="11">November</option>
+                                <option value="12">December</option>
+                              </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="name">Select Year</label>
+                        <select class="form-control form-control-sm" id="marital_status">
+                                <option value="1">2019</option>
+                                <option value="2">2020</option>
+                                <option value="3">2021</option>
+                                <option value="4">2022</option>
+                                <option value="5">2023</option>
+                                <option value="6">2024</option>
+                                <option value="7">2025</option>
+                                <option value="8">2026</option>
+                                <option value="9">2027</option>
+                                <option value="10">2028</option>
+                                <option value="11">2029</option>
+                                <option value="12">2030</option>
+                        </select>
+                    </div>
+
+                    <div class="d-flex justify-content-center">
+                        <button class="btn btn-success btn-md">Generate</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-4"></div>
+        </div>
+    </div>
+
+
+    <mat-paginator #paginator [length]="dataSource?.data.length" [pageIndex]="0" [pageSize]="50" [pageSizeOptions]="[25, 50, 100, 250]">
+    </mat-paginator>
+
+    <table mat-table class="full-width-table" matSort aria-label="Elements">
+        <ng-container matColumnDef="id">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Id</th>
+            <td mat-cell *matCellDef="let row">{{row.id}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
+            <td mat-cell *matCellDef="let row">{{row.name}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="fixedSalary">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Fixed Salary</th>
+            <td mat-cell *matCellDef="let row">{{row.fixedSalary}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="variableSalary">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Variable Salary</th>
+            <td mat-cell *matCellDef="let row">{{row.variableSalary}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="overtime">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Over time</th>
+            <td mat-cell *matCellDef="let row">{{row.overtime}}</td>
+        </ng-container>
+
+
+        <ng-container matColumnDef="nightAllowence">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Night Allowence</th>
+            <td mat-cell *matCellDef="let row">{{row.nightAllowence}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="totalSalary">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Total Salary</th>
+            <td mat-cell *matCellDef="let row">{{row.totalSalary}}</td>
+        </ng-container>
+
+
+        <ng-container matColumnDef="employeeType">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Employee Type</th>
+            <td mat-cell *matCellDef="let row">{{row.employeeType}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="department">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Department</th>
+            <td mat-cell *matCellDef="let row">{{row.department}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="action">
+            <th mat-header-cell *matHeaderCellDef>Action</th>
+            <td mat-cell *matCellDef="let row">
+                <button class="btn btn-info btn-sm mr-2">Generate Payslip</button>
+            </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+
+
+
+
+
+</div>

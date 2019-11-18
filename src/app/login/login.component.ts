@@ -1,7 +1,8 @@
+import { AuthService } from './../all_services/auth.service';
+import { UserService } from './../all_services/user.service';
 import { Component, OnInit } from '@angular/core';
-import { Employee } from '../_models/employee';
-import { LoginService } from '../_services/login.service';
 import { Router } from '@angular/router';
+import { Login } from '../config/interfaces/user.interface';
 
 @Component({
   selector: 'app-login',
@@ -10,30 +11,30 @@ import { Router } from '@angular/router';
 })
 export class LoginComponent implements OnInit {
 
-  constructor(private loginService: LoginService, private router: Router) { }
+  constructor(
+    private router: Router,
+    private userService: UserService,
+    private authService: AuthService,
+  ) { }
 
   ngOnInit() {
   }
 
-  login(): void {
+  login() {
+    const credentials: Login = {
+      email: (document.getElementById('email') as HTMLInputElement).value,
+      password: (document.getElementById('password') as HTMLInputElement).value,
+    };
 
-    let employee = new Employee();
-
-    employee.email = (<HTMLInputElement>document.getElementById("email")).value;
-    employee.password = (<HTMLInputElement>document.getElementById("password")).value;
-
-    this.loginService.login(employee).subscribe(data => {
-      if (data[0].status === "FAILED"){
-        alert(data[0].message);
+    this.userService.login(credentials).subscribe(response => {
+      if (response[0].status === 'FAILED') {
+        alert(response[0].message);
         this.router.navigate(['/login']);
-      }
-
-      else{
-        localStorage.setItem('token', data[0].token);
+      } else {
+        this.authService.setValueInLocalStorage('token', response[0].token);
         this.router.navigate(['/home']);
-        console.log(data);
       }
-    })
+    });
   }
 
 }

@@ -1,12 +1,14 @@
 
 const baseUrl = 'http://localhost:8000/api';
 
-export const routes = {
+export const apiRoutes = {
 
   // all routes without params
 
   login: `${baseUrl}/login`,
   register: `${baseUrl}/register`,
+  user: `${baseUrl}/user`,
+  update: `${baseUrl}/update`,
   logout: `${baseUrl}/logout`,
   updatePassword: `${baseUrl}/update-password`,
   forgotPassword: `${baseUrl}/forgot/password`,
@@ -37,6 +39,8 @@ export const routes = {
 
   leaves: `${baseUrl}/leaves`,
   leave: `${baseUrl}/leave`,
+  leaveApprove: `${baseUrl}/leave/approve`,
+  leaveCancel: `${baseUrl}/leave/cancel`,
 
   workingDay: `${baseUrl}/working-day`,
 

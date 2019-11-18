@@ -9,7 +9,7 @@ export interface Register {
   email: string;
   password: string;
   gender: string;
-  phone: number;
+  phone: string;
   joining_date: string;
   // upper must be filled up, lowers are optional
   employee_id?: string;
@@ -18,12 +18,12 @@ export interface Register {
   fathers_name?: string;
   marital_status?: string;
   nationality?: string;
-  permanent_address?: Text;
-  present_address?: Text;
-  passport_number?: string;
-  company_id?: number;
-  designation_id?: number;
-  department_id?: number;
+  permanent_address?: string;
+  present_address?: string;
+  passport_string?: string;
+  company_id?: string;
+  designation_id?: string;
+  department_id?: string;
 }
 
 export interface Update {
@@ -31,7 +31,7 @@ export interface Update {
   email?: string;
   password?: string;
   gender?: string;
-  phone?: number;
+  phone?: string;
   joining_date?: string;
   employee_id?: string;
   user_name?: string;
@@ -39,16 +39,16 @@ export interface Update {
   fathers_name?: string;
   marital_status?: string;
   nationality?: string;
-  permanent_address?: Text;
-  present_address?: Text;
-  passport_number?: string;
+  permanent_address?: string;
+  present_address?: string;
+  passport_string?: string;
   photo_path?: string;
-  company_id?: number;
-  designation_id?: number;
-  department_id?: number;
-  salary_id?: number;
-  working_day_id?: number;
-  verification_code?: number;
+  company_id?: string;
+  designation_id?: string;
+  department_id?: string;
+  salary_id?: string;
+  working_day_id?: string;
+  verification_code?: string;
 }
 
 export interface UpdatePassword {
@@ -63,7 +63,7 @@ export interface ForgotPassword {
 
 export interface VerifyCode {
   email: string;
-  verification_code: number;
+  verification_code: string;
 }
 
 export interface SetNewPassword {

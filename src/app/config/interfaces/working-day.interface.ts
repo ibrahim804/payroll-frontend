@@ -8,8 +8,8 @@ export interface Create {
   thursday: string;
   friday: string;
   user_or_company: string;
-  user_id?: number;
-  company_id?: number;
+  user_id?: string;
+  company_id?: string;
 }
 
 export interface Update {

@@ -8,7 +8,7 @@ export interface UpdateDept {
 }
 
 export interface CreateDesg {
-  department_id: number;
+  department_id: string;
   designation: string;
 }
 

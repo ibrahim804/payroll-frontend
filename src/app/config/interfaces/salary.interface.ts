@@ -1,6 +1,6 @@
 
 export interface Create {
-  user_id: number;
+  user_id: string;
   basic_salary: string;
   house_rent_allowance?: string;
   medical_allowance?: string;

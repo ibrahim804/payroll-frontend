@@ -8,29 +8,29 @@ export interface UpdateCategory {
 }
 
 export interface CreateCount {
-  user_id: number;
-  leave_category_id: number;
-  leave_left: number;
+  user_id: string;
+  leave_category_id: string;
+  leave_left: string;
 }
 
 export interface UpdateCount {
-  leave_left?: number;
+  leave_left?: string;
 }
 
 export interface CreateLeave {
-  leave_category_id: number;
-  leave_description: Text;
+  leave_category_id: string;
+  leave_description: string;
   start_date: string;
   end_date: string;
 }
 
 export interface UpdateLeave {
-  leave_category_id?: number;
-  leave_description?: Text;
+  leave_category_id?: string;
+  leave_description?: string;
   start_date?: string;
   end_date?: string;
 }
 
 export interface ApproveLeave {
-  decision: number;
+  decision: string;
 }

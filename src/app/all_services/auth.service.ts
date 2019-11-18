@@ -8,12 +8,8 @@ export class AuthService {
 
   constructor(private http: HttpClient) {}
 
-  private getToken() {
-    return localStorage.getItem('token');
-  }
-
   getAuthorizedHeader() {
-    const token = this.getToken();
+    const token = this.getValueFromLocalStorage('token');
 
     const httpheader = new HttpHeaders({
       Accept: 'application/json',
@@ -28,7 +24,7 @@ export class AuthService {
   }
 
   isLoggedIn() {
-    return (this.getToken()) ? true : false;
+    return (this.getValueFromLocalStorage('token')) ? true : false;
   }
 
   setValueInLocalStorage(key: any, value: any) {

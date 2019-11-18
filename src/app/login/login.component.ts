@@ -31,7 +31,10 @@ export class LoginComponent implements OnInit {
         alert(response[0].message);
         this.router.navigate(['/login']);
       } else {
+        this.authService.setValueInLocalStorage('full_name', response[0].full_name);
+        this.authService.setValueInLocalStorage('email', response[0].email);
         this.authService.setValueInLocalStorage('token', response[0].token);
+        this.authService.setValueInLocalStorage('role', response[0].role);
         this.router.navigate(['/home']);
       }
     });

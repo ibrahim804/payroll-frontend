@@ -2,17 +2,17 @@
 export interface Create {
   name: string;
   email: string;
-  address: Text;
+  address: string;
   country: string;
-  phone?: number;
+  phone?: string;
   website?: string;
 }
 
 export interface Update {
   name?: string;
   email?: string;
-  address?: Text;
+  address?: string;
   country?: string;
-  phone?: number;
+  phone?: string;
   website?: string;
 }

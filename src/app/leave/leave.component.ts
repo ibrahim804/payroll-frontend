@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { LeaveService } from '../_services/leave.service';
-import { LeaveApplication } from '../_models/leaveApplication';
+import { LeaveService } from '../all_services/leave.service';
+import { CreateLeave } from '../config/interfaces/leave.interface';
+import { LeaveCategoryService } from '../all_services/leave-category.service';
 
 @Component({
   selector: 'app-leave',
@@ -11,25 +12,37 @@ export class LeaveComponent implements OnInit {
 
   public leaveCategories;
 
-  constructor(private leaveService: LeaveService) { }
+  constructor(
+    private leaveService: LeaveService,
+    private leaveCategoryService: LeaveCategoryService
+  ) { }
 
   ngOnInit() {
-    this.leaveService.getLeaveCategories().subscribe(data => {
-      this.leaveCategories = data[0].leave_categories;
-    })
+    this.leaveCategoryService.getLeaveCategories().subscribe(res => {
+      this.leaveCategories = res[0].leave_categories;
+    });
   }
 
-  applyForLeave(){
-    let application = new LeaveApplication;
+  applyForLeave() {
+    const leaveApplication: CreateLeave = {
+      leave_category_id: (document.getElementById('category') as HTMLInputElement).value,
+      leave_description: (document.getElementById('description') as HTMLInputElement).value,
+      start_date: (document.getElementById('start_date') as HTMLInputElement).value,
+      end_date: (document.getElementById('end_date') as HTMLInputElement).value,
+    };
 
-    application.leave_category_id = (<HTMLInputElement>document.getElementById("category")).value;
-    application.start_date = (<HTMLInputElement>document.getElementById("start_date")).value;
-    application.end_date = (<HTMLInputElement>document.getElementById("end_date")).value;
-    application.leave_description = (<HTMLInputElement>document.getElementById("description")).value;
+    this.leaveService.submitLeaveApplication(leaveApplication).subscribe(response => {
+      console.log(response);
+      this.checkError(response[0]);
+    });
+  }
 
-    this.leaveService.submitLeaveApplication(application).subscribe(data => {
-      console.log(data);
-    })
+  private checkError(response: any) {
+    if (response.status === 'FAILED') {
+      alert(response.message);
+      return true;
+    }
+    return false;
   }
 
 }

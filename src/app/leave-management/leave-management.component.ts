@@ -1,8 +1,7 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator, MatSort, MatTable } from '@angular/material';
 import { LeaveManagementDataSource, LeaveManagementItem } from './leave-management-datasource';
-import { LeaveService } from '../_services/leave.service';
-import { LeaveApplication } from '../_models/leaveApplication';
+import { LeaveService } from '../all_services/leave.service';
 
 @Component({
   selector: 'app-leave-management',
@@ -18,42 +17,45 @@ export class LeaveManagementComponent implements OnInit {
   /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
   displayedColumns = ['id', 'name', 'department', 'designation', 'category','start_date', 'end_date', 'working_days', 'leave_available', 'status', 'action'];
 
-  constructor (private leaveService: LeaveService){}
+  constructor(private leaveService: LeaveService) {}
 
   ngOnInit() {
     this.load();
   }
 
-  load(){
+  load() {
     this.leaveService.getLeaves().subscribe(data => {
-      this.dataSource = new LeaveManagementDataSource(data[0].leaves);
 
-      this.dataSource.sort = this.sort;
-      this.dataSource.paginator = this.paginator;
-      this.table.dataSource = this.dataSource;
-    })
+      if (! this.checkError(data[0])) {
+        this.dataSource = new LeaveManagementDataSource(data[0].leaves);
+        this.dataSource.sort = this.sort;
+        this.dataSource.paginator = this.paginator;
+        this.table.dataSource = this.dataSource;
+       }
+    });
   }
 
-  leaveApplication(id, action){
-    let leave = new LeaveApplication;
-
-    leave.decision = action.toString();
-    
-    this.leaveService.leaveAction(id, leave).subscribe(data => {
-
-      if(data[0].status === "FAILED"){
-        alert(data[0].message);
+  leaveApplication(id: any, action: any) {
+    this.leaveService.approveLeave(+id, {decision: action.toString()}).subscribe(data => {
+      if (! this.checkError(data[0])) {
+        this.load();
       }
-
-      console.log(data);
-      this.load();
-    })
+    });
   }
 
-  cancelLeave(id){
-    this.leaveService.cancelLeave(id).subscribe(data => {
-      console.log(data);
-      this.load();
-    })
+  cancelLeave(id: any) {
+    this.leaveService.cancelLeave(+id).subscribe(data => {
+      if (! this.checkError(data[0])) {
+        this.load();
+      }
+    });
+  }
+
+  private checkError(response: any) {
+    if (response.status === 'FAILED') {
+      alert(response.message);
+      return true;
+    }
+    return false;
   }
 }

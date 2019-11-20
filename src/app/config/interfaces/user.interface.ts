@@ -20,7 +20,7 @@ export interface Register {
   nationality?: string;
   permanent_address?: string;
   present_address?: string;
-  passport_string?: string;
+  passport_number?: string;
   company_id?: string;
   designation_id?: string;
   department_id?: string;
@@ -41,7 +41,7 @@ export interface Update {
   nationality?: string;
   permanent_address?: string;
   present_address?: string;
-  passport_string?: string;
+  passport_number?: string;
   photo_path?: string;
   company_id?: string;
   designation_id?: string;

@@ -1,31 +1,38 @@
 import { apiRoutes } from './../config/apiRoutes';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
 import { AuthService } from './auth.service';
 import { Injectable } from '@angular/core';
 import { Login } from '../config/interfaces/user.interface';
-import { first } from 'rxjs/operators';
+import { Update, Register } from './../config/interfaces/user.interface';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
 
-  constructor(private http: HttpClient, private authService: AuthService) { }
+  constructor(private authService: AuthService) { }
 
-  login(credentials: Login): Observable <any> {
-    const httpOptions = this.authService.getAuthorizedHeader();
-
-    return new Observable(observer => {
-      this.http.post(apiRoutes.login, credentials, httpOptions)
-      .pipe(first())
-      .subscribe(response => {
-        observer.next(response);
-      }, err => {
-        observer.error(err);
-      }, () => {
-        observer.complete();
-      });
-    });
+  login(credentials: Login) {
+    return this.authService.postInHTTP(apiRoutes.login, credentials);
   }
+
+  register(credentials: Register) {
+    return this.authService.postInHTTP(apiRoutes.register, credentials);
+  }
+
+  getEmployee(employeeId: string) {
+    return this.authService.getFromHTTP(`${apiRoutes.user}/${employeeId}`);
+  }
+
+  getEmployees() {
+    return this.authService.getFromHTTP(apiRoutes.users);
+  }
+
+  updateEmployee(employee: Update, id: string) {
+    return this.authService.postInHTTP(`${apiRoutes.update}/${id}`, employee);
+  }
+
+  deleteEmployee(id: string) {
+    this.authService.getFromHTTP(`${apiRoutes.delete}/${id}`);
+  }
+
 }

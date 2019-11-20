@@ -1,3 +1,4 @@
+import { AuthService } from './auth.service';
 import { Injectable } from '@angular/core';
 
 @Injectable({
@@ -5,5 +6,5 @@ import { Injectable } from '@angular/core';
 })
 export class DesignationService {
 
-  constructor() { }
+  constructor(private authService: AuthService) { }
 }

@@ -1,9 +1,6 @@
-import { Observable } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
 import { AuthService } from './auth.service';
 import { Injectable } from '@angular/core';
 import { apiRoutes } from '../config/apiRoutes';
-import { first } from 'rxjs/operators';
 import { CreateLeave, ApproveLeave } from '../config/interfaces/leave.interface';
 
 @Injectable({
@@ -11,69 +8,21 @@ import { CreateLeave, ApproveLeave } from '../config/interfaces/leave.interface'
 })
 export class LeaveService {
 
-  constructor(private authService: AuthService, private http: HttpClient) { }
+  constructor(private authService: AuthService) { }
 
-  getLeaves(): Observable <any> {
-    const httpOptions = this.authService.getAuthorizedHeader();
-
-    return new Observable(observer => {
-      this.http.get(apiRoutes.leaves, httpOptions)
-      .pipe(first())
-      .subscribe(response => {
-        observer.next(response);
-      }, err => {
-        observer.error(err);
-      }, () => {
-        observer.complete();
-      });
-    });
+  getLeaves() {
+    return this.authService.getFromHTTP(apiRoutes.leaves);
   }
 
-  submitLeaveApplication(leaveApplication: CreateLeave): Observable <any> {
-    const httpOptions = this.authService.getAuthorizedHeader();
-
-    return new Observable(observer => {
-      this.http.post(apiRoutes.leave, leaveApplication, httpOptions)
-      .pipe(first())
-      .subscribe(response => {
-        observer.next(response);
-      }, err => {
-        observer.error(err);
-      }, () => {
-        observer.complete();
-      });
-    });
+  submitLeaveApplication(leaveApplication: CreateLeave) {
+    return this.authService.postInHTTP(apiRoutes.leave, leaveApplication);
   }
 
-  approveLeave(id: number, data: ApproveLeave): Observable <any> {
-    const httpOptions = this.authService.getAuthorizedHeader();
-
-    return new Observable(observer => {
-      this.http.post(`${apiRoutes.leaveApprove}/${id}`, data, httpOptions)
-      .pipe(first())
-      .subscribe(response => {
-        observer.next(response);
-      }, err => {
-        observer.error(err);
-      }, () => {
-        observer.complete();
-      });
-    });
+  approveLeave(id: string, data: ApproveLeave) {
+    return this.authService.postInHTTP(`${apiRoutes.leaveApprove}/${id}`, data);
   }
 
-  cancelLeave(id: number): Observable <any> {
-    const httpOptions = this.authService.getAuthorizedHeader();
-
-    return new Observable(observer => {
-      this.http.get(`${apiRoutes.leaveCancel}/${id}`, httpOptions)
-      .pipe(first())
-      .subscribe(response => {
-        observer.next(response);
-      }, err => {
-        observer.error(err);
-      }, () => {
-        observer.complete();
-      });
-    });
+  cancelLeave(id: string) {
+    return this.authService.getFromHTTP(`${apiRoutes.leaveCancel}/${id}`);
   }
 }

@@ -9,6 +9,7 @@ export const apiRoutes = {
   register: `${baseUrl}/register`,
   user: `${baseUrl}/user`,
   update: `${baseUrl}/update`,
+  delete: `${baseUrl}/delete/user`,
   logout: `${baseUrl}/logout`,
   updatePassword: `${baseUrl}/update-password`,
   forgotPassword: `${baseUrl}/forgot/password`,

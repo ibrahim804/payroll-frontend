@@ -36,7 +36,7 @@ export class LeaveManagementComponent implements OnInit {
   }
 
   leaveApplication(id: any, action: any) {
-    this.leaveService.approveLeave(+id, {decision: action.toString()}).subscribe(data => {
+    this.leaveService.approveLeave(id, {decision: action.toString()}).subscribe(data => {
       if (! this.checkError(data[0])) {
         this.load();
       }
@@ -44,7 +44,7 @@ export class LeaveManagementComponent implements OnInit {
   }
 
   cancelLeave(id: any) {
-    this.leaveService.cancelLeave(+id).subscribe(data => {
+    this.leaveService.cancelLeave(id).subscribe(data => {
       if (! this.checkError(data[0])) {
         this.load();
       }

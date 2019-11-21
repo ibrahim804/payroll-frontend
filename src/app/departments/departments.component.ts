@@ -20,7 +20,7 @@ export class DepartmentsComponent implements AfterViewInit, OnInit {
   constructor(private departmentService: DepartmentService) {}
 
   ngOnInit() {
-    this.dataSource = new DepartmentsDataSource();
+    this.dataSource = new DepartmentsDataSource(this.departmentService);
   }
 
   ngAfterViewInit() {

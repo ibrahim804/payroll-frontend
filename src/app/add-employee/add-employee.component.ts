@@ -1,14 +1,14 @@
-import { Component, OnInit } from '@angular/core';
-import { SignupService } from '../_services/signup.service';
+import { Update, Register } from './../config/interfaces/user.interface';
+import { UserService } from './../all_services/user.service';
+import { AuthService } from './../all_services/auth.service';
+import { apiRoutes } from './../config/apiRoutes';
 import { Router } from '@angular/router';
-import { Employee } from '../_models/employee';
-import { DepartmentService } from '../_services/department.service';
+import { DepartmentService } from '../all_services/department.service';
+import { DesignationService } from './../all_services/designation.service';
 import { FileUploader } from 'ng2-file-upload';
-import { EmployeeService } from '../_services/employee.service';
 import { NgbDatepickerService } from '@ng-bootstrap/ng-bootstrap/datepicker/datepicker-service';
 import { DataService } from '../_services/data.service';
-
-const URL = "http://192.168.0.158:8000/api/file-upload";
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-add-employee',
@@ -16,135 +16,144 @@ const URL = "http://192.168.0.158:8000/api/file-upload";
   styleUrls: ['./add-employee.component.css']
 })
 export class AddEmployeeComponent implements OnInit {
-  public uploader:FileUploader = new FileUploader({
-    url: URL,
-    isHTML5: true,
-    method: 'POST',
-    authTokenHeader:  'authorization',
-    authToken: 'Bearer '+ localStorage.getItem("token"),
-    itemAlias: 'file'
-  });
-  public hasBaseDropZoneOver:boolean = false;
-  public hasAnotherDropZoneOver:boolean = false;
+
+  public uploader: FileUploader;
+  public hasBaseDropZoneOver = false;
+  public hasAnotherDropZoneOver = false;
 
   public departments;
-  private department_id;
+  private departmentId;
   public designations;
 
   private employee;
 
-  constructor(private signupService: SignupService, private departmentService: DepartmentService, private employeeService: EmployeeService, private data: DataService) {}
+  constructor(
+    private authService: AuthService,
+    private userService: UserService,
+    private departmentService: DepartmentService,
+    private designationService: DesignationService,
+    private data: DataService,
+  ) {}
 
   ngOnInit() {
+    this.uploader = new FileUploader({
+      url: apiRoutes.fileUploadCreateUser,
+      isHTML5: true,
+      method: 'POST',
+      authTokenHeader:  'authorization',
+      authToken: 'Bearer ' + this.authService.getValueFromLocalStorage('token'),
+      itemAlias: 'file'
+    });
+
     this.getDepartments();
-    if(this.data.employee_id){
+
+    if (this.data.employee_id) {
       this.getEmployee(this.data.employee_id);
     }
-    this.uploader.onAfterAddingFile = (file) => { file.withCredentials = false; }; 
+
+    this.uploader.onAfterAddingFile = (file) => { file.withCredentials = false; };
   }
 
-  getEmployee(employee_id){
-    this.employeeService.getEmployee(employee_id).subscribe(data => {
+  getEmployee(employeeId: any) {
+    this.userService.getEmployee(employeeId).subscribe(data => {
       console.log(data[0].description);
       // this.updateEmployee(data[0].description)
-      this.viewDataForForm(data[0].description)
-    })
+      this.viewDataForForm(data[0].description);
+    });
   }
 
-  getDepartments(){
-    this.departmentService.getDepartment().subscribe(data => {
+  getDepartments() {
+    this.departmentService.getAllDepartments().subscribe(data => {
       this.departments = data[0].departments;
     });
   }
 
-  getDesignations(){
-    this.department_id = (<HTMLInputElement>document.getElementById("select_department")).value;
-    this.departmentService.getDesignation(this.department_id).subscribe(data => {
+  getDesignations() {
+    this.departmentId = (document.getElementById('select_department') as HTMLInputElement).value;
+    this.departmentService.getDesignationsOfThisDepartment(this.departmentId).subscribe(data => {
       this.designations = data[0].designations;
     });
   }
 
-  viewDataForForm(employee){
-    (<HTMLInputElement>document.getElementById("name")).value = employee.full_name;
-    (<HTMLInputElement>document.getElementById("date_of_birth")).value = employee.date_of_birth;
-    (<HTMLInputElement>document.getElementById("gender")).value = employee.gender;
-    (<HTMLInputElement>document.getElementById("marital_status")).value = employee.marital_status;
-    (<HTMLInputElement>document.getElementById("fathers_name")).value = employee.fathers_name;
-    (<HTMLInputElement>document.getElementById("nationality")).value = employee.nationality;
-    (<HTMLInputElement>document.getElementById("passport_number")).value = employee.passport_number;
+  viewDataForForm(employee: Update) {
+    (document.getElementById('name') as HTMLInputElement).value = employee.full_name;
+    (document.getElementById('date_of_birth') as HTMLInputElement).value = employee.date_of_birth;
+    (document.getElementById('gender') as HTMLInputElement).value = employee.gender;
+    (document.getElementById('marital_status') as HTMLInputElement).value = employee.marital_status;
+    (document.getElementById('fathers_name') as HTMLInputElement).value = employee.fathers_name;
+    (document.getElementById('nationality') as HTMLInputElement).value = employee.nationality;
+    (document.getElementById('passport_number') as HTMLInputElement).value = employee.passport_number;
 
-    (<HTMLInputElement>document.getElementById("email")).value = employee.email;
-    (<HTMLInputElement>document.getElementById("phone")).value = employee.phone;
-    (<HTMLInputElement>document.getElementById("present_address")).value = employee.present_address;
-    (<HTMLInputElement>document.getElementById("permanent_address")).value = employee.permanent_address;
-    
-    (<HTMLInputElement>document.getElementById("employee_id")).value = employee.employee_id;
-    (<HTMLInputElement>document.getElementById("select_department")).value = employee.select_department;
-    (<HTMLInputElement>document.getElementById("select_designation")).value = employee.select_designation;
-    (<HTMLInputElement>document.getElementById("joining_date")).value = employee.joining_date;
-    
-    (<HTMLInputElement>document.getElementById("user_name")).value = employee.user_name;
-    (<HTMLInputElement>document.getElementById("password")).value = employee.password;
+    (document.getElementById('email') as HTMLInputElement).value = employee.email;
+    (document.getElementById('phone') as HTMLInputElement).value = employee.phone;
+    (document.getElementById('present_address') as HTMLInputElement).value = employee.present_address;
+    (document.getElementById('permanent_address') as HTMLInputElement).value = employee.permanent_address;
+
+    (document.getElementById('employee_id') as HTMLInputElement).value = employee.employee_id;
+    // (document.getElementById('select_department') as HTMLInputElement).value = employee.select_department;
+    // (document.getElementById('select_designation') as HTMLInputElement).value = employee.select_designation;
+    (document.getElementById('joining_date') as HTMLInputElement).value = employee.joining_date;
+
+    (document.getElementById('user_name') as HTMLInputElement).value = employee.user_name;
+    (document.getElementById('password') as HTMLInputElement).value = employee.password;
   }
 
-  getDataFromForm(){
-    let employee = new Employee;
+  getDataFromForm() {
+    let employee: Update;
 
-    employee.full_name = (<HTMLInputElement>document.getElementById("name")).value;
-    employee.date_of_birth = (<HTMLInputElement>document.getElementById("date_of_birth")).value;
-    employee.gender = (<HTMLInputElement>document.getElementById("gender")).value;
-    employee.marital_status = (<HTMLInputElement>document.getElementById("marital_status")).value;
-    employee.fathers_name = (<HTMLInputElement>document.getElementById("fathers_name")).value;
-    employee.nationality = (<HTMLInputElement>document.getElementById("nationality")).value;
-    employee.passport_number = (<HTMLInputElement>document.getElementById("passport_number")).value;
+    employee.full_name = (document.getElementById('name') as HTMLInputElement).value;
+    employee.date_of_birth = (document.getElementById('date_of_birth') as HTMLInputElement).value;
+    employee.gender = (document.getElementById('gender') as HTMLInputElement).value;
+    employee.marital_status = (document.getElementById('marital_status') as HTMLInputElement).value;
+    employee.fathers_name = (document.getElementById('fathers_name') as HTMLInputElement).value;
+    employee.nationality = (document.getElementById('nationality') as HTMLInputElement).value;
+    employee.passport_number = (document.getElementById('passport_number') as HTMLInputElement).value;
 
-    employee.email = (<HTMLInputElement>document.getElementById("email")).value;
-    employee.phone = (<HTMLInputElement>document.getElementById("phone")).value;
-    employee.present_address = (<HTMLInputElement>document.getElementById("present_address")).value;
-    employee.permanent_address = (<HTMLInputElement>document.getElementById("permanent_address")).value;
-    
-    employee.employee_id = (<HTMLInputElement>document.getElementById("employee_id")).value;
-    employee.department_id = (<HTMLInputElement>document.getElementById("select_department")).value;
-    employee.designation_id = (<HTMLInputElement>document.getElementById("select_designation")).value;
-    employee.joining_date = (<HTMLInputElement>document.getElementById("joining_date")).value;
-    //employee.working_days = (<HTMLInputElement>document.getElementById("working_days")).value;
-    
-    employee.user_name = (<HTMLInputElement>document.getElementById("user_name")).value;
-    employee.password = (<HTMLInputElement>document.getElementById("password")).value;
+    employee.email = (document.getElementById('email') as HTMLInputElement).value;
+    employee.phone = (document.getElementById('phone') as HTMLInputElement).value;
+    employee.present_address = (document.getElementById('present_address') as HTMLInputElement).value;
+    employee.permanent_address = (document.getElementById('permanent_address') as HTMLInputElement).value;
+
+    employee.employee_id = (document.getElementById('employee_id') as HTMLInputElement).value;
+    employee.department_id = (document.getElementById('select_department') as HTMLInputElement).value;
+    employee.designation_id = (document.getElementById('select_designation') as HTMLInputElement).value;
+    employee.joining_date = (document.getElementById('joining_date') as HTMLInputElement).value;
+    // employee.working_days = (document.getElementById('working_days')).value;
+
+    employee.user_name = (document.getElementById('user_name') as HTMLInputElement).value;
+    employee.password = (document.getElementById('password') as HTMLInputElement).value;
 
     return employee;
   }
 
-  updateEmployee(){
-    let employee = this.getDataFromForm();
+  updateEmployee() {
+    const employee = this.getDataFromForm();
 
-    this.employeeService.updateEmployee(employee, this.data.employee_id).subscribe(data => {
+    this.userService.updateEmployee(employee, this.data.employee_id).subscribe(data => {
       console.log(data);
-    })
+    });
   }
-  
-  addEmployee(){
-    let employee = this.getDataFromForm();
 
-    this.signupService.createUser(employee).subscribe(data => {
-      console.log(data);
+  addEmployee() {
+    // const employee = this.getDataFromForm();
 
-      if(data[0].status == "FAILED"){
-        console.log(data[0].message);
-      }
+    // this.userService.register(employee).subscribe(data => {
+    //   console.log(data);
 
-      else{
-        alert("Registration complete");
-      }
-    })
+    //   if (data[0].status === 'FAILED') {
+    //     console.log(data[0].message);
+    //   } else {
+    //     alert('Registration complete');
+    //   }
+    // });
   }
 
 
-  public fileOverBase(e:any):void {
+  public fileOverBase(e: any): void {
     this.hasBaseDropZoneOver = e;
   }
- 
-  public fileOverAnother(e:any):void {
+
+  public fileOverAnother(e: any): void {
     this.hasAnotherDropZoneOver = e;
   }
 }

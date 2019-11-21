@@ -1,3 +1,4 @@
+import { DepartmentService } from './../all_services/department.service';
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator, MatSort, MatTable } from '@angular/material';
 import { DepartmentsDataSource, DepartmentsItem } from './departments-datasource';
@@ -15,6 +16,8 @@ export class DepartmentsComponent implements AfterViewInit, OnInit {
 
   /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
   displayedColumns = ['id', 'name', 'action'];
+
+  constructor(private departmentService: DepartmentService) {}
 
   ngOnInit() {
     this.dataSource = new DepartmentsDataSource();

@@ -1,12 +1,14 @@
+import { DepartmentService } from './../all_services/department.service';
 import { DataSource } from '@angular/cdk/collections';
 import { MatPaginator, MatSort } from '@angular/material';
 import { map } from 'rxjs/operators';
 import { Observable, of as observableOf, merge } from 'rxjs';
+import { OnInit } from '@angular/core';
 
 // TODO: Replace this with your own data model type
 export interface DepartmentsItem {
-  name: string;
   id: number;
+  name: string;
 }
 
 // TODO: replace this with real data from your application
@@ -22,13 +24,20 @@ const EXAMPLE_DATA: DepartmentsItem[] = [
  * encapsulate all logic for fetching and manipulating the displayed data
  * (including sorting, pagination, and filtering).
  */
-export class DepartmentsDataSource extends DataSource<DepartmentsItem> {
+export class DepartmentsDataSource extends DataSource<DepartmentsItem> implements OnInit {
   data: DepartmentsItem[] = EXAMPLE_DATA;
   paginator: MatPaginator;
   sort: MatSort;
 
-  constructor() {
+  constructor(private departmentService: DepartmentService) {
     super();
+  }
+
+  ngOnInit() {
+    this.departmentService.getAllDepartments().subscribe(response => {
+      this.data = response[0].departments;
+      console.log(response[0].departments);
+    });
   }
 
   /**

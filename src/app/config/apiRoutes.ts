@@ -49,3 +49,33 @@ export const apiRoutes = {
   uploadUserProfilePicture: `${baseUrl}/upload/user/profile-picture`,
 
 };
+
+export const urlRoutes={
+  login: `/login`,
+  register: `/register`,
+  
+  dashboard:`/dashboard`,
+  
+  departmentsList:`/departments/list`,
+  departmentsAdd:`/departments/add`,
+
+  employeesList:`/employees/list`,
+  employeesAdd:`/employees/add`,
+
+  attendance:`/attendance`,
+  attendanceReport:`/attendance/report`,
+
+  leaveManagement:`/leave/management`,
+  leaveApplication:`/leave/application`,
+
+  salaryManagement:`/salary/management`,
+  salaryUpdate:`/salary/update`,
+  
+  settings:`/settings`,
+
+
+
+};
+export const sideBar={
+
+}

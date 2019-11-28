@@ -35,7 +35,7 @@ export class LoginComponent implements OnInit {
         this.authService.setValueInLocalStorage('email', response[0].email);
         this.authService.setValueInLocalStorage('token', response[0].token);
         this.authService.setValueInLocalStorage('role', response[0].role);
-        this.router.navigate(['/home']);
+        this.router.navigate(['/dashboard']);
       }
     });
   }

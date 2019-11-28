@@ -55,7 +55,8 @@
             </button>
             <span style="color: white">HRMS</span>
         </mat-toolbar>
-        <div *ngIf="chosenView=='dashboard'">
+        <router-outlet></router-outlet>
+        <!-- <div *ngIf="chosenView=='dashboard'">
             <app-dashboard></app-dashboard>
         </div>
         <div *ngIf="chosenView=='departments'">
@@ -93,6 +94,6 @@
         </div>
         <div *ngIf="chosenView=='general settings'">
             <app-general-settings></app-general-settings>
-        </div>
+        </div> -->
     </mat-sidenav-content>
 </mat-sidenav-container>

@@ -37,6 +37,10 @@ export class AuthService {
     return localStorage.getItem(key);
   }
 
+  getCurrentRole(){
+    return this.getValueFromLocalStorage('role');
+  }
+
   deleteFromLocalStorage(key: any) {
     localStorage.removeItem(key);
   }

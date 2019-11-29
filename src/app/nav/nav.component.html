@@ -56,7 +56,7 @@
             <span style="color: white">HRMS</span>
         </mat-toolbar>
         <router-outlet></router-outlet>
-        </div> 
+        </div>
     </mat-sidenav-content>
 </mat-sidenav-container> -->
 
@@ -67,49 +67,49 @@
       <!-- [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'" [mode]="(isHandset$ | async) ? 'over' : 'side'" -->
       <mat-toolbar *ngIf="isExpanded" fxLayout="row" fxLayoutAlign="space-between center" class='cursor-pointer'>
         <div>{{title}}</div>
-  
+
         <div>
           <button mat-mini-fab color='white' mat-icon-button (click)="isExpanded = !isExpanded">
             <mat-icon>menu</mat-icon>
           </button>
         </div>
       </mat-toolbar>
-  
+
       <mat-toolbar *ngIf="!isExpanded" fxLayout="row" fxLayoutAlign="space-between center" >
-  
+
         <div>
           <button mat-mini-fab color='warn' mat-icon-button (click)="isExpanded = !isExpanded" class='mt-8'>
             <mat-icon>menu</mat-icon>
           </button>
         </div>
       </mat-toolbar>
-  
-  
+
+
       <mat-nav-list *ngIf='isExpanded && sidebar' class="white-color-foreground mt-16">
         <div *ngFor="let content of sidebar;let i = index">
-  
+
           <mat-list-item (click)="route(content.url) ; selectRow(i)" [class.active]="i == selectedRow"
             class="cursor-pointer px-24 font-size-16 ">
             <i class="material-icons-outlined mr-16">
               {{content.icon}}
             </i>
             <span> {{content.name}}</span>
-  
+
           </mat-list-item>
         </div>
       </mat-nav-list>
-  
+
       <mat-nav-list *ngIf='!isExpanded && sidebar' class="white-color-foreground mt-16">
         <div fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="12px">
           <div *ngFor="let content of sidebar;let i = index">
-  
+
             <div  fxLayout="row" fxLayoutAlign="center center">
               <button mat-mini-fab color='white' (click)="route(content.url); selectRow(i)"
                 [class.active]="i == selectedRow" class="cursor-pointer"><i
                   class="material-icons-outlined ">
                   {{content.icon}}
                 </i> </button>
-  
+
             </div>
             <div fxLayout="row" fxLayoutAlign="center center"  class='black-color-foreground font-size-12 pt-2 '>
               {{content.mini_name}}
@@ -117,12 +117,10 @@
           </div>
         </div>
       </mat-nav-list>
-  
-  
-  
+
     </mat-sidenav>
     <mat-sidenav-content>
-  
+
       <mat-toolbar color="primary" class="h-64 w-100-p ">
         <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="16px" class="w-100-p">
           <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="16px">
@@ -138,40 +136,36 @@
                   <!-- <img src='assets/DupayLogo.png' class='h-64 w-160'>  -->
                   Payroll
                 </div>
-  
-  
+
               </div>
-  
+
             </div>
           </div>
           <!-- [matMenuTriggerFor]="menu" -->
            <div [matMenuTriggerFor]="menu" fxLayout="row" fxLayoutAlign="center center"
             class="mr-64">
-  
-            
-            <button mat-button class="font-size-16">Sabik <i class="material-icons">
+
+            <button mat-button class="font-size-16"> {{ userName }}
+              <i class="material-icons">
                 keyboard_arrow_down
-              </i></button>
-  
+              </i>
+            </button>
+
             <mat-menu #menu="matMenu" class="w-180 mt-16">
-            <button mat-menu-item>
-                    <div >Profile</div>
-                    </button>
               <button mat-menu-item>
-                <div (click)="logout()">{{menuItems.logout.name}}</div>
+                  <div >Profile</div>
+              </button>
+              <button mat-menu-item>
+                  <div (click)="logout()">{{menuItems.logout.name}}</div>
               </button>
             </mat-menu>
+
           </div>
-  
-  
-          
         </div>
-  
-  
-  
-  
+
       </mat-toolbar>
+
       <router-outlet></router-outlet>
-  
+
     </mat-sidenav-content>
   </mat-sidenav-container>

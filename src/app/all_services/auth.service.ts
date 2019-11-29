@@ -40,7 +40,7 @@ export class AuthService {
   }
 
   logout() {
-    localStorage.clear();
+    this.clearLocalStorage();
     this.getFromHTTP(`${apiRoutes.logout}`);
   }
 
@@ -58,6 +58,10 @@ export class AuthService {
 
   deleteFromLocalStorage(key: any) {
     localStorage.removeItem(key);
+  }
+
+  private clearLocalStorage() {
+    localStorage.clear();
   }
 
   getFromHTTP(endPoint: string): Observable <any> {

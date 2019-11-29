@@ -1,5 +1,5 @@
 // import { urlRoutes } from './apiRoutes';
-import { role } from './Payroll.enum';
+import { role } from './payroll.enum';
 
 const baseUrl = 'http://192.168.0.105:8000/api';
 
@@ -52,60 +52,60 @@ export const apiRoutes = {
 
 };
 
-export const urlRoutes={
+export const urlRoutes = {
   login: `/login`,
   register: `/register`,
-  
-  dashboard:`/dashboard`,
-  
-  departmentsList:`/departments/list`,
-  departmentsAdd:`/departments/add`,
 
-  employeesList:`/employees/list`,
-  employeesAdd:`/employees/add`,
+  dashboard: `/dashboard`,
 
-  attendance:`/attendance`,
-  attendanceReport:`/attendance/report`,
+  departmentsList: `/departments/list`,
+  departmentsAdd: `/departments/add`,
 
-  leaveManagement:`/leave/management`,
-  leaveApplication:`/leave/application`,
+  employeesList: `/employees/list`,
+  employeesAdd: `/employees/add`,
 
-  salaryManagement:`/salary/management`,
-  salaryUpdate:`/salary/update`,
-  
-  settings:`/settings`,
+  attendance: `/attendance`,
+  attendanceReport: `/attendance/report`,
 
+  leaveManagement: `/leave/management`,
+  leaveApplication: `/leave/application`,
 
+  salaryManagement: `/salary/management`,
+  salaryUpdate: `/salary/update`,
 
+  settings: `/settings`,
 };
-export const genericNavConstants={
+
+export const genericNavConstants = {
   sideBar: [
     {
       name: 'Dashboard',
       url: urlRoutes.dashboard,
       icon: 'home',
-      role: [role.ADMIN,role.USER],
+      role: [role.ADMIN, role.USER],
       mini_name: 'Dashboard'
     },
     {
       name: 'departmentsList',
       url: urlRoutes.departmentsList,
       icon: 'home',
-      role: [role.ADMIN,role.USER],
+      role: [role.ADMIN, role.USER],
       mini_name: 'List'
     },
     {
       name: 'departmentsAdd',
       url: urlRoutes.departmentsAdd,
       icon: 'home',
-      role: [role.ADMIN,role.USER],
+      role: [role.ADMIN, role.USER],
       mini_name: 'Add'
     },
 
   ],
+
   siteName: {
     name: 'Company Payroll'
   },
+
   menu: {
     // profile: {
     //   name: 'My Profile',
@@ -115,8 +115,8 @@ export const genericNavConstants={
       name: 'Logout',
       url: 'sign-in'
     }
-
   },
-}
+
+};
 
 

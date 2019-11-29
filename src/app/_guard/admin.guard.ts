@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { AuthService } from '../all_services/auth.service';
-import { role } from '../config/Payroll.enum';
+import { role } from '../config/payroll.enum';
 
 @Injectable({
   providedIn: 'root'
@@ -21,5 +21,5 @@ export class AdminGuard implements CanActivate {
       return false;
     }
   }
-  
+
 }

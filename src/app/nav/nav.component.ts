@@ -9,98 +9,102 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { DataService } from '../_services/data.service';
 import _ from 'lodash';
 @Component({
-	selector: 'app-nav',
-	templateUrl: './nav.component.html',
-	styleUrls: [ './nav.component.scss' ]
+  selector: 'app-nav',
+  templateUrl: './nav.component.html',
+  styleUrls: ['./nav.component.scss']
 })
 export class NavComponent implements OnInit {
-	public chosenView;
+  public chosenView;
 
-	// isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset).pipe(map(result => result.matches));
+  isHandset$: Observable<boolean> = this.breakpointObserver
+    .observe(Breakpoints.Handset)
+    .pipe(
+      map(result => result.matches),
+      shareReplay()
+    );
 
-	isHandset$: Observable<boolean> = this.breakpointObserver
-		.observe(Breakpoints.Handset)
-		.pipe(map((result) => result.matches), shareReplay());
+  title: string = genericNavConstants.siteName.name;
+  userName: string;
+  sidebar = [];
+  menuItems = genericNavConstants.menu;
+  selectedRow: number;
+  isExpanded = false;
+  isAuthenticated = false;
+  urlPaths = urlRoutes;
+  userRole: string;
 
-	title: string = genericNavConstants.siteName.name;
-	sidebar = [];
-	// Username: any = dupayConst.username;
-	menuItems = genericNavConstants.menu;
-	selectedRow: number;
-	isExpanded: boolean = false;
-	isAuthenticated: boolean = false;
-	urlPaths = urlRoutes;
-	userRole: string;
+  constructor(
+    private breakpointObserver: BreakpointObserver,
+    private authService: AuthService,
+    private router: Router,
+    private data: DataService,
+    private activeRoute: ActivatedRoute
+  ) {}
 
-	constructor(
-		private breakpointObserver: BreakpointObserver,
-		private authenticationService: AuthService,
-		private router: Router,
-		private data: DataService,
-		private activeRoute: ActivatedRoute
-	) {}
-
-	ngOnInit() {
-		this.data.currentMessage.subscribe((message) => (this.chosenView = message));
-		this.initiateVariables();
+  ngOnInit() {
+    this.data.currentMessage.subscribe(message => (this.chosenView = message));
+    this.initiateVariables();
     this.setRole();
-		this.checkRow();
-    
-	}
-	initiateVariables() {
-		this.title = genericNavConstants.siteName.name;
-	}
-	checkRow() {
-    debugger;
-		let currentUrl = this.router.url;
+    this.checkRow();
+  }
+
+  initiateVariables() {
+    this.title = genericNavConstants.siteName.name;
+    this.userName = this.authService.getValueFromLocalStorage('full_name');
+  }
+
+  checkRow() {
+    const currentUrl = this.router.url;
     let count = 0;
-    debugger;
-		for (let i of this.sidebar) {
-			if (currentUrl == `${i.url}`) {
+    for (let i of this.sidebar) {
+      if (currentUrl == `${i.url}`) {
         this.selectedRow = count;
-        debugger;
-				break;
-			}
-			count += 1;
-		}
-	}
-
-	public viewChanger(view): void {
-		this.chosenView = view;
-	}
-
-	logout() {
-		this.authenticationService.logout();
-	}
-	setRole() {
-		this.userRole=this.authenticationService.getCurrentRole();
-		this.makeSideBar();
-	}
-	makeSideBar() {
-		let auth = false;
-		if (this.userRole) {
-			auth = true;
-			_.forEach(genericNavConstants.sideBar, (res) => {
-				let exists = _.includes(res.role, this.userRole);
-				if (exists) {
-					this.sidebar.push(res);
-				}
-			});
-		}
-		// if (this.userRole && this.userRole == Token_Role.ANNONYMOUS) {
-		// 	auth = false;
-		// }
-
-		// this.checkAuthentication(auth);
-		this.checkRow();
+        break;
+      }
+      count += 1;
+    }
   }
+
+  viewChanger(view): void {
+    this.chosenView = view;
+  }
+
+  setRole() {
+    this.userRole = this.authService.getCurrentRole();
+    this.makeSideBar();
+  }
+
+  makeSideBar() {
+    let auth = false;
+    if (this.userRole) {
+      auth = true;
+      _.forEach(genericNavConstants.sideBar, res => {
+        const exists = _.includes(res.role, this.userRole);
+        if (exists) {
+          this.sidebar.push(res);
+        }
+      });
+    }
+    // if (this.userRole && this.userRole == Token_Role.ANNONYMOUS) {
+    // 	auth = false;
+    // }
+
+    // this.checkAuthentication(auth);
+    this.checkRow();
+  }
+
   route(url) {
-		this.router.navigate([ url ]).then(res=>{
-			this.checkRow();
-		});
+    this.router.navigate([url]).then(res => {
+      this.checkRow();
+    });
   }
+
   selectRow(index) {
     this.selectedRow = index;
-    // debugger; //
-	}
+  }
+
+  logout() {
+    this.authService.logout();
+    this.router.navigate([urlRoutes.login]);
+  }
 }

@@ -52,7 +52,6 @@ const routes: Routes = [
         path: 'departments',
         redirectTo: '/departments/list',
         pathMatch: 'full',
-        // canActivate: [AuthGuard]
       },
       {
         path: 'departments/list',

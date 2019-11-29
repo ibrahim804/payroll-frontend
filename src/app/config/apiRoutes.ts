@@ -1,4 +1,3 @@
-// import { urlRoutes } from './apiRoutes';
 import { role } from './payroll.enum';
 
 const baseUrl = 'http://192.168.0.105:8000/api';
@@ -88,18 +87,46 @@ export const genericNavConstants = {
       mini_name: 'Dashboard'
     },
     {
-      name: 'departmentsList',
+      name: 'Employees',
+      url: urlRoutes.employeesList,
+      icon: 'home',
+      role: [role.ADMIN],
+      mini_name: 'Employees'
+    },
+    {
+      name: 'Department',
       url: urlRoutes.departmentsList,
       icon: 'home',
       role: [role.ADMIN, role.USER],
-      mini_name: 'List'
+      mini_name: 'Department'
     },
     {
-      name: 'departmentsAdd',
-      url: urlRoutes.departmentsAdd,
+      name: 'Leave Management',
+      url: urlRoutes.leaveManagement,
+      icon: 'home',
+      role: [role.ADMIN],
+      mini_name: 'Leave',
+    },
+    {
+      name: 'Leave Application',
+      url: urlRoutes.leaveApplication,
+      icon: 'home',
+      role: [role.USER],
+      mini_name: 'Leave',
+    },
+    {
+      name: 'Salary Management',
+      url: urlRoutes.salaryManagement,
+      icon: 'home',
+      role: [role.ADMIN],
+      mini_name: 'Salary',
+    },
+    {
+      name: 'Genaral Setting',
+      url: urlRoutes.settings,
       icon: 'home',
       role: [role.ADMIN, role.USER],
-      mini_name: 'Add'
+      mini_name: 'Settings',
     },
 
   ],
@@ -109,16 +136,19 @@ export const genericNavConstants = {
   },
 
   menu: {
-    // profile: {
-    //   name: 'My Profile',
-    //   url: 'user/profile'
-    // },
     logout: {
       name: 'Logout',
       url: 'sign-in'
     }
   },
-
 };
-
+/*
+{
+      name:
+      url:
+      icon:
+      role:
+      mini_name:
+    },
+*/
 

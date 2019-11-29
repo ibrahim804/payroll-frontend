@@ -4,6 +4,19 @@ export interface Login {
   password: string;
 }
 
+export interface User {
+  company_name: string;
+  department_name: string;
+  designation: string;
+  email: string;
+  full_name: string;
+  id: string;
+  joining_date: string;
+  phone: string;
+  present_address: string;
+  net_salary: string;
+}
+
 export interface Register {
   full_name: string;
   email: string;

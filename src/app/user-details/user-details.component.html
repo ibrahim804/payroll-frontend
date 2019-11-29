@@ -1,0 +1,40 @@
+<div class="p-40">
+  <mat-card class="mat-elevation-z8">
+    <div [ngClass.xs]="{ 'p-8': true }" [ngClass.sm]="{ 'p-8': true }" ngClass="px-164 py-64">
+      <div [ngClass.sm]="{ 'pl-8 font-size-24 font-weight-950': true }" ngClass="font-size-24 font-weight-950 pl-60">
+        About me
+      </div>
+
+      <div fxLayout="row" fxLayoutAlign="space-between center" class="py-48">
+        <div fxLayout="column" fxLayoutAlign="center start" [ngClass.xs]="{ 'pl-8 ': true }" [ngClass.sm]="{ 'pl-8 ': true }" ngClass="pl-60" fxLayoutGap="12px">
+          <div>Company</div>
+          <div>Department</div>
+          <div>Designation</div>
+          <div>Email</div>
+          <div>Joining Date</div>
+          <div>Net Salary</div>
+          <div>Phone</div>
+          <div>Address</div>
+        </div>
+        <div fxLayout="column" fxLayoutAlign="center start" [ngClass.xs]="{ 'pl-8 ': true }" [ngClass.sm]="{ 'pl-8 ': true }" ngClass="pl-60" fxLayoutGap="12px">
+            <div>{{user.company_name}}</div>
+            <div>{{user.department_name}}</div>
+            <div>{{user.designation}}</div>
+            <div>{{user.email}}</div>
+            <div>{{user.joining_date}}</div>
+            <div>{{user.net_salary}}</div>
+            <div>{{user.phone}}</div>
+            <div>{{user.present_address}}</div>
+        </div>
+      </div>
+
+      <div fxLayout="row" fxLayoutAlign="center" fxLayout.lt-md="column-reverse">
+        <div class="mb-24 mt-8 mr-64">
+          <button (click)="redirectsTo()" mat-raised-button color="primary" class="w-224 h-40">
+            Home
+          </button>
+        </div>
+      </div>
+    </div>
+  </mat-card>
+</div>

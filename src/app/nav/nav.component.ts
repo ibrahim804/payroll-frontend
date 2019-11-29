@@ -4,10 +4,10 @@ import { Component, EventEmitter, Output, OnInit } from '@angular/core';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
-import { AuthenticationServiceService } from '../_services/authentication-service.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { DataService } from '../_services/data.service';
 import _ from 'lodash';
+
 @Component({
   selector: 'app-nav',
   templateUrl: './nav.component.html',
@@ -101,6 +101,10 @@ export class NavComponent implements OnInit {
 
   selectRow(index) {
     this.selectedRow = index;
+  }
+
+  redirectsToDetails() {
+    this.router.navigate([urlRoutes.employeesDetails]);
   }
 
   logout() {

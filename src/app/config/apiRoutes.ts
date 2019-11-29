@@ -10,6 +10,7 @@ export const apiRoutes = {
   login: `${baseUrl}/login`,
   register: `${baseUrl}/register`,
   user: `${baseUrl}/user`,
+  userMe: `${baseUrl}/user-me`,
   update: `${baseUrl}/update`,
   delete: `${baseUrl}/delete/user`,
   logout: `${baseUrl}/logout`,
@@ -63,6 +64,7 @@ export const urlRoutes = {
 
   employeesList: `/employees/list`,
   employeesAdd: `/employees/add`,
+  employeesDetails: `/employees/details`,
 
   attendance: `/attendance`,
   attendanceReport: `/attendance/report`,

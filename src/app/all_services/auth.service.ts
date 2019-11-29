@@ -39,6 +39,10 @@ export class AuthService {
     return (this.getValueFromLocalStorage('token')) ? true : false;
   }
 
+  getCurrentRole() {
+    return this.getValueFromLocalStorage('role');
+  }
+
   logout() {
     this.clearLocalStorage();
     this.getFromHTTP(`${apiRoutes.logout}`);
@@ -50,10 +54,6 @@ export class AuthService {
 
   getValueFromLocalStorage(key: any) {
     return localStorage.getItem(key);
-  }
-
-  getCurrentRole() {
-    return this.getValueFromLocalStorage('role');
   }
 
   deleteFromLocalStorage(key: any) {

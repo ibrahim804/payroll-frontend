@@ -19,6 +19,7 @@ import { SalaryManagementComponent } from './salary-management/salary-management
 import { SalaryComponent } from './salary/salary.component';
 import { GeneralSettingsComponent } from './general-settings/general-settings.component';
 import { AdminGuard } from './_guard/admin.guard';
+import { UserDetailsComponent } from './user-details/user-details.component';
 
 const routes: Routes = [
   {
@@ -78,6 +79,13 @@ const routes: Routes = [
         component: AddEmployeeComponent,
         canActivate: [AuthGuard, AdminGuard]
       },
+
+      {
+        path: 'employees/details',
+        component: UserDetailsComponent,
+        canActivate: [AuthGuard]
+      },
+
       {
         path: 'attendance',
         component: TodaysAttendanceComponent,

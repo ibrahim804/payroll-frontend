@@ -14,6 +14,10 @@ export class UserService {
     return this.authService.getFromHTTP(`${apiRoutes.user}/${employeeId}`);
   }
 
+  getLoggedInEmployee() {
+    return this.authService.getFromHTTP(apiRoutes.userMe); // to do now
+  }
+
   getEmployees() {
     return this.authService.getFromHTTP(apiRoutes.users);
   }

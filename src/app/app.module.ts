@@ -37,6 +37,7 @@ import { TodaysAttendanceComponent } from './todays-attendance/todays-attendance
 import { ChartsModule } from 'ng2-charts';
 import { AttendanceReportComponent } from './attendance-report/attendance-report.component';
 import { BlankComponent } from './blank-component/blank-component.component';
+import { UserDetailsComponent } from './user-details/user-details.component';
 
 @NgModule({
   declarations: [
@@ -56,7 +57,8 @@ import { BlankComponent } from './blank-component/blank-component.component';
     LeaveComponent,
     TodaysAttendanceComponent,
     AttendanceReportComponent,
-    BlankComponent
+    BlankComponent,
+    UserDetailsComponent
   ],
   imports: [
     MaterialModule,

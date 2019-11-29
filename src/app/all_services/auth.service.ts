@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { first } from 'rxjs/operators';
+import { apiRoutes } from '../config/apiRoutes';
 
 @Injectable({
   providedIn: 'root'
@@ -75,5 +76,9 @@ export class AuthService {
         observer.complete();
       });
     });
+  }
+  logout(){
+    localStorage.clear();
+    this.getFromHTTP(`${apiRoutes.logout}`);
   }
 }

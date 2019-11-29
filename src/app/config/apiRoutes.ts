@@ -1,3 +1,5 @@
+// import { urlRoutes } from './apiRoutes';
+import { role } from './Payroll.enum';
 
 const baseUrl = 'http://192.168.0.103:8000/api';
 
@@ -76,6 +78,45 @@ export const urlRoutes={
 
 
 };
-export const sideBar={
+export const genericNavConstants={
+  sideBar: [
+    {
+      name: 'Dashboard',
+      url: urlRoutes.dashboard,
+      icon: 'home',
+      role: [role.ADMIN,role.USER],
+      mini_name: 'Dashboard'
+    },
+    {
+      name: 'departmentsList',
+      url: urlRoutes.departmentsList,
+      icon: 'home',
+      role: [role.ADMIN,role.USER],
+      mini_name: 'departmentsList'
+    },
+    {
+      name: 'departmentsAdd',
+      url: urlRoutes.departmentsAdd,
+      icon: 'home',
+      role: [role.ADMIN,role.USER],
+      mini_name: 'departmentsAdd'
+    },
 
+  ],
+  siteName: {
+    name: 'Company Payroll'
+  },
+  menu: {
+    // profile: {
+    //   name: 'My Profile',
+    //   url: 'user/profile'
+    // },
+    logout: {
+      name: 'Logout',
+      url: 'sign-in'
+    }
+
+  },
 }
+
+

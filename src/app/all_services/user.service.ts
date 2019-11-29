@@ -35,4 +35,6 @@ export class UserService {
     this.authService.getFromHTTP(`${apiRoutes.delete}/${id}`);
   }
 
+  
+
 }

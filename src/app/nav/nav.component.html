@@ -1,4 +1,4 @@
-<mat-sidenav-container class="sidenav-container">
+<!-- <mat-sidenav-container class="sidenav-container">
     <mat-sidenav #drawer class="sidenav bg-dark" fixedInViewport [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'" [mode]="(isHandset$ | async) ? 'over' : 'side'" [opened]="(isHandset$ | async) === false" style="color: white">
         <mat-toolbar style="color:white;">Menu</mat-toolbar>
         <mat-nav-list style="cursor: pointer">
@@ -56,44 +56,126 @@
             <span style="color: white">HRMS</span>
         </mat-toolbar>
         <router-outlet></router-outlet>
-        <!-- <div *ngIf="chosenView=='dashboard'">
-            <app-dashboard></app-dashboard>
-        </div>
-        <div *ngIf="chosenView=='departments'">
-            <app-departments></app-departments>
-        </div>
-        <div *ngIf="chosenView=='add department'">
-            <app-add-department></app-add-department>
-        </div>
-        <div *ngIf="chosenView=='employee list'">
-            <app-employees></app-employees>
-        </div>
-        <div *ngIf="chosenView=='add employee'">
-            <app-add-employee></app-add-employee>
-        </div>
-        <div *ngIf="chosenView=='today'">
-            <app-todays-attendance></app-todays-attendance>
-        </div>
-        <div *ngIf="chosenView=='report'">
-            <app-attendance-report></app-attendance-report>
-        </div>
-        <div *ngIf="chosenView=='leave'">
-            <app-leave></app-leave>
-        </div>
-        <div *ngIf="chosenView=='leave management'">
-            <app-leave-management></app-leave-management>
-        </div>
-        <div *ngIf="chosenView=='salary management'">
-            <app-salary-management></app-salary-management>
-        </div>
-        <div *ngIf="chosenView=='employee salary list'">
-            <app-salary></app-salary>
-        </div>
-        <div *ngIf="chosenView=='payroll'">
-            <app-generate-payroll></app-generate-payroll>
-        </div>
-        <div *ngIf="chosenView=='general settings'">
-            <app-general-settings></app-general-settings>
-        </div> -->
+        </div> 
     </mat-sidenav-content>
-</mat-sidenav-container>
+</mat-sidenav-container> -->
+
+
+<mat-sidenav-container class="sidenav-container " autosize>
+    <mat-sidenav #drawer [ngClass]="isExpanded ? 'sidenav-opened' : 'sidenav-closed' "
+      [opened]="(isHandset$ | async) === false" [mode]="(isHandset$ | async) ? 'side' : 'side'">
+      <!-- [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'" [mode]="(isHandset$ | async) ? 'over' : 'side'" -->
+      <mat-toolbar *ngIf="isExpanded" fxLayout="row" fxLayoutAlign="space-between center" class='cursor-pointer'>
+        <div>{{title}}</div>
+  
+        <div>
+          <button mat-mini-fab color='white' mat-icon-button (click)="isExpanded = !isExpanded">
+            <mat-icon>menu</mat-icon>
+          </button>
+        </div>
+      </mat-toolbar>
+  
+      <mat-toolbar *ngIf="!isExpanded" fxLayout="row" fxLayoutAlign="space-between center" >
+  
+        <div>
+          <button mat-mini-fab color='warn' mat-icon-button (click)="isExpanded = !isExpanded" class='mt-8'>
+            <mat-icon>menu</mat-icon>
+          </button>
+        </div>
+      </mat-toolbar>
+  
+  
+      <mat-nav-list *ngIf='isExpanded && sidebar' class="white-color-foreground mt-16">
+        <div *ngFor="let content of sidebar;let i = index">
+  
+          <mat-list-item (click)="route(content.url) ; selectRow(i)" [class.active]="i == selectedRow"
+            class="cursor-pointer px-24 font-size-16 ">
+            <i class="material-icons-outlined mr-16">
+              {{content.icon}}
+            </i>
+            <span> {{content.name}}</span>
+  
+          </mat-list-item>
+        </div>
+      </mat-nav-list>
+  
+      <mat-nav-list *ngIf='!isExpanded && sidebar' class="white-color-foreground mt-16">
+        <div fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="12px">
+          <div *ngFor="let content of sidebar;let i = index">
+  
+            <div  fxLayout="row" fxLayoutAlign="center center">
+              <button mat-mini-fab color='white' (click)="route(content.url); selectRow(i)"
+                [class.active]="i == selectedRow" class="cursor-pointer"><i
+                  class="material-icons-outlined ">
+                  {{content.icon}}
+                </i> </button>
+  
+            </div>
+            <div fxLayout="row" fxLayoutAlign="center center"  class='black-color-foreground font-size-12 '>
+              {{content.mini_name}}
+            </div>
+          </div>
+        </div>
+      </mat-nav-list>
+  
+  
+  
+    </mat-sidenav>
+    <mat-sidenav-content>
+  
+      <mat-toolbar color="primary" class="h-64 w-100-p ">
+        <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="16px" class="w-100-p">
+          <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="16px">
+            <div *ngIf="!drawer.opened">
+              <button type="button" aria-label="Toggle sidenav" mat-icon-button (click)="drawer.toggle()">
+                <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+              </button>
+            </div>
+            <div class='cursor-pointer'>
+              <span *ngIf="!drawer.opened" class='cursor-pointer'>DUPAY</span>
+              <div *ngIf="drawer.opened" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="16px" >
+                <div class='cursor-pointer'>
+                  <!-- <img src='assets/DupayLogo.png' class='h-64 w-160'>  -->
+                </div>
+  
+  
+              </div>
+  
+            </div>
+          </div>
+          <!-- [matMenuTriggerFor]="menu" -->
+          <div [matMenuTriggerFor]="menu" *ngIf='isAuthenticated' fxLayout="row" fxLayoutAlign="center center"
+            class="mr-64">
+  
+            <!-- (click)='route(Username.url)' -->
+            <button mat-button class="font-size-16">{{Username}} <i class="material-icons">
+                keyboard_arrow_down
+              </i></button>
+  
+            <mat-menu #menu="matMenu" class="w-180 mt-16">
+              <button mat-menu-item>
+                <div (click)="route(menuItems.profile.url)">{{menuItems.profile.name}}</div>
+              </button>
+              <button mat-menu-item>
+                <div (click)="logout()">{{menuItems.logout.name}}</div>
+              </button>
+            </mat-menu>
+          </div>
+  
+  
+          <div *ngIf='!isAuthenticated' (click)='doRoute()' fxLayout="row" fxLayoutAlign="center center" class="mr-64">
+            <mat-icon class="material-icons-outlined cursor-pointer">
+              settings
+            </mat-icon>
+            <button mat-button class="font-size-16">{{Username}}</button>
+          </div>
+        </div>
+  
+  
+  
+  
+      </mat-toolbar>
+      <router-outlet></router-outlet>
+  
+    </mat-sidenav-content>
+  </mat-sidenav-container>

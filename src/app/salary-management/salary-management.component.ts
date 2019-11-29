@@ -6,7 +6,7 @@ import { DepartmentService } from '../_services/department.service';
 @Component({
   selector: 'app-salary-management',
   templateUrl: './salary-management.component.html',
-  styleUrls: ['./salary-management.component.css']
+  styleUrls: ['./salary-management.component.scss']
 })
 export class SalaryManagementComponent implements OnInit {
 
@@ -70,7 +70,7 @@ export class SalaryManagementComponent implements OnInit {
     });
   }
 
-  showSalary(){    
+  showSalary(){
     if(this.salaryStatus === "FAILED"){
       (<HTMLInputElement>document.getElementById("basic")).value = null;
 
@@ -84,7 +84,7 @@ export class SalaryManagementComponent implements OnInit {
       (<HTMLInputElement>document.getElementById("provident_fund")).value = null;
       (<HTMLInputElement>document.getElementById("tax_deduction")).value = null;
       (<HTMLInputElement>document.getElementById("other_deduction")).value = null;
-      
+
       (<HTMLInputElement>document.getElementById("gross_salary")).value = null;
       (<HTMLInputElement>document.getElementById("total_deduction")).value = null;
       (<HTMLInputElement>document.getElementById("net_salary")).value = null;
@@ -103,7 +103,7 @@ export class SalaryManagementComponent implements OnInit {
       (<HTMLInputElement>document.getElementById("provident_fund")).value = this.salary.salary.provident_fund;
       (<HTMLInputElement>document.getElementById("tax_deduction")).value = this.salary.salary.tax_deduction;
       (<HTMLInputElement>document.getElementById("other_deduction")).value = this.salary.salary.other_deduction;
-      
+
       (<HTMLInputElement>document.getElementById("gross_salary")).value = this.salary.gross_salary;
       (<HTMLInputElement>document.getElementById("total_deduction")).value = this.salary.total_deduction;
       (<HTMLInputElement>document.getElementById("net_salary")).value = this.salary.net_salary;
@@ -130,15 +130,15 @@ export class SalaryManagementComponent implements OnInit {
     if(this.existing == false){
       this.salaryService.newSalaryInfo(salary).subscribe(data => {
         console.log(data);
-  
+
         if(data[0].status == "FAILED"){
           console.log(data[0].message);
         }
-        
+
         else{
           (<HTMLInputElement>document.getElementById("gross_salary")).value = data[0].gross_salary;
           (<HTMLInputElement>document.getElementById("total_deduction")).value = data[0].total_deduction;
-          (<HTMLInputElement>document.getElementById("net_salary")).value = data[0].net_salary;        
+          (<HTMLInputElement>document.getElementById("net_salary")).value = data[0].net_salary;
         }
       })
     }
@@ -146,15 +146,15 @@ export class SalaryManagementComponent implements OnInit {
     else if(this.existing == true){
       this.salaryService.updateSalaryInfo(salary, salary.user_id).subscribe(data => {
         console.log(data);
-  
+
         if(data[0].status == "FAILED"){
           console.log(data[0].message);
         }
-        
+
         else{
           (<HTMLInputElement>document.getElementById("gross_salary")).value = data[0].gross_salary;
           (<HTMLInputElement>document.getElementById("total_deduction")).value = data[0].total_deduction;
-          (<HTMLInputElement>document.getElementById("net_salary")).value = data[0].net_salary;        
+          (<HTMLInputElement>document.getElementById("net_salary")).value = data[0].net_salary;
         }
       })
     }

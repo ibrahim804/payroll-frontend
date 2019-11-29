@@ -9,7 +9,7 @@ import { DataService } from '../_services/data.service';
 @Component({
   selector: 'app-employees',
   templateUrl: './employees.component.html',
-  styleUrls: ['./employees.component.css']
+  styleUrls: ['./employees.component.scss']
 })
 export class EmployeesComponent implements OnInit {
 
@@ -44,7 +44,7 @@ export class EmployeesComponent implements OnInit {
   load(){
     this.employeeService.getEmployees().subscribe(data => {
       this.dataSource = new EmployeesDataSource(data[0].users);
-      
+
       this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;
       this.table.dataSource = this.dataSource;

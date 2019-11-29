@@ -6,7 +6,7 @@ import { SalaryService } from '../_services/salary.service';
 @Component({
   selector: 'app-salary',
   templateUrl: './salary.component.html',
-  styleUrls: ['./salary.component.css']
+  styleUrls: ['./salary.component.scss']
 })
 export class SalaryComponent implements AfterViewInit, OnInit {
   @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
@@ -22,7 +22,7 @@ export class SalaryComponent implements AfterViewInit, OnInit {
     this.salaryService.getAllSalary().subscribe(data =>{
       console.log(data);
       this.dataSource = new SalaryDataSource(data[0].users);
-      
+
       this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;
       this.table.dataSource = this.dataSource;

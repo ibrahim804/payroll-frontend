@@ -6,7 +6,7 @@ import { LeaveService } from '../all_services/leave.service';
 @Component({
   selector: 'app-leave-management',
   templateUrl: './leave-management.component.html',
-  styleUrls: ['./leave-management.component.css']
+  styleUrls: ['./leave-management.component.scss']
 })
 export class LeaveManagementComponent implements OnInit {
   @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;

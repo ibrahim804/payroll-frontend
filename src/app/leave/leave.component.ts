@@ -6,7 +6,7 @@ import { LeaveCategoryService } from '../all_services/leave-category.service';
 @Component({
   selector: 'app-leave',
   templateUrl: './leave.component.html',
-  styleUrls: ['./leave.component.css']
+  styleUrls: ['./leave.component.scss']
 })
 export class LeaveComponent implements OnInit {
 

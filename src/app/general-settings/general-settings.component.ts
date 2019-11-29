@@ -6,7 +6,7 @@ import { WorkingDays } from '../_models/workingDays';
 @Component({
   selector: 'app-general-settings',
   templateUrl: './general-settings.component.html',
-  styleUrls: ['./general-settings.component.css']
+  styleUrls: ['./general-settings.component.scss']
 })
 export class GeneralSettingsComponent implements OnInit {
 
@@ -36,7 +36,7 @@ export class GeneralSettingsComponent implements OnInit {
   createNewCompany(){
     let workingDays = new WorkingDays;
     let company = new Company;
-    
+
     workingDays.sunday = (<HTMLInputElement>document.getElementById("sun")).checked.toString();
     workingDays.monday = (<HTMLInputElement>document.getElementById("mon")).checked.toString();
     workingDays.tuesday = (<HTMLInputElement>document.getElementById("tue")).checked.toString();
@@ -44,14 +44,14 @@ export class GeneralSettingsComponent implements OnInit {
     workingDays.thursday = (<HTMLInputElement>document.getElementById("thu")).checked.toString();
     workingDays.friday = (<HTMLInputElement>document.getElementById("fri")).checked.toString();
     workingDays.saturday = (<HTMLInputElement>document.getElementById("sat")).checked.toString();
-    
+
     this.generalSettingsService.updateWorkingDays(workingDays).subscribe(data => {
       console.log(data);
 
       if(data[0].status == "FAILED"){
         console.log(data[0].message);
       }
-      
+
       else{
         company.name = (<HTMLInputElement>document.getElementById("company_name")).value;
         company.email = (<HTMLInputElement>document.getElementById("email")).value;

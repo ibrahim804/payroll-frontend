@@ -3,10 +3,7 @@
         <div class="col-4">
             <h1 class="mat-h1 m-3">Departments</h1>
         </div>
-        <div class="col-8">
-            <mat-paginator #paginator [length]="dataSource?.data.length" [pageIndex]="0" [pageSize]="50" [pageSizeOptions]="[25, 50, 100, 250]">
-            </mat-paginator>
-        </div>
+        
     </div>
 
     <table mat-table class="full-width-table" matSort aria-label="Elements">
@@ -34,4 +31,8 @@
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
+    <div class="col-8">
+        <mat-paginator #paginator [length]="dataSource?.data.length" [pageIndex]="0" [pageSize]="50" [pageSizeOptions]="[25, 50, 100, 250]">
+        </mat-paginator>
+    </div>
 </div>

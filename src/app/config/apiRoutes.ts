@@ -1,7 +1,7 @@
 // import { urlRoutes } from './apiRoutes';
 import { role } from './Payroll.enum';
 
-const baseUrl = 'http://192.168.0.103:8000/api';
+const baseUrl = 'http://192.168.0.105:8000/api';
 
 export const apiRoutes = {
 
@@ -92,14 +92,14 @@ export const genericNavConstants={
       url: urlRoutes.departmentsList,
       icon: 'home',
       role: [role.ADMIN,role.USER],
-      mini_name: 'departmentsList'
+      mini_name: 'List'
     },
     {
       name: 'departmentsAdd',
       url: urlRoutes.departmentsAdd,
       icon: 'home',
       role: [role.ADMIN,role.USER],
-      mini_name: 'departmentsAdd'
+      mini_name: 'Add'
     },
 
   ],

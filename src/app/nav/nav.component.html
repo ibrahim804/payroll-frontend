@@ -111,7 +111,7 @@
                 </i> </button>
   
             </div>
-            <div fxLayout="row" fxLayoutAlign="center center"  class='black-color-foreground font-size-12 '>
+            <div fxLayout="row" fxLayoutAlign="center center"  class='black-color-foreground font-size-12 pt-2 '>
               {{content.mini_name}}
             </div>
           </div>
@@ -132,10 +132,11 @@
               </button>
             </div>
             <div class='cursor-pointer'>
-              <span *ngIf="!drawer.opened" class='cursor-pointer'>DUPAY</span>
+              <span *ngIf="!drawer.opened" class='cursor-pointer'>Payroll </span>
               <div *ngIf="drawer.opened" fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="16px" >
                 <div class='cursor-pointer'>
                   <!-- <img src='assets/DupayLogo.png' class='h-64 w-160'>  -->
+                  Payroll
                 </div>
   
   
@@ -144,18 +145,18 @@
             </div>
           </div>
           <!-- [matMenuTriggerFor]="menu" -->
-          <div [matMenuTriggerFor]="menu" *ngIf='isAuthenticated' fxLayout="row" fxLayoutAlign="center center"
+           <div [matMenuTriggerFor]="menu" fxLayout="row" fxLayoutAlign="center center"
             class="mr-64">
   
-            <!-- (click)='route(Username.url)' -->
-            <button mat-button class="font-size-16">{{Username}} <i class="material-icons">
+            
+            <button mat-button class="font-size-16">Sabik <i class="material-icons">
                 keyboard_arrow_down
               </i></button>
   
             <mat-menu #menu="matMenu" class="w-180 mt-16">
-              <button mat-menu-item>
-                <div (click)="route(menuItems.profile.url)">{{menuItems.profile.name}}</div>
-              </button>
+            <button mat-menu-item>
+                    <div >Profile</div>
+                    </button>
               <button mat-menu-item>
                 <div (click)="logout()">{{menuItems.logout.name}}</div>
               </button>
@@ -163,12 +164,7 @@
           </div>
   
   
-          <div *ngIf='!isAuthenticated' (click)='doRoute()' fxLayout="row" fxLayoutAlign="center center" class="mr-64">
-            <mat-icon class="material-icons-outlined cursor-pointer">
-              settings
-            </mat-icon>
-            <button mat-button class="font-size-16">{{Username}}</button>
-          </div>
+          
         </div>
   
   

@@ -43,18 +43,22 @@ export class NavComponent implements OnInit {
 	ngOnInit() {
 		this.data.currentMessage.subscribe((message) => (this.chosenView = message));
 		this.initiateVariables();
+    this.setRole();
 		this.checkRow();
-		this.setRole();
+    
 	}
 	initiateVariables() {
 		this.title = genericNavConstants.siteName.name;
 	}
 	checkRow() {
+    debugger;
 		let currentUrl = this.router.url;
-		let count = 0;
+    let count = 0;
+    debugger;
 		for (let i of this.sidebar) {
-			if (currentUrl == `/${i.url}`) {
-				this.selectedRow = count;
+			if (currentUrl == `${i.url}`) {
+        this.selectedRow = count;
+        debugger;
 				break;
 			}
 			count += 1;

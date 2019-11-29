@@ -97,6 +97,6 @@ export class NavComponent implements OnInit {
   }
   selectRow(index) {
     this.selectedRow = index;
-    // debugger;
+    // debugger; // 
 	}
 }

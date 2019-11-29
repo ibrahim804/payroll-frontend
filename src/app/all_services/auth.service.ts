@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { first } from 'rxjs/operators';
 import { apiRoutes } from '../config/apiRoutes';
+import { Login, Register } from '../config/interfaces/user.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -26,8 +27,21 @@ export class AuthService {
     return httpOptions;
   }
 
+  login(credentials: Login) {
+    return this.postInHTTP(apiRoutes.login, credentials);
+  }
+
+  register(credentials: Register) {
+    return this.postInHTTP(apiRoutes.register, credentials);
+  }
+
   isLoggedIn() {
     return (this.getValueFromLocalStorage('token')) ? true : false;
+  }
+
+  logout() {
+    localStorage.clear();
+    this.getFromHTTP(`${apiRoutes.logout}`);
   }
 
   setValueInLocalStorage(key: any, value: any) {
@@ -38,7 +52,7 @@ export class AuthService {
     return localStorage.getItem(key);
   }
 
-  getCurrentRole(){
+  getCurrentRole() {
     return this.getValueFromLocalStorage('role');
   }
 
@@ -76,9 +90,5 @@ export class AuthService {
         observer.complete();
       });
     });
-  }
-  logout(){
-    localStorage.clear();
-    this.getFromHTTP(`${apiRoutes.logout}`);
   }
 }

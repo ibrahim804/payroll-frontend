@@ -1,7 +1,7 @@
 import { UserGuard } from './_guard/user.guard';
 import { LoggedInGuard } from './_guard/logged-in.guard';
 import { BlankComponent } from './blank-component/blank-component.component';
-import { NgModule, Component } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { LoginComponent } from './login/login.component';
 import { NavComponent } from './nav/nav.component';
@@ -21,136 +21,114 @@ import { GeneralSettingsComponent } from './general-settings/general-settings.co
 import { AdminGuard } from './_guard/admin.guard';
 
 const routes: Routes = [
-	{
-		path: '',
-		redirectTo: '/login',
-		pathMatch: 'full'
-	},
-	{
-		path: '',
-		component: BlankComponent,
-		children: [
-			{
-				path: 'login',
+  {
+    path: '',
+    redirectTo: '/login',
+    pathMatch: 'full'
+  },
+  {
+    path: '',
+    component: BlankComponent,
+    children: [
+      {
+        path: 'login',
         component: LoginComponent,
         canActivate: [LoggedInGuard]
-        
-			}
-		]
-	},
-	{
-		path: '',
-		component: NavComponent,
-		children: [
-			{
-				path: 'dashboard',
+      }
+    ]
+  },
+  {
+    path: '',
+    component: NavComponent,
+    children: [
+      {
+        path: 'dashboard',
         component: DashboardComponent,
         canActivate: [AuthGuard]
       },
-      
+
       {
-				path: 'departments',
-				redirectTo: '/departments/list',
+        path: 'departments',
+        redirectTo: '/departments/list',
         pathMatch: 'full',
-        canActivate: [AuthGuard]
-        
-			},
-      {
-				path: 'departments/list',
-        component:DepartmentsComponent,
-        canActivate: [AuthGuard]
+        // canActivate: [AuthGuard]
       },
       {
-				path: 'departments/add',
-        component:AddDepartmentComponent,
-        canActivate: [AuthGuard,AdminGuard]
-      },
-      {
-				path: 'employees',
-				redirectTo: '/employees/list',
-				pathMatch: 'full'
-			},
-      {
-				path: 'employees/list',
-        component:EmployeesComponent,
-        canActivate: [AuthGuard,AdminGuard]
-      },
-      {
-				path: 'employees/add',
-        component:AddEmployeeComponent,
-        canActivate: [AuthGuard,AdminGuard]
-      },
-      {
-				path: 'attendance',
-        component:TodaysAttendanceComponent,
-        canActivate: [AuthGuard,AdminGuard]
-      },
-      {
-				path: 'attendance/report',
-        component:AttendanceReportComponent,
-        canActivate: [AuthGuard,AdminGuard]
-      },
-      {
-				path: 'leave',
-				redirectTo: '/leave/management',
-				pathMatch: 'full'
-			},
-      {
-				path: 'leave/management',
-        component:LeaveManagementComponent,
+        path: 'departments/list',
+        component: DepartmentsComponent,
         canActivate: [AuthGuard]
       },
       {
-				path: 'leave/application',
-        component:LeaveComponent,
-        canActivate: [AuthGuard,UserGuard]
+        path: 'departments/add',
+        component: AddDepartmentComponent,
+        canActivate: [AuthGuard, AdminGuard]
       },
       {
-				path: 'salary',
-				redirectTo: '/salary/management',
-				pathMatch: 'full'
-			},
-      {
-				path: 'salary/management',
-        component:SalaryComponent,
-        canActivate: [AuthGuard,AdminGuard]
+        path: 'employees',
+        redirectTo: '/employees/list',
+        pathMatch: 'full'
       },
       {
-				path: 'salary/update',
-        component:SalaryManagementComponent,
-        canActivate: [AuthGuard,AdminGuard]
+        path: 'employees/list',
+        component: EmployeesComponent,
+        canActivate: [AuthGuard, AdminGuard]
       },
       {
-				path: 'settings',
-        component:GeneralSettingsComponent,
+        path: 'employees/add',
+        component: AddEmployeeComponent,
+        canActivate: [AuthGuard, AdminGuard]
+      },
+      {
+        path: 'attendance',
+        component: TodaysAttendanceComponent,
+        canActivate: [AuthGuard, AdminGuard]
+      },
+      {
+        path: 'attendance/report',
+        component: AttendanceReportComponent,
+        canActivate: [AuthGuard, AdminGuard]
+      },
+      {
+        path: 'leave',
+        redirectTo: '/leave/management',
+        pathMatch: 'full'
+      },
+      {
+        path: 'leave/management',
+        component: LeaveManagementComponent,
+        canActivate: [AuthGuard, AdminGuard]
+      },
+      {
+        path: 'leave/application',
+        component: LeaveComponent,
+        canActivate: [AuthGuard, UserGuard]
+      },
+      {
+        path: 'salary',
+        redirectTo: '/salary/management',
+        pathMatch: 'full'
+      },
+      {
+        path: 'salary/management',
+        component: SalaryComponent,
+        canActivate: [AuthGuard, AdminGuard]
+      },
+      {
+        path: 'salary/update',
+        component: SalaryManagementComponent,
+        canActivate: [AuthGuard, AdminGuard]
+      },
+      {
+        path: 'settings',
+        component: GeneralSettingsComponent,
         canActivate: [AuthGuard]
-      },
-
-
-
-
-      
-
-			
-		]
-	}
-	// {
-	//   path: 'login',
-	//   component: LoginComponent
-	// },
-	// {
-	//   path: 'home',
-	//   component: NavComponent
-	//   // canActivate: [AuthGuard]
-	// },
-	// {
-	//   path: 'dashboard',
-	//   component: DashboardComponent
-	// },
+      }
+    ]
+  }
 ];
 
 @NgModule({
-	imports: [ RouterModule.forRoot(routes) ],
-	exports: [ RouterModule ]
+  imports: [RouterModule.forRoot(routes)],
+  exports: [RouterModule]
 })
 export class AppRoutingModule {}

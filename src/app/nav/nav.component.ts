@@ -25,6 +25,7 @@ export class NavComponent implements OnInit {
 
   title: string = genericNavConstants.siteName.name;
   userName: string;
+  base64String: Text;
   sidebar = [];
   menuItems = genericNavConstants.menu;
   selectedRow: number;
@@ -45,12 +46,14 @@ export class NavComponent implements OnInit {
     this.data.currentMessage.subscribe(message => (this.chosenView = message));
     this.initiateVariables();
     this.setRole();
+    this.makeSideBar();
     this.checkRow();
   }
 
   initiateVariables() {
     this.title = genericNavConstants.siteName.name;
     this.userName = this.authService.getValueFromLocalStorage('full_name');
+    // this.base64String = this.authService.getValueFromLocalStorage('photo');
   }
 
   checkRow() {
@@ -71,7 +74,6 @@ export class NavComponent implements OnInit {
 
   setRole() {
     this.userRole = this.authService.getCurrentRole();
-    this.makeSideBar();
   }
 
   makeSideBar() {
@@ -90,7 +92,6 @@ export class NavComponent implements OnInit {
     // }
 
     // this.checkAuthentication(auth);
-    this.checkRow();
   }
 
   route(url) {

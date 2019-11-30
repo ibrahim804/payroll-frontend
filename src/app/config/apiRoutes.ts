@@ -1,6 +1,6 @@
 import { role } from './payroll.enum';
 
-const baseUrl = 'http://192.168.0.105:8000/api';
+const baseUrl = 'http://localhost:8000/api';
 
 export const apiRoutes = {
 
@@ -56,28 +56,30 @@ export const urlRoutes = {
   login: `/login`,
   register: `/register`,
 
-  dashboard: `/dashboard`,
+  dashboard: `/dashboard`,    // Dashboard
 
-  departmentsList: `/departments/list`,
+  departmentsList: `/departments/list`,   // Department
   departmentsAdd: `/departments/add`,
 
-  employeesList: `/employees/list`,
+  employeesList: `/employees/list`,   // Employee
   employeesAdd: `/employees/add`,
   employeesDetails: `/employees/details`,
 
-  attendance: `/attendance`,
+  attendance: `/attendance`,    // Attendance
   attendanceReport: `/attendance/report`,
 
-  leaveManagement: `/leave/management`,
-  leaveApplication: `/leave/application`,
+  leaveManagement: `/leave/management`,   // leave
+  leaveApplication: `/leave/application`, // leave
 
-  salaryManagement: `/salary/management`,
+  salaryManagement: `/salary/management`,   // Salary
   salaryUpdate: `/salary/update`,
 
-  settings: `/settings`,
+  payment: `/payment`,    // Payment
+
+  settings: `/settings`,    // Company
 };
 
-export const genericNavConstants = {
+export const genericNavConstants = {  // Route Flow: sidebar->urlRoute->appRouting->apiRoute
   sideBar: [
     {
       name: 'Dashboard',
@@ -89,42 +91,49 @@ export const genericNavConstants = {
     {
       name: 'Employees',
       url: urlRoutes.employeesList,
-      icon: 'home',
+      icon: 'supervisor_account',
       role: [role.ADMIN],
       mini_name: 'Employees'
     },
     {
       name: 'Department',
       url: urlRoutes.departmentsList,
-      icon: 'home',
-      role: [role.ADMIN, role.USER],
+      icon: 'group_work',
+      role: [role.ADMIN],
       mini_name: 'Department'
     },
     {
       name: 'Leave Management',
       url: urlRoutes.leaveManagement,
-      icon: 'home',
+      icon: 'directions_boat',
       role: [role.ADMIN],
       mini_name: 'Leave',
     },
     {
       name: 'Leave Application',
       url: urlRoutes.leaveApplication,
-      icon: 'home',
+      icon: 'directions_boat',
       role: [role.USER],
       mini_name: 'Leave',
     },
     {
       name: 'Salary Management',
       url: urlRoutes.salaryManagement,
-      icon: 'home',
+      icon: 'money',
       role: [role.ADMIN],
       mini_name: 'Salary',
     },
     {
-      name: 'Genaral Setting',
+      name: 'Payment',
+      url: urlRoutes.payment,
+      icon: 'payment',
+      role: [role.ADMIN],
+      mini_name: 'Payment',
+    },
+    {
+      name: 'Genaral Settings',
       url: urlRoutes.settings,
-      icon: 'home',
+      icon: 'build',
       role: [role.ADMIN, role.USER],
       mini_name: 'Settings',
     },

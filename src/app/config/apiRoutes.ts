@@ -49,6 +49,7 @@ export const apiRoutes = {
 
   fileUploadCreateUser: `${baseUrl}/file-upload/create/user`,
   uploadUserProfilePicture: `${baseUrl}/upload/user/profile-picture`,
+  getUserProfilePicture: `${baseUrl}/get-profile-picture`,
 
 };
 

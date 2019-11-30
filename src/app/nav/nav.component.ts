@@ -53,7 +53,7 @@ export class NavComponent implements OnInit {
   initiateVariables() {
     this.title = genericNavConstants.siteName.name;
     this.userName = this.authService.getValueFromLocalStorage('full_name');
-    // this.base64String = this.authService.getValueFromLocalStorage('photo');
+    this.base64String = this.authService.getValueFromLocalStorage('photo_text') as unknown as Text;
   }
 
   checkRow() {

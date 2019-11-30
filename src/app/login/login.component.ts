@@ -2,6 +2,7 @@ import { AuthService } from './../all_services/auth.service';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Login } from '../config/interfaces/user.interface';
+import { apiRoutes } from '../config/apiRoutes';
 
 @Component({
   selector: 'app-login',
@@ -34,7 +35,19 @@ export class LoginComponent implements OnInit {
         this.authService.setValueInLocalStorage('token', response[0].token);
         this.authService.setValueInLocalStorage('role', response[0].role);
         this.authService.setValueInLocalStorage('id', response[0].id);
+
+        this.getProfilePicture();
         this.router.navigate(['/dashboard']);
+      }
+    });
+  }
+
+  getProfilePicture() {
+    this.authService.getFromHTTP(apiRoutes.getUserProfilePicture).subscribe(response => {
+      if (response[0].status === 'OK') {
+        this.authService.setValueInLocalStorage('photo_text', response[0].base64);
+      } else {
+        alert('Got error while retrieving image');
       }
     });
   }

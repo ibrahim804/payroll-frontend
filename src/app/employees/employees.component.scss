@@ -1,3 +1,15 @@
-.full-width-table {
-  width: 100%;
+@import '../../styles/theme.scss';
+
+mat-header-cell {
+  display: flex;
+  justify-content: center;
+}
+
+mat-cell {
+  display: flex !important;
+  justify-content: center !important;
+}
+
+mat-paginator {
+  height: 64px !important;
 }

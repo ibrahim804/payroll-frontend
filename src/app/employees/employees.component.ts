@@ -1,10 +1,7 @@
-import { AfterViewInit, Component, OnInit, ViewChild, EventEmitter, Output } from '@angular/core';
-import { MatPaginator, MatSort, MatTable } from '@angular/material';
-import { EmployeesDataSource, EmployeesItem } from './employees-datasource';
-import { EmployeeService } from '../_services/employee.service';
-import { NavComponent } from '../nav/nav.component';
-import { BreakpointObserver } from '@angular/cdk/layout';
-import { DataService } from '../_services/data.service';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatTableDataSource, MatSort, MatPaginator } from '@angular/material';
+import { MatDialog } from '@angular/material';
+import { UserService } from '../all_services/user.service';
 
 @Component({
   selector: 'app-employees',
@@ -13,41 +10,63 @@ import { DataService } from '../_services/data.service';
 })
 export class EmployeesComponent implements OnInit {
 
-  @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
-  @ViewChild(MatSort, {static: false}) sort: MatSort;
-  @ViewChild(MatTable, {static: false}) table: MatTable<EmployeesItem>;
-  dataSource: EmployeesDataSource;
-  nav: String;
+  displayedColumns: string[] = ['serial_no', 'name', 'department', 'designation', 'casual_leave', 'sick_leave'];
+  employees = new MatTableDataSource<any>();
+  searchKey: string;
 
-  displayedColumns = ['id', 'name', 'department', 'designation', 'casual_leave', 'sick_leave','action'];
+  @ViewChild(MatSort, {static: true}  ) sort: MatSort;
+  @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 
-  constructor(private employeeService: EmployeeService, private data: DataService){}
+  constructor(
+    private userService: UserService,
+    private dialog: MatDialog
+  ) {}
 
 
   ngOnInit() {
-    this.load();
+    this.setDataSource();
   }
 
-  deleteEmployee(employee_id){
-    this.employeeService.deleteEmployee(employee_id).subscribe(data => {
-      console.log(data);
-      console.log("Employee deleted");
-      this.load();
-    })
-  }
+  openWithdrawRequestWindow() {
+		this.openWithdrawRequestModal();
+	}
 
-  editEmployee(employee_id){
-    this.data.changeMessage("add employee");
-    this.data.employee_id = employee_id;
-  }
+	openWithdrawRequestModal(width?: string) {
+		// const dialogRef = this.dialog.open(WithdrawRequestComponent, {
+		// 	minWidth: '450px',
+		// 	width: width ? width : '55vw'
+			
+		// });
 
-  load(){
-    this.employeeService.getEmployees().subscribe(data => {
-      this.dataSource = new EmployeesDataSource(data[0].users);
-
-      this.dataSource.sort = this.sort;
-      this.dataSource.paginator = this.paginator;
-      this.table.dataSource = this.dataSource;
-    })
+		// dialogRef.afterClosed().subscribe(res=>{
+			
+		// 	this.setDataSource();
+		// })
   }
+  
+	setDataSource() {
+    let responseData = [];
+    let count = 1;
+    this.userService.getEmployees().subscribe(response => {
+      for (let i of response[0].users) {
+				responseData.push({
+					serial_no: count,
+					name: i.full_name,
+					department: i.department,
+					designation: i.designation,
+          casual_leave: i.casual_leave,
+          sick_leave: i.sick_leave,
+        });
+        count = count + 1;
+      }
+      this.employees.data = responseData;
+			this.employees.sort = this.sort;
+      this.employees.paginator = this.paginator;
+      // console.log(this.employees.data[1].name);
+    });
+  }
+  
+	applyFilter(filterValue: string) {
+		this.employees.filter = filterValue.trim().toLowerCase();
+	}
 }

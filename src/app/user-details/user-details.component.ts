@@ -24,8 +24,12 @@ export class UserDetailsComponent implements OnInit {
     });
   }
 
-  redirectsTo() {
+  redirectsToDashboard() {
     this.router.navigate([urlRoutes.dashboard]);
+  }
+
+  redirectsToEmployeeAdd() {
+    this.router.navigate([urlRoutes.employeesAdd]);
   }
 
   private checkError(response: any) {

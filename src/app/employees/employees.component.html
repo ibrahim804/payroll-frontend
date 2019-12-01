@@ -1,4 +1,4 @@
-<div class="mat-elevation-z8">
+<!-- <div class="mat-elevation-z8">
 
     <div class="row" style="background: white">
         <div class="col-4">
@@ -51,4 +51,67 @@
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
+</div> -->
+
+<!--  
+                                        STYLE TAKEN FROM DUPAY
+                                    -->
+
+<!-- ['id', 'name', 'department', 'designation', 'casual_leave', 'sick_leave']; -->
+
+
+<div fxLayout='row' fxLayoutAlign='space-between center' fxLayoutGap="24px" class='mx-40 mt-40 '>
+    <div class='w-100-p'>
+        <mat-form-field appearance="outline">
+            <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+            <mat-icon matPrefix class='mr-16'>search</mat-icon>
+        </mat-form-field>
+    </div>
+</div>
+  
+
+<div fxLayout="column" class="mx-40 mb-40 mat-elevation-z8">
+    <mat-table #table [dataSource]="employees" matSort matSortActive="serial_no" matSortDirection="asc" [class.isMobile]="isMobile">
+
+        <ng-container matColumnDef="serial_no">
+            <mat-header-cell *matHeaderCellDef mat-sort-header
+                class="primary-background white-color-foreground font-size-16"> SI No </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.serial_no}} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="name">
+            <mat-header-cell *matHeaderCellDef mat-sort-header
+                class="primary-background white-color-foreground font-size-16"> Name </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.name}} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="department">
+            <mat-header-cell *matHeaderCellDef mat-sort-header
+                class="primary-background white-color-foreground font-size-16"> Department </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.department}} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="designation">
+            <mat-header-cell *matHeaderCellDef mat-sort-header
+                class="primary-background white-color-foreground font-size-16"> Designation </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.designation}} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="casual_leave">
+            <mat-header-cell *matHeaderCellDef mat-sort-header
+                class="primary-background white-color-foreground font-size-16"> Casual leave left </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.casual_leave}} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="sick_leave">
+            <mat-header-cell *matHeaderCellDef mat-sort-header
+                class="primary-background white-color-foreground font-size-16"> Sick leave left </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.sick_leave}} </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+
+    <mat-paginator [pageSize]="10" [pageSizeOptions]="[10, 20, 50, 100]" showFirstLastButtons></mat-paginator>
 </div>

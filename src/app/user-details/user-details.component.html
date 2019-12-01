@@ -2,7 +2,7 @@
   <mat-card class="mat-elevation-z8">
     <div [ngClass.xs]="{ 'p-8': true }" [ngClass.sm]="{ 'p-8': true }" ngClass="px-164 py-64">
       <div [ngClass.sm]="{ 'pl-8 font-size-24 font-weight-950': true }" ngClass="font-size-24 font-weight-950 pl-60">
-        About me
+        Employee Information
       </div>
 
       <div fxLayout="row" fxLayoutAlign="space-between center" class="py-48">
@@ -28,13 +28,15 @@
         </div>
       </div>
 
-      <div fxLayout="row" fxLayoutAlign="center" fxLayout.lt-md="column-reverse">
-        <div class="mb-24 mt-8 mr-64">
-          <button (click)="redirectsTo()" mat-raised-button color="primary" class="w-224 h-40">
-            Home
-          </button>
-        </div>
+      <div fxLayout="row" fxLayoutAlign="space-around center" class="mb-24 mt-8 mr-64">
+        <button (click)="redirectsToDashboard()" mat-raised-button color="primary" class="w-224 h-40">
+          Home
+        </button>
+        <button (click)="redirectsToEmployeeAdd()" mat-raised-button color="warn" class="w-224 h-40">
+          Update Information
+        </button>
       </div>
+
     </div>
   </mat-card>
 </div>

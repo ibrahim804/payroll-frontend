@@ -1,7 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatTableDataSource, MatSort, MatPaginator } from '@angular/material';
-import { MatDialog } from '@angular/material';
 import { UserService } from '../all_services/user.service';
+import { Router } from '@angular/router';
+import { urlRoutes } from '../config/apiRoutes';
 
 @Component({
   selector: 'app-employees',
@@ -19,29 +20,12 @@ export class EmployeesComponent implements OnInit {
 
   constructor(
     private userService: UserService,
-    private dialog: MatDialog
+    private router: Router
   ) {}
 
 
   ngOnInit() {
     this.setDataSource();
-  }
-
-  openWithdrawRequestWindow() {
-		this.openWithdrawRequestModal();
-	}
-
-	openWithdrawRequestModal(width?: string) {
-		// const dialogRef = this.dialog.open(WithdrawRequestComponent, {
-		// 	minWidth: '450px',
-		// 	width: width ? width : '55vw'
-			
-		// });
-
-		// dialogRef.afterClosed().subscribe(res=>{
-			
-		// 	this.setDataSource();
-		// })
   }
   
 	setDataSource() {
@@ -62,11 +46,14 @@ export class EmployeesComponent implements OnInit {
       this.employees.data = responseData;
 			this.employees.sort = this.sort;
       this.employees.paginator = this.paginator;
-      // console.log(this.employees.data[1].name);
     });
   }
   
 	applyFilter(filterValue: string) {
 		this.employees.filter = filterValue.trim().toLowerCase();
-	}
+  }
+  
+  redirectsToRegister() {
+    this.router.navigate([urlRoutes.employeesAdd]);
+  }
 }

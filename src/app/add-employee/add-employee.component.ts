@@ -9,6 +9,7 @@ import { FileUploader } from 'ng2-file-upload';
 import { NgbDatepickerService } from '@ng-bootstrap/ng-bootstrap/datepicker/datepicker-service';
 import { DataService } from '../_services/data.service';
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-add-employee',
@@ -27,12 +28,17 @@ export class AddEmployeeComponent implements OnInit {
 
   private employee;
 
+  // AMAR
+
+  registerForm: FormGroup;
+
   constructor(
     private authService: AuthService,
     private userService: UserService,
     private departmentService: DepartmentService,
     private designationService: DesignationService,
     private data: DataService,
+    private formBuilder: FormBuilder
   ) {}
 
   ngOnInit() {
@@ -52,6 +58,9 @@ export class AddEmployeeComponent implements OnInit {
     }
 
     this.uploader.onAfterAddingFile = (file) => { file.withCredentials = false; };
+
+    // amar
+    this.buildForm();
   }
 
   getEmployee(employeeId: any) {
@@ -156,4 +165,19 @@ export class AddEmployeeComponent implements OnInit {
   public fileOverAnother(e: any): void {
     this.hasAnotherDropZoneOver = e;
   }
+
+  // AMAR 
+
+  buildForm() {
+    this.registerForm = this.formBuilder.group({
+      full_name: ['', [
+          Validators.required,
+          Validators.minLength(3),
+          Validators.maxLength(25),
+        ],
+      ],
+      
+    });
+  }
+
 }

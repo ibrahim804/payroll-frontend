@@ -25,7 +25,7 @@ export class NavComponent implements OnInit {
 
   title: string = genericNavConstants.siteName.name;
   userName: string;
-  base64String: Text;
+  base64String = null;
   sidebar = [];
   menuItems = genericNavConstants.menu;
   selectedRow: number;
@@ -53,7 +53,12 @@ export class NavComponent implements OnInit {
   initiateVariables() {
     this.title = genericNavConstants.siteName.name;
     this.userName = this.authService.getValueFromLocalStorage('full_name');
-    this.base64String = this.authService.getValueFromLocalStorage('photo_text') as unknown as Text;
+    this.base64String = this.authService.getValueFromLocalStorage('photo_text');
+    if (this.base64String != 'null') {
+      this.base64String = `data:image/png;base64,${this.base64String}`;
+    } else {
+      this.base64String = 'assets/user.png';
+    }
   }
 
   checkRow() {

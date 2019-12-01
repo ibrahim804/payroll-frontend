@@ -37,7 +37,6 @@ export class LoginComponent implements OnInit {
         this.authService.setValueInLocalStorage('id', response[0].id);
 
         this.getProfilePicture();
-        this.router.navigate(['/dashboard']);
       }
     });
   }
@@ -46,9 +45,13 @@ export class LoginComponent implements OnInit {
     this.authService.getFromHTTP(apiRoutes.getUserProfilePicture).subscribe(response => {
       if (response[0].status === 'OK') {
         this.authService.setValueInLocalStorage('photo_text', response[0].base64);
+        this.router.navigate(['/dashboard']);
       } else {
-        alert('Got error while retrieving image');
+        alert('Credentials are wrong.');
       }
+    }, err=> {
+      this.authService.setValueInLocalStorage('photo_text', null);
+      this.router.navigate(['/dashboard']);
     });
   }
 

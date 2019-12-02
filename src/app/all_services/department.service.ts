@@ -12,8 +12,5 @@ export class DepartmentService {
   getAllDepartments() {
     return this.authService.getFromHTTP(apiRoutes.departments);
   }
-
-  getDesignationsOfThisDepartment(id: string) {
-    return this.authService.getFromHTTP(`${apiRoutes.department}/${id}/designations`);
-  }
+  
 }

@@ -1,9 +1,8 @@
 import { AbstractControl, ValidationErrors } from '@angular/forms';
 
 export class CustomValidators {
+  
   // Synchronous
-
-  constructor() { }
 
   static cannotContainSpace(control: AbstractControl): ValidationErrors | null {
     if ((control.value as string).indexOf(' ') >= 0) {
@@ -27,6 +26,17 @@ export class CustomValidators {
     return null;
   }
 
+  static containsOnlyNumber(control: AbstractControl): ValidationErrors | null {
+    for (let i = 0; i < (control.value as string).length; i++) {
+      if(! (control.value[i] >= 48 && control.value[i] <= 57)) {
+        return {
+          containsOnlyNumber: true
+        };
+      }
+    }
+    return null;
+  }
+
   // Asynchronous: should be fixed
 
   // static shouldBeUnique(control: AbstractControl): Promise < ValidationErrors | null > {
@@ -38,13 +48,6 @@ export class CustomValidators {
   //         resolve(null);
   //       }
   //     }, 2000);
-  //   });
-  // }
-
-  // static shouldBeUnique(control: AbstractControl): Observable<ValidationErrors | null> {
-  //   return new Observable(observer => {
-  //     this.authService.postInHTTP(apiRoutes.checkUniqueMail, {email: control.value}).subscribe(res => {
-  //     });
   //   });
   // }
 }

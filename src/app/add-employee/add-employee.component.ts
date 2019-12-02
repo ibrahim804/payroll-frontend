@@ -1,15 +1,14 @@
-import { Update, Register } from './../config/interfaces/user.interface';
+import { Update } from './../config/interfaces/user.interface';
 import { UserService } from './../all_services/user.service';
 import { AuthService } from './../all_services/auth.service';
 import { apiRoutes } from './../config/apiRoutes';
-import { Router } from '@angular/router';
 import { DepartmentService } from '../all_services/department.service';
-import { DesignationService } from './../all_services/designation.service';
+import { DesignationService } from '../all_services/designation.service';
 import { FileUploader } from 'ng2-file-upload';
-import { NgbDatepickerService } from '@ng-bootstrap/ng-bootstrap/datepicker/datepicker-service';
 import { DataService } from '../_services/data.service';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { CustomValidators } from '../shared/custom.validators';
 
 @Component({
   selector: 'app-add-employee',
@@ -23,10 +22,8 @@ export class AddEmployeeComponent implements OnInit {
   public hasAnotherDropZoneOver = false;
 
   public departments;
-  private departmentId;
+  private departmentIdAttrbute;
   public designations;
-
-  private employee;
 
   // AMAR
 
@@ -78,8 +75,8 @@ export class AddEmployeeComponent implements OnInit {
   }
 
   getDesignations() {
-    this.departmentId = (document.getElementById('select_department') as HTMLInputElement).value;
-    this.departmentService.getDesignationsOfThisDepartment(this.departmentId).subscribe(data => {
+    this.departmentIdAttrbute = (document.getElementById('select_department') as HTMLInputElement).value;
+    this.designationService.getDesignationsOfThisDepartment(this.departmentIdAttrbute).subscribe(data => {
       this.designations = data[0].designations;
     });
   }
@@ -170,14 +167,165 @@ export class AddEmployeeComponent implements OnInit {
 
   buildForm() {
     this.registerForm = this.formBuilder.group({
-      full_name: ['', [
+
+      name: ['', [
           Validators.required,
           Validators.minLength(3),
           Validators.maxLength(25),
+          CustomValidators.cannotContainNumber,
         ],
       ],
 
+      dateOfBirth: [''],
+
+      gender: ['', [
+          Validators.required,
+        ],
+      ],
+
+      maritalStatus: [''],
+
+      fathersName: ['', [
+          Validators.minLength(3),
+          Validators.maxLength(25),
+          CustomValidators.cannotContainNumber,
+        ],
+      ],
+
+      nationality: ['Bangladeshi'],
+
+      passportNumber: [''],
+
+      email: ['', [
+          Validators.required,
+          Validators.minLength(3),
+          Validators.maxLength(255),
+          CustomValidators.cannotContainSpace,
+        ], [
+          this.authService.shouldBeUnique,
+        ],
+      ],
+
+      phone: ['', [
+          Validators.required,
+          Validators.minLength(10),
+          Validators.maxLength(10),
+          CustomValidators.cannotContainSpace,
+          CustomValidators.containsOnlyNumber,
+        ],
+      ],
+
+      presentAddress: ['', [
+          Validators.minLength(10),
+          Validators.maxLength(300),
+        ],
+      ],
+
+      permanentAddress: ['', [
+          Validators.minLength(10),
+          Validators.maxLength(300),
+        ],
+      ],
+
+      userName: ['', [
+          Validators.minLength(3),
+          Validators.maxLength(25),
+          CustomValidators.cannotContainSpace,
+        ], [
+          this.authService.shouldBeUnique,
+        ],
+      ],
+
+      password: ['', [
+          Validators.required,
+          Validators.minLength(6),
+          Validators.maxLength(30),
+          CustomValidators.cannotContainSpace,
+        ],
+      ],
+
+      departmentId: [''],
+
+      designationId: [''],
+
+      joiningDate: ['', [
+          Validators.required,
+        ],
+      ],
+
+      workingDays: [''],
+
     });
   }
+
+  get name() {
+    return this.registerForm.get('name');
+  }
+
+  get dateOfBirth() {
+    return this.registerForm.get('dateOfBirth');
+  }
+
+  get gender() {
+    return this.registerForm.get('gender');
+  }
+
+  get maritalStatus() {
+    return this.registerForm.get('maritalStatus');
+  }
+
+  get fathersName() {
+    return this.registerForm.get('fathersName');
+  }
+
+  get nationality() {
+    return this.registerForm.get('nationality');
+  }
+
+  get passportNumber() {
+    return this.registerForm.get('passportNumber');
+  }
+
+  get email() {
+    return this.registerForm.get('email');
+  }
+
+  get phone() {
+    return this.registerForm.get('phone');
+  }
+
+  get presentAddress() {
+    return this.registerForm.get('presentAddress');
+  }
+
+  get permanentAddress() {
+    return this.registerForm.get('permanentAddress');
+  }
+
+  get userName() {
+    return this.registerForm.get('userName');
+  }
+
+  get password() {
+    return this.registerForm.get('password');
+  }
+
+  get departmentId() {
+    return this.registerForm.get('departmentId');
+  }
+
+  get designationId() {
+    return this.registerForm.get('designationId');
+  }
+
+  get joiningDate() {
+    return this.registerForm.get('joiningDate');
+  }
+
+  get workingDays() {
+    return this.registerForm.get('workingDays');
+  }
+
+  
 
 }

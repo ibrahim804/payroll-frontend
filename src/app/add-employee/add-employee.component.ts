@@ -7,7 +7,7 @@ import { DesignationService } from '../all_services/designation.service';
 import { FileUploader } from 'ng2-file-upload';
 import { DataService } from '../_services/data.service';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { CustomValidators } from '../shared/custom.validators';
 
 @Component({
@@ -202,7 +202,7 @@ export class AddEmployeeComponent implements OnInit {
           Validators.maxLength(255),
           CustomValidators.cannotContainSpace,
         ], [
-          this.authService.shouldBeUnique,
+          // this.authService.shouldBeUnique,
         ],
       ],
 
@@ -232,7 +232,7 @@ export class AddEmployeeComponent implements OnInit {
           Validators.maxLength(25),
           CustomValidators.cannotContainSpace,
         ], [
-          this.authService.shouldBeUnique,
+          // this.authService.shouldBeUnique,
         ],
       ],
 
@@ -326,6 +326,11 @@ export class AddEmployeeComponent implements OnInit {
     return this.registerForm.get('workingDays');
   }
 
-  
+  checkOverAllBeforeLogin(credentials: any) {
+    console.log(credentials);
+    this.registerForm.setErrors({
+      invalidLogin: true
+    });
+  }  
 
 }

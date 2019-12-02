@@ -186,11 +186,11 @@ export class AddEmployeeComponent implements OnInit {
       maritalStatus: [''],
 
       fathersName: ['', [
-          Validators.minLength(3),
-          Validators.maxLength(25),
-          CustomValidators.cannotContainNumber,
-        ],
+        Validators.minLength(3),
+        Validators.maxLength(25),
+        CustomValidators.cannotContainNumber,
       ],
+    ],
 
       nationality: ['Bangladeshi'],
 

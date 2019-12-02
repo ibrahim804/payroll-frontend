@@ -166,7 +166,7 @@ export class AddEmployeeComponent implements OnInit {
     this.hasAnotherDropZoneOver = e;
   }
 
-  // AMAR 
+  // AMAR
 
   buildForm() {
     this.registerForm = this.formBuilder.group({
@@ -176,7 +176,7 @@ export class AddEmployeeComponent implements OnInit {
           Validators.maxLength(25),
         ],
       ],
-      
+
     });
   }
 

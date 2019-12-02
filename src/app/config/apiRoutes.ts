@@ -8,6 +8,7 @@ export const apiRoutes = {
 
   login: `${baseUrl}/login`,
   register: `${baseUrl}/register`,
+  checkUniqueMail: `${baseUrl}/exists/email`,
   user: `${baseUrl}/user`,
   userMe: `${baseUrl}/user-me`,
   update: `${baseUrl}/update`,

@@ -1,7 +1,7 @@
 import { AbstractControl, ValidationErrors } from '@angular/forms';
 
 export class CustomValidators {
-  
+
   // Synchronous validators doesn't works well
 
   static cannotContainSpace(control: AbstractControl): ValidationErrors | null {
@@ -13,13 +13,14 @@ export class CustomValidators {
     return null;
   }
 
-  static cannotContainNumber(control: AbstractControl): ValidationErrors | null {
+  static containsOnlyAlphabet(control: AbstractControl): ValidationErrors | null {
     for (let i = 0; i < (control.value as string).length; i++) {
-      if (! ( (control.value[i] >= 65 && control.value[i] <= 90) ||
-              (control.value[i] >= 97 && control.value[i] <= 122) )
-      ) {
+      const condition = (control.value[i] >= 'A' && control.value[i] <= 'Z') ||
+                        (control.value[i] >= 'a' && control.value[i] <= 'z') ||
+                         control.value[i] === ' ' ? true : false;
+      if (! condition) {
         return {
-          cannotContainNumber: true
+          containsOnlyAlphabet: true
         };
       }
     }
@@ -28,7 +29,7 @@ export class CustomValidators {
 
   static containsOnlyNumber(control: AbstractControl): ValidationErrors | null {
     for (let i = 0; i < (control.value as string).length; i++) {
-      if(! (control.value[i] >= 48 && control.value[i] <= 57)) {
+      if (! (control.value[i] >= '0' && control.value[i] <= '9')) {
         return {
           containsOnlyNumber: true
         };

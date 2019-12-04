@@ -1,4 +1,5 @@
 <!-- signup-form -->
+
 <form [formGroup]="registerForm" #credentials="ngForm" (ngSubmit)="checkOverAllBeforeLogin(credentials.value)">
 
     <div *ngIf="registerForm.errors"> Something errors </div>
@@ -17,7 +18,7 @@
                         <div *ngIf="name.errors.required"> name is required </div>
                         <div *ngIf="name.errors.minlength"> name should be minimum {{ name.errors.minlength.requiredLength }} characters </div>
                         <div *ngIf="name.errors.maxlength"> name should be maximum {{ name.errors.maxlength.requiredLength }} characters </div>
-                        <div *ngIf="name.errors.cannotContainNumber"> name cannot contain number. </div>
+                        <div *ngIf="name.errors.containsOnlyAlphabet"> name should be only alphabetic. </div>
                     </div>
                 </div>
 
@@ -45,13 +46,11 @@
                 </div>
 
                 <!-- ibrahim, new div, instead of previous -->
-                <!-- <div class="form-group">        
-                    <label for="gender">Gender</label>
-                    <form>
-                        <input type="radio" name="gender" id="gender" value="male"> Male
-                        <input type="radio" name="gender" id="gender" value="female"> Female
-                    </form>
-                </div> -->
+                <div class="form-group">
+                  <label for="gender">Gender</label> &nbsp;
+                  <input type="radio" name="gender" id="gender" value="male" formControlName="gender"> Male
+                  <input type="radio" name="gender" id="gender" value="female" formControlName="gender"> Female
+                </div>
 
                 <div class="form-group">
                     <label for="maritalStatus">Marital Status</label>
@@ -67,7 +66,7 @@
                     <div *ngIf="fathersName.touched && fathersName.invalid">
                         <div *ngIf="fathersName.errors.minlength"> Fathers Name should be minimum {{ fathersName.errors.minlength.requiredLength }} characters </div>
                         <div *ngIf="fathersName.errors.maxlength"> Fathers Name should be maximum {{ fathersName.errors.maxlength.requiredLength }} characters </div>
-                        <div *ngIf="fathersName.errors.cannotContainNumber"> Fathers Name cannot contain number. </div>
+                        <div *ngIf="fathersName.errors.containsOnlyAlphabet"> Fathers Name should be alphabetic. </div>
                     </div>
                 </div>
 
@@ -109,17 +108,31 @@
 
                 <div class="form-group">
                     <label>Phone number</label>
-                    <input type="text" class="form-control form-control-sm rounded-1" id="phone" required name="phone">
+                    <input type="text" class="form-control form-control-sm rounded-1" id="phone" name="phone" formControlName="phone">
+                    <div *ngIf="phone.touched && phone.invalid">
+                      <div *ngIf="phone.errors.required"> phone is required </div>
+                      <div *ngIf="phone.errors.minlength"> phone should be minimum {{ phone.errors.minlength.requiredLength }} characters </div>
+                      <div *ngIf="phone.errors.maxlength"> phone should be maximum {{ phone.errors.maxlength.requiredLength }} characters </div>
+                      <div *ngIf="phone.errors.containsOnlyNumber"> phone should contain only number. </div>
+                  </div>
                 </div>
 
                 <div class="form-group">
                     <label>Present Address</label>
-                    <input type="text" class="form-control form-control-sm rounded-1" id="present_address" required name="present_address">
+                    <input type="text" class="form-control form-control-sm rounded-1" id="presentAddress" name="presentAddress" formControlName="presentAddress">
+                    <div *ngIf="presentAddress.touched && presentAddress.invalid">
+                      <div *ngIf="presentAddress.errors.minlength"> presentAddress should be minimum {{ presentAddress.errors.minlength.requiredLength }} characters </div>
+                      <div *ngIf="presentAddress.errors.maxlength"> presentAddress should be maximum {{ presentAddress.errors.maxlength.requiredLength }} characters </div>
+                    </div>
                 </div>
 
                 <div class="form-group">
                     <label>Permanent Address</label>
-                    <input type="text" class="form-control form-control-sm rounded-1" id="permanent_address" required name="permanent_address">
+                    <input type="text" class="form-control form-control-sm rounded-1" id="permanentAddress" name="permanentAddress" formControlName="permanentAddress">
+                    <div *ngIf="permanentAddress.touched && permanentAddress.invalid">
+                      <div *ngIf="permanentAddress.errors.minlength"> permanentAddress should be minimum {{ permanentAddress.errors.minlength.requiredLength }} characters </div>
+                      <div *ngIf="permanentAddress.errors.maxlength"> permanentAddress should be maximum {{ permanentAddress.errors.maxlength.requiredLength }} characters </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -131,11 +144,21 @@
 
             <div class="card-body">
                 <div class="form-group">
-                    <input type="text" class="form-control form-control-sm rounded-1" id="user_name" required name="user_name" placeholder="User Name">
+                  <input type="text" class="form-control form-control-sm rounded-1" id="userName" name="userName" placeholder="User Name" formControlName="userName">
+                  <div *ngIf="userName.touched && userName.invalid">
+                    <div *ngIf="userName.errors.minlength"> userName should be minimum {{ userName.errors.minlength.requiredLength }} characters </div>
+                    <div *ngIf="userName.errors.maxlength"> userName should be maximum {{ userName.errors.maxlength.requiredLength }} characters </div>
+                    <div *ngIf="userName.errors.cannotContainSpace"> userName cannot contain space. </div>
+                  </div>
                 </div>
 
                 <div class="form-group">
-                    <input type="text" class="form-control form-control-sm rounded-1" id="password" required name="password" placeholder="Password">
+                    <input type="text" class="form-control form-control-sm rounded-1" id="password" name="password" placeholder="Password" formControlName="password">
+                    <div *ngIf="password.touched && password.invalid">
+                      <div *ngIf="password.errors.required"> password is required </div>
+                      <div *ngIf="password.errors.minlength"> password should be minimum {{ password.errors.minlength.requiredLength }} characters </div>
+                      <div *ngIf="password.errors.maxlength"> password should be maximum {{ password.errors.maxlength.requiredLength }} characters </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -155,25 +178,28 @@
                 </div> -->
 
                 <div class="form-group">
-                    <label for="select_department">Department</label>
-                    <select class="form-control form-control-sm" id="select_department" (change)="getDesignations()">
+                    <label for="departmentId">Department</label>
+                    <select class="form-control form-control-sm" id="departmentId" name="departmentId" formControlName="departmentId" (change)="getDesignations()">
                         <option>Select Department</option>
                         <option *ngFor="let department of departments" value={{department.id}}>{{department.department_name}}</option>
                     </select>
                 </div>
 
                 <div class="form-group">
-                    <label for="select_designation">Designation</label>
-                    <select class="form-control form-control-sm" id="select_designation">
+                    <label for="designationId">Designation</label>
+                    <select class="form-control form-control-sm" id="designationId" name="designationId" formControlName="designationId">
                         <option>Select Designation</option>
                         <option *ngFor="let designation of designations" value={{designation.id}}>{{designation.designation}}</option>
                     </select>
                 </div>
 
-                <label for="joining_date">Joining Date</label>
+                <label for="joiningDate">Joining Date</label>
                 <div class="form-group form-inline">
                     <div class="input-group">
-                        <input class="form-control form-control-sm" placeholder="yyyy-mm-dd" name="joining_date" id="joining_date" ngbDatepicker #jd="ngbDatepicker">
+                        <input class="form-control form-control-sm" placeholder="yyyy-mm-dd" name="joiningDate" id="joiningDate" formControlName="joiningDate" ngbDatepicker #jd="ngbDatepicker">
+                        <div *ngIf="joiningDate.touched && joiningDate.invalid">
+                          <div *ngIf="joiningDate.errors.required"> joiningDate is required </div>
+                        </div>
                         <div class="input-group-append">
                             <button class="btn btn-outline-secondary calendar" (click)="jd.toggle()"></button>
                         </div>
@@ -223,7 +249,7 @@
         <div class="row">
             <div class="col-4"></div>
             <div class="col-4 ">
-                <button type="submit" class="btn btn-success btn-md btn-block mt-3" id="submit" (click)="updateEmployee()">Register</button>
+                <button type="submit" class="btn btn-success btn-md btn-block mt-3" id="submit" (click)="registerEmployee()">Register</button>
                 <div class=" mt-3 d-flex justify-content-center"><b>OR</b></div>
             </div>
             <div class="col-4"></div>
@@ -237,11 +263,11 @@
     .my-drop-zone {
         border: dotted 3px lightgray;
     }
-    
+
     .nv-file-over {
         border: dotted 3px red;
     }
-    
+
     .another-file-over-class {
         border: dotted 3px green;
     }

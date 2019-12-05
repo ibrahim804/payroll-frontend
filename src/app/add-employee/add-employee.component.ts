@@ -1,4 +1,4 @@
-import { Update, Register } from './../config/interfaces/user.interface';
+import { Register } from './../config/interfaces/user.interface';
 import { UserService } from './../all_services/user.service';
 import { AuthService } from './../all_services/auth.service';
 import { apiRoutes } from './../config/apiRoutes';
@@ -50,9 +50,9 @@ export class AddEmployeeComponent implements OnInit {
 
     this.getDepartments();
 
-    if (this.data.employee_id) {
-      this.getEmployee(this.data.employee_id);
-    }
+    // if (this.data.employee_id) {
+    //   this.getEmployee(this.data.employee_id);
+    // }
 
     this.uploader.onAfterAddingFile = (file) => { file.withCredentials = false; };
 
@@ -60,13 +60,13 @@ export class AddEmployeeComponent implements OnInit {
     this.buildForm();
   }
 
-  getEmployee(employeeId: any) {
-    this.userService.getEmployee(employeeId).subscribe(data => {
-      console.log(data[0].description);
-      // this.updateEmployee(data[0].description)
-      this.viewDataForForm(data[0].description);
-    });
-  }
+  // getEmployee(employeeId: any) {
+  //   this.userService.getEmployee(employeeId).subscribe(data => {
+  //     console.log(data[0].description);
+  //     // this.updateEmployee(data[0].description)
+  //     this.viewDataForForm(data[0].description);
+  //   });
+  // }
 
   getDepartments() {
     this.departmentService.getAllDepartments().subscribe(data => {
@@ -81,28 +81,28 @@ export class AddEmployeeComponent implements OnInit {
     });
   }
 
-  viewDataForForm(employee: Update) {
-    (document.getElementById('name') as HTMLInputElement).value = employee.full_name;
-    (document.getElementById('date_of_birth') as HTMLInputElement).value = employee.date_of_birth;
-    (document.getElementById('gender') as HTMLInputElement).value = employee.gender;
-    (document.getElementById('marital_status') as HTMLInputElement).value = employee.marital_status;
-    (document.getElementById('fathers_name') as HTMLInputElement).value = employee.fathers_name;
-    (document.getElementById('nationality') as HTMLInputElement).value = employee.nationality;
-    (document.getElementById('passport_number') as HTMLInputElement).value = employee.passport_number;
+  // viewDataForForm(employee: Update) {
+  //   (document.getElementById('name') as HTMLInputElement).value = employee.full_name;
+  //   (document.getElementById('date_of_birth') as HTMLInputElement).value = employee.date_of_birth;
+  //   (document.getElementById('gender') as HTMLInputElement).value = employee.gender;
+  //   (document.getElementById('marital_status') as HTMLInputElement).value = employee.marital_status;
+  //   (document.getElementById('fathers_name') as HTMLInputElement).value = employee.fathers_name;
+  //   (document.getElementById('nationality') as HTMLInputElement).value = employee.nationality;
+  //   (document.getElementById('passport_number') as HTMLInputElement).value = employee.passport_number;
 
-    (document.getElementById('email') as HTMLInputElement).value = employee.email;
-    (document.getElementById('phone') as HTMLInputElement).value = employee.phone;
-    (document.getElementById('present_address') as HTMLInputElement).value = employee.present_address;
-    (document.getElementById('permanent_address') as HTMLInputElement).value = employee.permanent_address;
+  //   (document.getElementById('email') as HTMLInputElement).value = employee.email;
+  //   (document.getElementById('phone') as HTMLInputElement).value = employee.phone;
+  //   (document.getElementById('present_address') as HTMLInputElement).value = employee.present_address;
+  //   (document.getElementById('permanent_address') as HTMLInputElement).value = employee.permanent_address;
 
-    (document.getElementById('employee_id') as HTMLInputElement).value = employee.employee_id;
-    // (document.getElementById('select_department') as HTMLInputElement).value = employee.select_department;
-    // (document.getElementById('select_designation') as HTMLInputElement).value = employee.select_designation;
-    (document.getElementById('joining_date') as HTMLInputElement).value = employee.joining_date;
+  //   (document.getElementById('employee_id') as HTMLInputElement).value = employee.employee_id;
+  //   // (document.getElementById('select_department') as HTMLInputElement).value = employee.select_department;
+  //   // (document.getElementById('select_designation') as HTMLInputElement).value = employee.select_designation;
+  //   (document.getElementById('joining_date') as HTMLInputElement).value = employee.joining_date;
 
-    (document.getElementById('user_name') as HTMLInputElement).value = employee.user_name;
-    (document.getElementById('password') as HTMLInputElement).value = employee.password;
-  }
+  //   (document.getElementById('user_name') as HTMLInputElement).value = employee.user_name;
+  //   (document.getElementById('password') as HTMLInputElement).value = employee.password;
+  // }
 
   registerEmployee() {    // my one
     const full_name = (this.registerForm.value.name.length) ? this.registerForm.value.name : null;
@@ -128,14 +128,14 @@ export class AddEmployeeComponent implements OnInit {
       date_of_birth, marital_status, fathers_name, nationality, passport_number, present_address, permanent_address,
       // work with working days.
     };
-
-    // console.log(data);
-    // console.log(this.registerForm);
-    this.authService.register(data).subscribe(response => {
-      if (! this.checkError(response[0])) {
-        console.log('Employee created succesfully');
-      }
-    });
+    // console.log(this.registerForm.value.workingDays);
+    // console.log('ibrahim');
+    // console.log((document.getElementById('days') as HTMLInputElement).value);
+    // this.authService.register(data).subscribe(response => {
+    //   if (! this.checkError(response[0])) {
+    //     alert('Employee created succesfully');
+    //   }
+    // });
   }
 
   convertDatePickerToString(paramDate: any) {

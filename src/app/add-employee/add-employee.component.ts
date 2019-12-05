@@ -1,14 +1,16 @@
+import { Create } from './../config/interfaces/working-day.interface';
 import { Register } from './../config/interfaces/user.interface';
-import { UserService } from './../all_services/user.service';
+// import { UserService } from './../all_services/user.service';
 import { AuthService } from './../all_services/auth.service';
 import { apiRoutes } from './../config/apiRoutes';
 import { DepartmentService } from '../all_services/department.service';
 import { DesignationService } from '../all_services/designation.service';
 import { FileUploader } from 'ng2-file-upload';
-import { DataService } from '../_services/data.service';
+// import { DataService } from '../_services/data.service';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, FormControl, Validators, FormArray } from '@angular/forms';
 import { CustomValidators } from '../shared/custom.validators';
+import { WorkingDayService } from '../all_services/working-day.service';
 
 @Component({
   selector: 'app-add-employee',
@@ -27,14 +29,25 @@ export class AddEmployeeComponent implements OnInit {
 
   // AMAR
 
+  weekDays = [
+    { id: 100, name: 'Sunday', value: 'sunday' },
+    { id: 200, name: 'Monday', value: 'monday' },
+    { id: 300, name: 'Tuesday', value: 'tuesday' },
+    { id: 400, name: 'Wednesday', value: 'wednesday' },
+    { id: 500, name: 'Thursday', value: 'thursday' },
+    { id: 600, name: 'Friday', value: 'friday' },
+    { id: 700, name: 'Saturday', value: 'saturday' },
+  ];
+
   registerForm: FormGroup;
 
   constructor(
     private authService: AuthService,
-    private userService: UserService,
+    // private userService: UserService,
     private departmentService: DepartmentService,
     private designationService: DesignationService,
-    private data: DataService,
+    // private data: DataService,
+    private workingDaysService: WorkingDayService,
     private formBuilder: FormBuilder
   ) {}
 
@@ -50,23 +63,11 @@ export class AddEmployeeComponent implements OnInit {
 
     this.getDepartments();
 
-    // if (this.data.employee_id) {
-    //   this.getEmployee(this.data.employee_id);
-    // }
-
     this.uploader.onAfterAddingFile = (file) => { file.withCredentials = false; };
 
     // amar
     this.buildForm();
   }
-
-  // getEmployee(employeeId: any) {
-  //   this.userService.getEmployee(employeeId).subscribe(data => {
-  //     console.log(data[0].description);
-  //     // this.updateEmployee(data[0].description)
-  //     this.viewDataForForm(data[0].description);
-  //   });
-  // }
 
   getDepartments() {
     this.departmentService.getAllDepartments().subscribe(data => {
@@ -80,29 +81,6 @@ export class AddEmployeeComponent implements OnInit {
       this.designations = data[0].designations;
     });
   }
-
-  // viewDataForForm(employee: Update) {
-  //   (document.getElementById('name') as HTMLInputElement).value = employee.full_name;
-  //   (document.getElementById('date_of_birth') as HTMLInputElement).value = employee.date_of_birth;
-  //   (document.getElementById('gender') as HTMLInputElement).value = employee.gender;
-  //   (document.getElementById('marital_status') as HTMLInputElement).value = employee.marital_status;
-  //   (document.getElementById('fathers_name') as HTMLInputElement).value = employee.fathers_name;
-  //   (document.getElementById('nationality') as HTMLInputElement).value = employee.nationality;
-  //   (document.getElementById('passport_number') as HTMLInputElement).value = employee.passport_number;
-
-  //   (document.getElementById('email') as HTMLInputElement).value = employee.email;
-  //   (document.getElementById('phone') as HTMLInputElement).value = employee.phone;
-  //   (document.getElementById('present_address') as HTMLInputElement).value = employee.present_address;
-  //   (document.getElementById('permanent_address') as HTMLInputElement).value = employee.permanent_address;
-
-  //   (document.getElementById('employee_id') as HTMLInputElement).value = employee.employee_id;
-  //   // (document.getElementById('select_department') as HTMLInputElement).value = employee.select_department;
-  //   // (document.getElementById('select_designation') as HTMLInputElement).value = employee.select_designation;
-  //   (document.getElementById('joining_date') as HTMLInputElement).value = employee.joining_date;
-
-  //   (document.getElementById('user_name') as HTMLInputElement).value = employee.user_name;
-  //   (document.getElementById('password') as HTMLInputElement).value = employee.password;
-  // }
 
   registerEmployee() {    // my one
     const full_name = (this.registerForm.value.name.length) ? this.registerForm.value.name : null;
@@ -126,16 +104,17 @@ export class AddEmployeeComponent implements OnInit {
       full_name, gender, email, phone, password, joining_date,
       user_name, department_id, designation_id,
       date_of_birth, marital_status, fathers_name, nationality, passport_number, present_address, permanent_address,
-      // work with working days.
     };
-    // console.log(this.registerForm.value.workingDays);
-    // console.log('ibrahim');
-    // console.log((document.getElementById('days') as HTMLInputElement).value);
-    // this.authService.register(data).subscribe(response => {
-    //   if (! this.checkError(response[0])) {
-    //     alert('Employee created succesfully');
-    //   }
-    // });
+
+    this.authService.register(data).subscribe(response => {
+      // console.log(response);
+      if (! this.checkError(response[0])) {
+        alert('Employee created succesfully');
+        this.getProcessedWorkingDayId(response[0].id);
+        // const workingDayId = this.getProcessedWorkingDayId(response[0].id);
+        // console.log('working days id is: ', workingDayId);
+      }
+    });
   }
 
   convertDatePickerToString(paramDate: any) {
@@ -148,20 +127,42 @@ export class AddEmployeeComponent implements OnInit {
     return stringDate;
   }
 
-  // addEmployee() {
-  //   const employee = this.getDataFromForm();
+  getProcessedWorkingDayId(userId: string) {
+    // console.log('user id is: ' + userId, this.registerForm.value.workingDays);
 
-  //   this.userService.register(employee).subscribe(data => {
-  //     console.log(data);
+    let shouldBeCreated = false;
 
-  //     if (data[0].status === 'FAILED') {
-  //       console.log(data[0].message);
-  //     } else {
-  //       alert('Registration complete');
-  //     }
-  //   });
-  // }
+    for (let i = 0; i < this.registerForm.value.workingDays.length; i++) {
+      if (this.registerForm.value.workingDays[i] == true) {
+        shouldBeCreated = true;
+        break;
+      }
+    }
 
+    if (! shouldBeCreated) {
+      console.log(-1);
+    }
+
+    const data: Create = {
+      sunday: String(this.registerForm.value.workingDays[0]),
+      monday: String(this.registerForm.value.workingDays[1]),
+      tuesday: String(this.registerForm.value.workingDays[2]),
+      wednesday: String(this.registerForm.value.workingDays[3]),
+      thursday: String(this.registerForm.value.workingDays[4]),
+      friday: String(this.registerForm.value.workingDays[5]),
+      saturday: String(this.registerForm.value.workingDays[6]),
+      user_or_company: 'user',
+      user_id: String(userId),
+    };
+
+    // console.log('Final working day paylod is : ', data);
+
+    this.workingDaysService.createWorkingDay(data).subscribe(response => {
+      if (! this.checkError(response[0])) {
+        // console.log(response[0].working_day_id);
+      }
+    });
+  }
 
   public fileOverBase(e: any): void {
     this.hasBaseDropZoneOver = e;
@@ -259,8 +260,17 @@ export class AddEmployeeComponent implements OnInit {
         ],
       ],
 
-      workingDays: [''],
+      workingDays: new FormArray([]),
 
+    });
+
+    this.addCheckboxes();
+  }
+
+  private addCheckboxes() {
+    this.weekDays.forEach((o, i) => {
+      const control = new FormControl(false);
+      (this.registerForm.controls.workingDays as FormArray).push(control);
     });
   }
 

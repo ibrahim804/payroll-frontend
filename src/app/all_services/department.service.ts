@@ -12,5 +12,5 @@ export class DepartmentService {
   getAllDepartments() {
     return this.authService.getFromHTTP(apiRoutes.departments);
   }
-  
+
 }

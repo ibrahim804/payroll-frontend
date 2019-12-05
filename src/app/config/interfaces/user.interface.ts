@@ -37,6 +37,7 @@ export interface Register {
   company_id?: string;
   designation_id?: string;
   department_id?: string;
+  working_day_id?: string;
 }
 
 export interface Update {

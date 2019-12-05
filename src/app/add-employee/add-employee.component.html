@@ -208,39 +208,17 @@
 
                 <div>
                     <label for="days">Working Days</label>
-                    <div name="days" id="days">
 
+                    <div name="days" id="days" formArrayName="workingDays"
+                      *ngFor="let workingDay of registerForm.controls.workingDays.controls; let i = index"
+                    >
                         <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" id="sun">
-                            <label class="custom-control-label" for="sun"><small>Sunday</small></label>
-                        </div>
-                        <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" id="mon">
-                            <label class="custom-control-label" for="mon"><small>Monday</small></label>
-                        </div>
-                        <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" id="tue">
-                            <label class="custom-control-label" for="tue"><small>Tuesday</small></label>
-                        </div>
-                        <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" id="wed">
-                            <label class="custom-control-label" for="wed"><small>Wednesday</small></label>
-                        </div>
-                        <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" id="thu">
-                            <label class="custom-control-label" for="thu"><small>Thursday</small></label>
-                        </div>
-                        <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" id="fri">
-                            <label class="custom-control-label" for="fri"><small>Friday</small></label>
-                        </div>
-                        <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" id="sat">
-                            <label class="custom-control-label" for="sat"><small>Saturday</small></label>
+                            <input type="checkbox" class="custom-control-input" [formControlName]="i" id="{{weekDays[i].id}}">
+                            <label class="custom-control-label" for="{{weekDays[i].id}}"><small>{{weekDays[i].name}}</small></label>
                         </div>
                     </div>
-
                 </div>
+
             </div>
         </div>
     </div>

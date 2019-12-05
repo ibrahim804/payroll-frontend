@@ -11,9 +11,10 @@ import { urlRoutes } from '../config/apiRoutes';
 })
 export class EmployeesComponent implements OnInit {
 
-  displayedColumns: string[] = ['serial_no', 'name', 'department', 'designation', 'casual_leave', 'sick_leave'];
+  displayedColumns: string[] = ['serial_no', 'name', 'department', 'designation', 'casual_leave', 'sick_leave', 'action'];
   employees = new MatTableDataSource<any>();
   searchKey: string;
+  employeesIds = [];
 
   @ViewChild(MatSort, {static: true}  ) sort: MatSort;
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
@@ -42,10 +43,12 @@ export class EmployeesComponent implements OnInit {
           sick_leave: i.sick_leave,
         });
         count = count + 1;
+        this.employeesIds.push(i.id);
       }
       this.employees.data = responseData;
 			this.employees.sort = this.sort;
       this.employees.paginator = this.paginator;
+      // console.log(this.employeesIds);
     });
   }
   
@@ -55,5 +58,10 @@ export class EmployeesComponent implements OnInit {
   
   redirectsToRegister() {
     this.router.navigate([urlRoutes.employeesAdd]);
+  }
+
+  updateEmployee(serial_no: number) {
+    // console.log(this.employeesIds[serial_no-1]);
+
   }
 }

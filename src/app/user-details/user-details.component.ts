@@ -19,7 +19,7 @@ export class UserDetailsComponent implements OnInit {
     this.userService.getLoggedInEmployee().subscribe(response => {
       if (! this.checkError(response[0])) {
         this.user = response[0].description;
-        console.log(this.user);
+        // console.log(this.user);
       }
     });
   }

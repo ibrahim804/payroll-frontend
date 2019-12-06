@@ -1,0 +1,22 @@
+<h1 mat-dialog-title> {{data?.name}}</h1>
+<div mat-dialog-content *ngIf="employeeSalary != null">
+  Basic: {{ employeeSalary?.basic_salary }} <br>
+  House Rent Allowance: {{ employeeSalary?.house_rent_allowance }} <br>
+  Medical Allowance: {{ employeeSalary?.medical_allowance }} <br>
+  Fuel Allowance: {{ employeeSalary?.fuel_allowance }} <br>
+  Phone Bill Allowance: {{ employeeSalary?.phone_bill_allowance }} <br>
+  Special Allowance: {{ employeeSalary?.special_allowance }} <br>
+  Other Allowance: {{ employeeSalary?.other_allowance }} <br>
+  Tax Deduction: {{ employeeSalary?.tax_deduction }} <br>
+  Provident Fund: {{ employeeSalary?.provident_fund }} <br>
+  Other Deduction: {{ employeeSalary?.other_deduction }} <br>
+  Gross Salary: {{ employeeSalary?.gross_salary }} <br>
+  Total Deduction: {{ employeeSalary?.total_deduction }} <br>
+  Net Salary: {{ employeeSalary?.net_salary }} <br>
+</div>
+<div *ngIf="employeeSalary == null">
+  Salary not set yet
+</div>
+<div mat-dialog-actions>
+  <button mat-raised-button mat-dialog-close="ok" cdkFocusInitial > OK </button>
+</div>

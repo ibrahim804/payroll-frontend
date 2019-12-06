@@ -1,7 +1,10 @@
+import { urlRoutes } from './../config/apiRoutes';
+import { SalaryService } from './../all_services/salary.service';
+import { UserService } from './../all_services/user.service';
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
-import { MatPaginator, MatSort, MatTable } from '@angular/material';
-import { SalaryDataSource, SalaryItem } from './salary-datasource';
-import { SalaryService } from '../_services/salary.service';
+import { MatPaginator, MatSort, MatTableDataSource, MatDialog } from '@angular/material';
+import { Router } from '@angular/router';
+import { DialogSalaryDetailsComponent } from '../dialog-salary-details/dialog-salary-details.component';
 
 @Component({
   selector: 'app-salary',
@@ -9,26 +12,67 @@ import { SalaryService } from '../_services/salary.service';
   styleUrls: ['./salary.component.scss']
 })
 export class SalaryComponent implements AfterViewInit, OnInit {
-  @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
-  @ViewChild(MatSort, {static: false}) sort: MatSort;
-  @ViewChild(MatTable, {static: false}) table: MatTable<SalaryItem>;
-  dataSource: SalaryDataSource;
 
-  displayedColumns = ['id', 'name', 'department', 'designation', 'salary', 'action'];
+  displayedColumns = [ 'serial_no', 'name', 'department', 'designation', 'net_salary', 'view_salary', 'update'];
+  salaries = new MatTableDataSource<any>();
+  searchKey: string;
+  salariesIds = [];
 
-  constructor(private salaryService: SalaryService){ }
+  @ViewChild(MatSort, { static: true }) sort: MatSort;
+  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
+
+  constructor(
+    private userService: UserService,
+    private salaryService: SalaryService,
+    private router: Router,
+    private dialog: MatDialog,
+  ) {}
 
   ngOnInit() {
-    this.salaryService.getAllSalary().subscribe(data =>{
-      console.log(data);
-      this.dataSource = new SalaryDataSource(data[0].users);
+    this.setDataSource();
+  }
 
-      this.dataSource.sort = this.sort;
-      this.dataSource.paginator = this.paginator;
-      this.table.dataSource = this.dataSource;
+  setDataSource() {
+    let responseData = [];
+    let count = 1;
+    this.userService.getEmployees().subscribe(response => {
+      for (let i of response[0].users) {
+        responseData.push({
+          serial_no: count,
+          name: i.full_name,
+          department: i.department,
+          designation: i.designation,
+          net_salary: i.salary
+        });
+        count = count + 1;
+        this.salariesIds.push(i.id);
+      }
+      this.salaries.data = responseData;
+      this.salaries.sort = this.sort;
+      this.salaries.paginator = this.paginator;
+      // console.log(this.salariesIds);
     });
   }
 
-  ngAfterViewInit() {
+  redirectsToDetails(serialNo: number) {
+    this.dialog.open(DialogSalaryDetailsComponent, {
+      data: {
+        id: this.salariesIds[serialNo - 1],
+        name: this.salaries.data[serialNo - 1].name,
+      }
+    }).afterClosed().subscribe(result => {
+        // console.log(result);
+    });
   }
+
+  redirectsToSalaryUpdate(serialNo: number) {
+    // alert(this.salariesIds[serialNo - 1]);
+    this.router.navigate([urlRoutes.salaryUpdate]);
+  }
+
+  applyFilter(filterValue: string) {
+    this.salaries.filter = filterValue.trim().toLowerCase();
+  }
+
+  ngAfterViewInit() {}
 }

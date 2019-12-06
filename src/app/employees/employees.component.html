@@ -1,6 +1,6 @@
 
 <div fxLayout='row' fxLayoutAlign='space-around center' fxLayoutGap="24px" class='mx-40 mt-40 '>
-    <div class='w-100-p'> 
+    <div class='w-100-p'>
         <mat-form-field  appearance="outline">
         <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
         <mat-icon matPrefix class='mr-16'>search</mat-icon>
@@ -12,7 +12,7 @@
         </button>
     </div>
 </div>
-  
+
 
 <div fxLayout="column" class="mx-40 mb-40 mat-elevation-z8">
     <mat-table #table [dataSource]="employees" matSort matSortActive="serial_no" matSortDirection="asc" [class.isMobile]="isMobile">

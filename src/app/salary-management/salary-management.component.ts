@@ -21,6 +21,7 @@ export class SalaryManagementComponent implements OnInit {
   departmentId: string;
   designationId: string;
   employeeId: string;
+  basicSalary = null;
   actionLabel = 'Update';
 
   readOnlyValues: any;
@@ -66,11 +67,13 @@ export class SalaryManagementComponent implements OnInit {
     this.salaryService.getSalary(this.employeeId).subscribe(response => {
       if (response[0].status === 'OK') {
         this.actionLabel = 'Update';
+        this.basicSalary = response[0].salary.basic_salary;
         this.updateObjects(response);
         // console.log(this.salary);
         // console.log(this.readOnlyValues);
       } else {
         this.actionLabel = 'Create';
+        this.basicSalary = null;
         this.salary = null;
         this.readOnlyValues = null;
       }
@@ -119,8 +122,10 @@ export class SalaryManagementComponent implements OnInit {
         }
       });
     } else {
+      const value = (this.salaryForm.value.basic_salary.length > 0) ?
+        this.salaryForm.value.basic_salary : this.basicSalary;
       const data: Update = {
-        basic_salary: this.salaryForm.value.basic_salary,
+        basic_salary: String(value),
         house_rent_allowance: this.salaryForm.value.house_rent_allowance,
         medical_allowance: this.salaryForm.value.medical_allowance,
         special_allowance: this.salaryForm.value.special_allowance,
@@ -249,7 +254,7 @@ export class SalaryManagementComponent implements OnInit {
 
   private checkError(response: any) {
     if (response.status === 'FAILED') {
-      alert(response.message);
+      console.log(response.message);
       return true;
     }
     return false;

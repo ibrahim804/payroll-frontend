@@ -9,7 +9,6 @@ export interface Create {
   phone_bill_allowance?: string;
   other_allowance?: string;
   tax_deduction?: string;
-  provident_fund?: string;
   other_deduction?: string;
 }
 
@@ -22,7 +21,6 @@ export interface Update {
   phone_bill_allowance?: string;
   other_allowance?: string;
   tax_deduction?: string;
-  provident_fund?: string;
   other_deduction?: string;
 }
 

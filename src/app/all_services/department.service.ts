@@ -13,4 +13,10 @@ export class DepartmentService {
     return this.authService.getFromHTTP(apiRoutes.departments);
   }
 
+  getUserOfDeptXDesgY(departmentId: any, designationId: any) {
+    return this
+      .authService
+      .getFromHTTP(`${apiRoutes.department}/${departmentId}/designation/${designationId}`);
+  }
+
 }

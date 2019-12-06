@@ -38,6 +38,17 @@ export class CustomValidators {
     return null;
   }
 
+  static containsDecimalNumber(control: AbstractControl): ValidationErrors | null {
+    for (let i = 0; i < (control.value as string).length; i++) {
+      if (! ((control.value[i] >= '0' && control.value[i] <= '9') || control.value[i] === '.' ) ) {
+        return {
+          containsDecimalNumber: true
+        };
+      }
+    }
+    return null;
+  }
+
   // Asynchronous: should be fixed
 
   // static shouldBeUnique(control: AbstractControl): Promise < ValidationErrors | null > {

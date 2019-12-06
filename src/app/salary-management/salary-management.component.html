@@ -1,4 +1,6 @@
-<div class="card m-3 shadow-sm">
+<form [formGroup]="salaryForm" #credentials="ngForm" (ngSubmit)="checkOverAllBeforeLogin(credentials.value)">
+
+  <div class="card m-3 shadow-sm">
     <div class="card-header" style="background: #263238">
         <h4 class="text-center" style="color: white">Manage Salary Details</h4>
     </div>
@@ -28,110 +30,141 @@
             </div>
         </div>
         <div class="d-flex justify-content-center" (click)="showSalary()">
-            <button class="btn btn-success btn-sm">Search</button>
+            <button class="btn btn-success btn-sm">Show Salary</button>
         </div>
     </div>
-</div>
+  </div>
 
+  <!-- Controls are below -->
 
-<div class="card-columns" style="width: 98%;">
-    <div class="card m-3 shadow-sm">
-        <div class="card-header" style="background: #263238">
-            <h4 class="text-center" style="color: white">Basic</h4>
-        </div>
+  <div class="card-columns" style="width: 98%;">
+      <div class="card m-3 shadow-sm">
+          <div class="card-header" style="background: #263238">
+              <h4 class="text-center" style="color: white">Basic</h4>
+          </div>
 
-        <div class="card-body">
+          <div class="card-body">
 
-            <div class="form-group">
-                <label>Basic Salary</label>
-                <input type="text" class="form-control form-control-sm rounded-1" id="basic" required name="basic">
-            </div>
-        </div>
-    </div>
+              <div class="form-group">
+                  <label>Basic Salary</label>
+                  <input type="text" class="form-control form-control-sm rounded-1" id="basic_salary" name="basic_salary" formControlName="basic_salary">
+                  <div *ngIf="basic_salary.touched && basic_salary.invalid">
+                    <div *ngIf="basic_salary.errors.required"> Basic Salary is required </div>
+                    <div *ngIf="basic_salary.errors.containsDecimalNumber"> Field contains only decimal number. </div>
+                  </div>
+                </div>
+          </div>
+      </div>
 
-    <div class="card m-3 shadow-sm">
-        <div class="card-header" style="background: #263238">
-            <h4 class="text-center" style="color: white">Deductions</h4>
-        </div>
+      <div class="card m-3 shadow-sm">
+          <div class="card-header" style="background: #263238">
+              <h4 class="text-center" style="color: white">Deductions</h4>
+          </div>
 
-        <div class="card-body">
-            <div class="form-group">
-                <label>Provident Fund</label>
-                <input type="text" class="form-control form-control-sm rounded-1" id="provident_fund" required name="provident_fund">
-            </div>
+          <div class="card-body">
+              <!-- <div class="form-group">
+                  <label>Provident Fund</label>
+                  <input type="text" class="form-control form-control-sm rounded-1" id="provident_fund" required name="provident_fund">
+              </div> -->
 
-            <div class="form-group">
-                <label>Tax Deduction</label>
-                <input type="text" class="form-control form-control-sm rounded-1" id="tax_deduction" required name="tax_deduction">
-            </div>
+              <div class="form-group">
+                  <label>Tax Deduction</label>
+                  <input type="text" class="form-control form-control-sm rounded-1" id="tax_deduction" name="tax_deduction" formControlName="tax_deduction">
+                  <div *ngIf="tax_deduction.touched && tax_deduction.invalid">
+                    <div *ngIf="tax_deduction.errors.containsDecimalNumber"> Field contains only decimal number. </div>
+                  </div>
+                </div>
 
-            <div class="form-group">
-                <label>Other Deduction</label>
-                <input type="text" class="form-control form-control-sm rounded-1" id="other_deduction" required name="other_deduction">
-            </div>
-        </div>
-    </div>
+              <div class="form-group">
+                  <label>Other Deduction</label>
+                  <input type="text" class="form-control form-control-sm rounded-1" id="other_deduction" name="other_deduction" formControlName="other_deduction">
+                  <div *ngIf="other_deduction.touched && other_deduction.invalid">
+                    <div *ngIf="other_deduction.errors.containsDecimalNumber"> Field contains only decimal number. </div>
+                  </div>
+                </div>
+          </div>
+      </div>
 
-    <div class="card m-3 shadow-sm">
-        <div class="card-header" style="background: #263238">
-            <h4 class="text-center" style="color: white">Allowances</h4>
-        </div>
+      <div class="card m-3 shadow-sm">
+          <div class="card-header" style="background: #263238">
+              <h4 class="text-center" style="color: white">Allowances</h4>
+          </div>
 
-        <div class="card-body">
-            <div class="form-group">
-                <label>House Rent Allowance</label>
-                <input type="email" class="form-control form-control-sm rounded-1" id="house_rent_allowance" required name="house_rent_allowance">
-            </div>
+          <div class="card-body">
+              <div class="form-group">
+                  <label>House Rent Allowance</label>
+                  <input type="text" class="form-control form-control-sm rounded-1" id="house_rent_allowance" name="house_rent_allowance" formControlName="house_rent_allowance">
+                  <div *ngIf="house_rent_allowance.touched && house_rent_allowance.invalid">
+                    <div *ngIf="house_rent_allowance.errors.containsDecimalNumber"> Field contains only decimal number. </div>
+                  </div>
+              </div>
 
-            <div class="form-group">
-                <label>Medical Allowance</label>
-                <input type="text" class="form-control form-control-sm rounded-1" id="medical_allowance" required name="medical_allowance">
-            </div>
+              <div class="form-group">
+                  <label>Medical Allowance</label>
+                  <input type="text" class="form-control form-control-sm rounded-1" id="medical_allowance" name="medical_allowance" formControlName="medical_allowance">
+                  <div *ngIf="medical_allowance.touched && medical_allowance.invalid">
+                    <div *ngIf="medical_allowance.errors.containsDecimalNumber"> Field contains only decimal number. </div>
+                  </div>
+              </div>
 
-            <div class="form-group">
-                <label>Special Allowance</label>
-                <input type="text" class="form-control form-control-sm rounded-1" id="special_allowance" required name="special_allowance">
-            </div>
+              <div class="form-group">
+                  <label>Special Allowance</label>
+                  <input type="text" class="form-control form-control-sm rounded-1" id="special_allowance" name="special_allowance" formControlName="special_allowance">
+                  <div *ngIf="special_allowance.touched && special_allowance.invalid">
+                    <div *ngIf="special_allowance.errors.containsDecimalNumber"> Field contains only decimal number. </div>
+                  </div>
+              </div>
 
-            <div class="form-group">
-                <label>Phone Bill Allowance</label>
-                <input type="text" class="form-control form-control-sm rounded-1" id="phone_bill_allowance" required name="phone_bill_allowance">
-            </div>
+              <div class="form-group">
+                  <label>Phone Bill Allowance</label>
+                  <input type="text" class="form-control form-control-sm rounded-1" id="phone_bill_allowance" name="phone_bill_allowance" formControlName="phone_bill_allowance">
+                  <div *ngIf="phone_bill_allowance.touched && phone_bill_allowance.invalid">
+                    <div *ngIf="phone_bill_allowance.errors.containsDecimalNumber"> Field contains only decimal number. </div>
+                  </div>
+              </div>
 
-            <div class="form-group">
-                <label>Fuel Allowance</label>
-                <input type="text" class="form-control form-control-sm rounded-1" id="fuel_allowance" required name="fuel_allowance">
-            </div>
+              <div class="form-group">
+                  <label>Fuel Allowance</label>
+                  <input type="text" class="form-control form-control-sm rounded-1" id="fuel_allowance" name="fuel_allowance" formControlName="fuel_allowance">
+                  <div *ngIf="fuel_allowance.touched && fuel_allowance.invalid">
+                    <div *ngIf="fuel_allowance.errors.containsDecimalNumber"> Field contains only decimal number. </div>
+                  </div>
+              </div>
 
-            <div class="form-group">
-                <label>Other Allowance</label>
-                <input type="text" class="form-control form-control-sm rounded-1" id="other_allowance" required name="other_allowance">
-            </div>
-        </div>
-    </div>
+              <div class="form-group">
+                  <label>Other Allowance</label>
+                  <input type="text" class="form-control form-control-sm rounded-1" id="other_allowance" name="other_allowance" formControlName="other_allowance">
+                  <div *ngIf="other_allowance.touched && other_allowance.invalid">
+                    <div *ngIf="other_allowance.errors.containsDecimalNumber"> Field contains only decimal number. </div>
+                  </div>
+              </div>
+          </div>
+      </div>
 
-    <div class="card m-3 shadow-sm">
-        <div class="card-header" style="background: #263238">
-            <h4 class="text-center" style="color: white">Total Salary Detail</h4>
-        </div>
+      <div class="card m-3 shadow-sm">
+          <div class="card-header" style="background: #263238">
+              <h4 class="text-center" style="color: white">Total Salary Detail</h4>
+          </div>
 
-        <div class="card-body">
-            <div class="form-group">
-                <label>Gross Salary</label>
-                <input type="text" readonly="true" class="form-control form-control-sm rounded-1" id="gross_salary" required name="gross_salary">
-            </div>
+          <div class="card-body">
+              <div class="form-group">
+                  <label>Gross Salary</label>
+                  <input type="text" readonly="true" class="form-control form-control-sm rounded-1" id="gross_salary" name="gross_salary" formControlName="gross_salary">
+              </div>
 
-            <div class="form-group">
-                <label>Total Deduction</label>
-                <input type="text" readonly="true" class="form-control form-control-sm rounded-1" id="total_deduction" required name="total_deduction">
-            </div>
+              <div class="form-group">
+                  <label>Total Deduction</label>
+                  <input type="text" readonly="true" class="form-control form-control-sm rounded-1" id="total_deduction" name="total_deduction" formControlName="total_deduction">
+              </div>
 
-            <div class="form-group">
-                <label>Net Salary</label>
-                <input type="text" readonly="true" class="form-control form-control-sm rounded-1" id="net_salary" required name="net_salary">
-            </div>
-        </div>
-    </div>
+              <div class="form-group">
+                  <label>Net Salary</label>
+                  <input type="text" readonly="true" class="form-control form-control-sm rounded-1" id="net_salary" name="net_salary" formControlName="net_salary">
+              </div>
+          </div>
+      </div>
 
-    <button type="button" class="btn btn-success btn-md btn-block m-3" id="save_salary_btn" (click)="updateSalary()">Update</button>
-</div>
+      <button type="submit" class="btn btn-success btn-md btn-block m-3" id="save_salary_btn" (click)="updateSalary()">{{ actionLabel }}</button>
+  </div>
+
+</form>

@@ -1,7 +1,10 @@
+import { Create, Update } from './../config/interfaces/salary.interface';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { DesignationService } from './../all_services/designation.service';
+import { DepartmentService } from './../all_services/department.service';
+import { SalaryService } from './../all_services/salary.service';
 import { Component, OnInit } from '@angular/core';
-import { Salary } from '../_models/salary';
-import { SalaryService } from '../_services/salary.service';
-import { DepartmentService } from '../_services/department.service';
+import { CustomValidators } from '../shared/custom.validators';
 
 @Component({
   selector: 'app-salary-management',
@@ -10,153 +13,246 @@ import { DepartmentService } from '../_services/department.service';
 })
 export class SalaryManagementComponent implements OnInit {
 
-  public departments;
-  public designations;
-  public employees;
+  departments: any;
+  designations: any;
+  employees: any;
+  salary = null;
 
-  private department_id;
-  private designation_id;
-  private employee_id;
-  private salary;
+  departmentId: string;
+  designationId: string;
+  employeeId: string;
+  actionLabel = 'Update';
 
-  private salaryStatus;
-  private salaryMessage;
-  private existing;
+  readOnlyValues: any;
 
-  constructor(private salaryService: SalaryService, private departmentService: DepartmentService) { }
+  salaryForm: FormGroup;
+
+  constructor(
+    private salaryService: SalaryService,
+    private departmentService: DepartmentService,
+    private designationService: DesignationService,
+    private formBuilder: FormBuilder,
+  ) { }
 
   ngOnInit() {
     this.getDepartments();
+    this.buildForm();
   }
 
-  getDepartments(){
-    this.departmentService.getDepartment().subscribe(data => {
+  getDepartments() {
+    this.departmentService.getAllDepartments().subscribe(data => {
       this.departments = data[0].departments;
     });
   }
 
-  getDesignations(){
-    this.department_id = (<HTMLInputElement>document.getElementById("select_department")).value;
-    this.departmentService.getDesignation(this.department_id).subscribe(data => {
+  getDesignations() {
+    this.departmentId = (document.getElementById('select_department') as HTMLInputElement).value;
+    this.designationService.getDesignationsOfThisDepartment(this.departmentId).subscribe(data => {
       this.designations = data[0].designations;
     });
   }
 
-  getEmployees(){
-    this.department_id = (<HTMLInputElement>document.getElementById("select_department")).value;
-    this.designation_id = (<HTMLInputElement>document.getElementById("select_designation")).value;
+  getEmployees() {
+    this.departmentId = (document.getElementById('select_department') as HTMLInputElement).value;
+    this.designationId = (document.getElementById('select_designation') as HTMLInputElement).value;
 
-    this.departmentService.getEmployee(this.department_id, this.designation_id).subscribe(data => {
+    this.departmentService.getUserOfDeptXDesgY(this.departmentId, this.designationId).subscribe(data => {
       this.employees = data[0].users;
     });
   }
 
-  getSalaryInfo(){
-    this.employee_id = (<HTMLInputElement>document.getElementById("select_employee")).value;
-    this.salaryService.getSalaryInfo(this.employee_id).subscribe(data => {
-      if (data[0].status == "FAILED"){
-        console.log(data[0].message);
-        this.salaryStatus = data[0].status;
-        this.salaryMessage = data[0].message;
-        this.existing = false;
-      }
-      else{
-        this.salaryStatus = data[0].status;
-        this.existing = true;
-        console.log(data);
-        this.salary = data[0];
-        console.log(this.salary);
+  getSalaryInfo() {
+    this.employeeId = (document.getElementById('select_employee') as HTMLInputElement).value;
+    this.salaryService.getSalary(this.employeeId).subscribe(response => {
+      if (response[0].status === 'OK') {
+        this.actionLabel = 'Update';
+        this.updateObjects(response);
+        // console.log(this.salary);
+        // console.log(this.readOnlyValues);
+      } else {
+        this.actionLabel = 'Create';
+        this.salary = null;
+        this.readOnlyValues = null;
       }
     });
   }
 
-  showSalary(){
-    if(this.salaryStatus === "FAILED"){
-      (<HTMLInputElement>document.getElementById("basic")).value = null;
-
-      (<HTMLInputElement>document.getElementById("house_rent_allowance")).value = null;
-      (<HTMLInputElement>document.getElementById("medical_allowance")).value = null;
-      (<HTMLInputElement>document.getElementById("special_allowance")).value = null;
-      (<HTMLInputElement>document.getElementById("phone_bill_allowance")).value = null;
-      (<HTMLInputElement>document.getElementById("fuel_allowance")).value = null;
-      (<HTMLInputElement>document.getElementById("other_allowance")).value = null;
-
-      (<HTMLInputElement>document.getElementById("provident_fund")).value = null;
-      (<HTMLInputElement>document.getElementById("tax_deduction")).value = null;
-      (<HTMLInputElement>document.getElementById("other_deduction")).value = null;
-
-      (<HTMLInputElement>document.getElementById("gross_salary")).value = null;
-      (<HTMLInputElement>document.getElementById("total_deduction")).value = null;
-      (<HTMLInputElement>document.getElementById("net_salary")).value = null;
-    }
-
-    if(this.salaryStatus !== "FAILED"){
-      (<HTMLInputElement>document.getElementById("basic")).value = this.salary.salary.basic_salary;
-
-      (<HTMLInputElement>document.getElementById("house_rent_allowance")).value = this.salary.salary.house_rent_allowance;
-      (<HTMLInputElement>document.getElementById("medical_allowance")).value = this.salary.salary.medical_allowance;
-      (<HTMLInputElement>document.getElementById("special_allowance")).value = this.salary.salary.special_allowance;
-      (<HTMLInputElement>document.getElementById("phone_bill_allowance")).value = this.salary.salary.phone_bill_allowance;
-      (<HTMLInputElement>document.getElementById("fuel_allowance")).value = this.salary.salary.fuel_allowance;
-      (<HTMLInputElement>document.getElementById("other_allowance")).value = this.salary.salary.other_allowance;
-
-      (<HTMLInputElement>document.getElementById("provident_fund")).value = this.salary.salary.provident_fund;
-      (<HTMLInputElement>document.getElementById("tax_deduction")).value = this.salary.salary.tax_deduction;
-      (<HTMLInputElement>document.getElementById("other_deduction")).value = this.salary.salary.other_deduction;
-
-      (<HTMLInputElement>document.getElementById("gross_salary")).value = this.salary.gross_salary;
-      (<HTMLInputElement>document.getElementById("total_deduction")).value = this.salary.total_deduction;
-      (<HTMLInputElement>document.getElementById("net_salary")).value = this.salary.net_salary;
-    }
+  showSalary() {
+    // console.log(this.salary);
+    // console.log(this.readOnlyValues);
+    const flag1 = this.salary != null;
+    const flag2 = this.readOnlyValues != null;
+    (document.getElementById('basic_salary') as HTMLInputElement).value = (flag1) ? this.salary.basic_salary : null;
+    (document.getElementById('tax_deduction') as HTMLInputElement).value = (flag1) ? this.salary.tax_deduction : null;
+    (document.getElementById('other_deduction') as HTMLInputElement).value = (flag1) ? this.salary.other_deduction : null;
+    (document.getElementById('house_rent_allowance') as HTMLInputElement).value = (flag1) ? this.salary.house_rent_allowance : null;
+    (document.getElementById('medical_allowance') as HTMLInputElement).value = (flag1) ? this.salary.medical_allowance : null;
+    (document.getElementById('special_allowance') as HTMLInputElement).value = (flag1) ? this.salary.special_allowance : null;
+    (document.getElementById('phone_bill_allowance') as HTMLInputElement).value = (flag1) ? this.salary.phone_bill_allowance : null;
+    (document.getElementById('fuel_allowance') as HTMLInputElement).value = (flag1) ? this.salary.fuel_allowance : null;
+    (document.getElementById('other_allowance') as HTMLInputElement).value = (flag1) ? this.salary.other_allowance : null;
+    (document.getElementById('gross_salary') as HTMLInputElement).value = (flag2) ? this.readOnlyValues.gross_salary : null;
+    (document.getElementById('total_deduction') as HTMLInputElement).value = (flag2) ? this.readOnlyValues.total_deduction : null;
+    (document.getElementById('net_salary') as HTMLInputElement).value = (flag2) ? this.readOnlyValues.net_salary : null;
   }
 
-  updateSalary(){
-    let salary = new Salary;
+  updateSalary() {
 
-    salary.user_id = (<HTMLInputElement>document.getElementById("select_employee")).value;
-
-    salary.basic_salary = (<HTMLInputElement>document.getElementById("basic")).value;
-    salary.house_rent_allowance = (<HTMLInputElement>document.getElementById("house_rent_allowance")).value;
-    salary.medical_allowance = (<HTMLInputElement>document.getElementById("medical_allowance")).value;
-    salary.special_allowance = (<HTMLInputElement>document.getElementById("special_allowance")).value;
-    salary.phone_bill_allowance = (<HTMLInputElement>document.getElementById("phone_bill_allowance")).value;
-    salary.fuel_allowance = (<HTMLInputElement>document.getElementById("fuel_allowance")).value;
-    salary.other_allowance = (<HTMLInputElement>document.getElementById("other_allowance")).value;
-
-    salary.provident_fund = (<HTMLInputElement>document.getElementById("provident_fund")).value;
-    salary.tax_deduction = (<HTMLInputElement>document.getElementById("tax_deduction")).value;
-    salary.other_deduction = (<HTMLInputElement>document.getElementById("other_deduction")).value;
-
-    if(this.existing == false){
-      this.salaryService.newSalaryInfo(salary).subscribe(data => {
-        console.log(data);
-
-        if(data[0].status == "FAILED"){
-          console.log(data[0].message);
+    if (! this.salary) {
+      const data: Create = {
+        user_id: this.employeeId,
+        basic_salary: this.salaryForm.value.basic_salary,
+        house_rent_allowance: this.salaryForm.value.house_rent_allowance,
+        medical_allowance: this.salaryForm.value.medical_allowance,
+        special_allowance: this.salaryForm.value.special_allowance,
+        fuel_allowance: this.salaryForm.value.fuel_allowance,
+        phone_bill_allowance: this.salaryForm.value.phone_bill_allowance,
+        other_allowance: this.salaryForm.value.other_allowance,
+        tax_deduction: this.salaryForm.value.tax_deduction,
+        other_deduction: this.salaryForm.value.other_deduction,
+      };
+      this.salaryService.createSalary(data).subscribe(response => {
+        if (! this.checkError(response[0])) {
+          this.actionLabel = 'Update';
+          alert('Salary created Succefully');
+          this.updateObjects(response);
         }
-
-        else{
-          (<HTMLInputElement>document.getElementById("gross_salary")).value = data[0].gross_salary;
-          (<HTMLInputElement>document.getElementById("total_deduction")).value = data[0].total_deduction;
-          (<HTMLInputElement>document.getElementById("net_salary")).value = data[0].net_salary;
+      });
+    } else {
+      const data: Update = {
+        basic_salary: this.salaryForm.value.basic_salary,
+        house_rent_allowance: this.salaryForm.value.house_rent_allowance,
+        medical_allowance: this.salaryForm.value.medical_allowance,
+        special_allowance: this.salaryForm.value.special_allowance,
+        fuel_allowance: this.salaryForm.value.fuel_allowance,
+        phone_bill_allowance: this.salaryForm.value.phone_bill_allowance,
+        other_allowance: this.salaryForm.value.other_allowance,
+        tax_deduction: this.salaryForm.value.tax_deduction,
+        other_deduction: this.salaryForm.value.other_deduction,
+      };
+      this.salaryService.updateSalary(this.employeeId, data).subscribe(response => {
+        if (! this.checkError(response[0])) {
+          alert('Salary Updated Succefully');
+          this.updateObjects(response);
         }
-      })
+      });
     }
 
-    else if(this.existing == true){
-      this.salaryService.updateSalaryInfo(salary, salary.user_id).subscribe(data => {
-        console.log(data);
-
-        if(data[0].status == "FAILED"){
-          console.log(data[0].message);
-        }
-
-        else{
-          (<HTMLInputElement>document.getElementById("gross_salary")).value = data[0].gross_salary;
-          (<HTMLInputElement>document.getElementById("total_deduction")).value = data[0].total_deduction;
-          (<HTMLInputElement>document.getElementById("net_salary")).value = data[0].net_salary;
-        }
-      })
-    }
   }
+
+  updateObjects(response: any) {
+    this.salary = response[0].salary;
+    this.readOnlyValues = {
+      gross_salary: response[0].gross_salary,
+      total_deduction: response[0].total_deduction,
+      net_salary: response[0].net_salary,
+    };
+  }
+
+  buildForm() {
+    this.salaryForm = this.formBuilder.group({
+      basic_salary: ['', [
+          Validators.required,
+          CustomValidators.containsDecimalNumber,
+        ],
+      ],
+
+      house_rent_allowance: ['', [
+          CustomValidators.containsDecimalNumber,
+        ],
+      ],
+
+      medical_allowance: ['', [
+          CustomValidators.containsDecimalNumber,
+        ],
+      ],
+
+      fuel_allowance: ['', [
+          CustomValidators.containsDecimalNumber,
+        ],
+      ],
+
+      special_allowance: ['', [
+          CustomValidators.containsDecimalNumber,
+        ],
+      ],
+
+      phone_bill_allowance: ['', [
+          CustomValidators.containsDecimalNumber,
+        ],
+      ],
+
+      other_allowance: ['', [
+          CustomValidators.containsDecimalNumber,
+        ],
+      ],
+
+      tax_deduction: ['', [
+          CustomValidators.containsDecimalNumber,
+        ],
+      ],
+
+      other_deduction: ['', [
+          CustomValidators.containsDecimalNumber,
+        ],
+      ],
+
+      gross_salary: [''],
+      total_deduction: [''],
+      net_salary: [''],
+
+    });
+  }
+
+  get basic_salary() {
+    return this.salaryForm.get('basic_salary');
+  }
+
+  get house_rent_allowance() {
+    return this.salaryForm.get('house_rent_allowance');
+  }
+
+  get medical_allowance() {
+    return this.salaryForm.get('medical_allowance');
+  }
+
+  get special_allowance() {
+    return this.salaryForm.get('special_allowance');
+  }
+
+  get fuel_allowance() {
+    return this.salaryForm.get('fuel_allowance');
+  }
+
+  get phone_bill_allowance() {
+    return this.salaryForm.get('phone_bill_allowance');
+  }
+
+  get other_allowance() {
+    return this.salaryForm.get('other_allowance');
+  }
+
+  get tax_deduction() {
+    return this.salaryForm.get('tax_deduction');
+  }
+
+  get other_deduction() {
+    return this.salaryForm.get('other_deduction');
+  }
+
+  checkOverAllBeforeLogin(credentials: any) {
+    // console.log(credentials);
+    this.salaryForm.setErrors({
+      invalidLogin: true
+    });
+  }
+
+  private checkError(response: any) {
+    if (response.status === 'FAILED') {
+      alert(response.message);
+      return true;
+    }
+    return false;
+  }
+
 }

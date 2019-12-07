@@ -22,8 +22,14 @@ export class SalaryManagementComponent implements OnInit {
   departmentId: string;
   designationId: string;
   employeeId: string;
+
+  departmentName: string;
+  designationName: string;
+  employeeName: string;
+
   basicSalary = null;
   actionLabel = 'Update';
+  initialChange = false;
 
   readOnlyValues: any;
 
@@ -38,9 +44,10 @@ export class SalaryManagementComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.getDepartments();
     this.buildForm();
     this.setValueFromRoute();
+    this.getSalaryInfo();
+    this.getDepartments();
   }
 
   setValueFromRoute() {
@@ -48,17 +55,53 @@ export class SalaryManagementComponent implements OnInit {
     this.employeeId = routeObj.get('serial');
     this.departmentId = routeObj.get('deptSerial');
     this.designationId = routeObj.get('desgSerial');
-    this.getSalaryInfo();
+    this.employeeName = routeObj.get('name');
+    this.departmentName = routeObj.get('deptName');
+    this.designationName = routeObj.get('desgName');
     // console.log(this.employeeId, this.departmentId, this.designationId);
+  }
+
+  sortDepartment() {
+    let index = 0;
+    let obj: any;
+    for (let i = 0; i < this.departments.length; i++) {
+      if (this.departments[i].department_name === this.departmentName) {
+        index = i;
+        obj = this.departments[i];
+        break;
+      }
+    }
+    this.departments.splice(index, 1);
+    this.departments.splice(0, 0, obj);
+    // console.log(this.departments);
+  }
+
+  setInitialDesignationAndEmployee() {
+    this.designations = [
+      {
+        id: this.designationId,
+        department_id: this.departmentId,
+        designation: this.designationName,
+      },
+    ];
+    this.employees = [
+      {
+        id: this.employeeId,
+        full_name: this.employeeName,
+      },
+    ];
   }
 
   getDepartments() {
     this.departmentService.getAllDepartments().subscribe(data => {
       this.departments = data[0].departments;
+      this.sortDepartment();
+      this.setInitialDesignationAndEmployee();
     });
   }
 
   getDesignations() {
+    this.initialChange = true;
     this.departmentId = (document.getElementById('select_department') as HTMLInputElement).value;
     this.designationService.getDesignationsOfThisDepartment(this.departmentId).subscribe(data => {
       this.designations = data[0].designations;
@@ -66,6 +109,7 @@ export class SalaryManagementComponent implements OnInit {
   }
 
   getEmployees() {
+    this.initialChange = true;
     this.departmentId = (document.getElementById('select_department') as HTMLInputElement).value;
     this.designationId = (document.getElementById('select_designation') as HTMLInputElement).value;
 

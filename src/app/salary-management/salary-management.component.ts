@@ -5,6 +5,7 @@ import { DepartmentService } from './../all_services/department.service';
 import { SalaryService } from './../all_services/salary.service';
 import { Component, OnInit } from '@angular/core';
 import { CustomValidators } from '../shared/custom.validators';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-salary-management',
@@ -33,11 +34,22 @@ export class SalaryManagementComponent implements OnInit {
     private departmentService: DepartmentService,
     private designationService: DesignationService,
     private formBuilder: FormBuilder,
+    private route: ActivatedRoute,
   ) { }
 
   ngOnInit() {
     this.getDepartments();
     this.buildForm();
+    this.setValueFromRoute();
+  }
+
+  setValueFromRoute() {
+    const routeObj = this.route.snapshot.queryParamMap;
+    this.employeeId = routeObj.get('serial');
+    this.departmentId = routeObj.get('deptSerial');
+    this.designationId = routeObj.get('desgSerial');
+    this.getSalaryInfo();
+    // console.log(this.employeeId, this.departmentId, this.designationId);
   }
 
   getDepartments() {
@@ -63,7 +75,11 @@ export class SalaryManagementComponent implements OnInit {
   }
 
   getSalaryInfo() {
-    this.employeeId = (document.getElementById('select_employee') as HTMLInputElement).value;
+    if (this.departmentId !== this.route.snapshot.queryParamMap.get('deptSerial') ||
+       this.designationId !== this.route.snapshot.queryParamMap.get('desgSerial')
+    ) {
+      this.employeeId = (document.getElementById('select_employee') as HTMLInputElement).value;
+    }
     this.salaryService.getSalary(this.employeeId).subscribe(response => {
       if (response[0].status === 'OK') {
         this.actionLabel = 'Update';

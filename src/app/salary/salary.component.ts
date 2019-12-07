@@ -66,8 +66,21 @@ export class SalaryComponent implements AfterViewInit, OnInit {
   }
 
   redirectsToSalaryUpdate(serialNo: number) {
-    // alert(this.salariesIds[serialNo - 1]);
-    this.router.navigate([urlRoutes.salaryUpdate]);
+    this.userService.getEmployeeDeptDesgIds(this.salariesIds[serialNo - 1]).subscribe(response => {
+      if (response[0].status === 'OK') {
+        response = response[0];
+        this.router.navigate([urlRoutes.salaryUpdate], {
+          queryParams: {
+            serial: this.salariesIds[serialNo - 1],
+            name: response.full_name,
+            deptSerial: response.department_id,
+            deptName: response.department_name,
+            desgSerial: response.designation_id,
+            desgName: response.designation,
+          }
+        });
+      }
+    });
   }
 
   applyFilter(filterValue: string) {

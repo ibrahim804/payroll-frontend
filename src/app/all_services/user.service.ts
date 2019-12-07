@@ -22,6 +22,10 @@ export class UserService {
     return this.authService.getFromHTTP(apiRoutes.users);
   }
 
+  getEmployeeDeptDesgIds(id: string) {
+    return this.authService.getFromHTTP(`${apiRoutes.userDeptDesgIds}/${id}`);
+  }
+
   updateEmployee(employee: Update, id: string) {
     return this.authService.postInHTTP(`${apiRoutes.update}/${id}`, employee);
   }

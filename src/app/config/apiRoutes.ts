@@ -11,6 +11,7 @@ export const apiRoutes = {
   checkUniqueMail: `${baseUrl}/exists/email`,
   user: `${baseUrl}/user`,
   userMe: `${baseUrl}/user-me`,
+  userDeptDesgIds: `${baseUrl}/user-dept-desg`,
   update: `${baseUrl}/update`,
   delete: `${baseUrl}/delete/user`,
   logout: `${baseUrl}/logout`,

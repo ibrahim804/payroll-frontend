@@ -90,17 +90,17 @@ export class LeaveManagementComponent implements OnInit {
         message: 'Leave Acceptance',
       }
     }).afterClosed().subscribe(response => {
+      if (response.toString() === '0') {
+        alert('Leave Not Accepted');
+      } else {
         const leaveId = this.leavesIds[serialNo - 1];
         this.leaveService.approveLeave(leaveId, {decision: response.toString()}).subscribe(data => {
-        if (! this.checkError(data[0])) {
-          this.setDataSource();
-          if (response.toString() === '1') {
-            alert('Leave Granted');
-          } else if (response.toString() === '0') {
-            alert('Leave Not Granted');
+          if (! this.checkError(data[0])) {
+            this.setDataSource();
+            alert('Leave Accepted');
           }
-        }
-      });
+        });
+      }
     });
   }
 
@@ -114,12 +114,23 @@ export class LeaveManagementComponent implements OnInit {
         alert('Leave Not Rejected');
       } else {
         const leaveId = this.leavesIds[serialNo - 1];
-        this.leaveService.cancelLeave(leaveId).subscribe(data => {
-          if (! this.checkError(data[0])) {
-            this.setDataSource();
-            alert('Leave Rejected');
-          }
-        });
+        if (this.leaves.data[serialNo - 1].status === 'Accepted') {
+          this.leaveService.cancelLeave(leaveId).subscribe(data => {
+            if (! this.checkError(data[0])) {
+              this.setDataSource();
+              alert('Leave Rejected');
+              console.log('call from cancel');
+            }
+          });
+        } else if (this.leaves.data[serialNo - 1].status === 'Pending') {
+          this.leaveService.approveLeave(leaveId, {decision: '0'}).subscribe(data => {
+            if (! this.checkError(data[0])) {
+              this.setDataSource();
+              alert('Leave Rejected');
+              console.log('call from approve');
+            }
+          });
+        }
       }
     });
   }

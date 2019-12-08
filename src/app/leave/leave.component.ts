@@ -140,3 +140,10 @@ export class LeaveComponent implements OnInit {
   }
 
 }
+
+/*
+credentials.leaveCategoryId.length === 0 ||
+credentials.description.length === 0 ||
+!this.convertDatePickerToString(credentials.startDate) ||
+!this.convertDatePickerToString(credentials.endDate)
+*/

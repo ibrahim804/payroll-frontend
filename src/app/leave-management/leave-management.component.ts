@@ -85,26 +85,27 @@ export class LeaveManagementComponent implements OnInit {
   }
 
   leaveApplication(serialNo: number) {
-    // this.leaveService.approveLeave(id, {decision: action.toString()}).subscribe(data => {
-    //   if (! this.checkError(data[0])) {
-    //     this.setDataSource();
-    //   }
-    // });
     this.dialog.open(DialogLeaveConfirmationComponent, {
-      data: {
-
-      }
-    }).afterClosed().subscribe(result => {
-        // console.log(result);
+      data: {}
+    }).afterClosed().subscribe(response => {
+        const leaveId = this.leavesIds[serialNo - 1];
+        this.leaveService.approveLeave(leaveId, {decision: response.toString()}).subscribe(data => {
+        if (! this.checkError(data[0])) {
+          this.setDataSource();
+          alert('Leave Granted');
+        }
+      });
     });
   }
 
   cancelLeave(serialNo: number) {
-    // this.leaveService.cancelLeave(id).subscribe(data => {
-    //   if (! this.checkError(data[0])) {
-    //     this.setDataSource();
-    //   }
-    // });
+    const leaveId = this.leavesIds[serialNo - 1];
+    this.leaveService.cancelLeave(leaveId).subscribe(data => {
+      if (! this.checkError(data[0])) {
+        this.setDataSource();
+        alert('Leave Declined');
+      }
+    });
   }
 
   private checkError(response: any) {

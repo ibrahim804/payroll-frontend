@@ -154,7 +154,7 @@
       <ng-container matColumnDef="decline">
         <mat-header-cell *matHeaderCellDef
             class="primary-background white-color-foreground font-size-16"> Action </mat-header-cell>
-        <mat-cell *matCellDef="let element"> <button class="btn btn-danger btn-sm mr-1" >Reject</button> </mat-cell>
+        <mat-cell *matCellDef="let element"> <button class="btn btn-danger btn-sm mr-1" (click)="cancelLeave(element.serial_no)">Reject</button> </mat-cell>
       </ng-container>
 
       <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>

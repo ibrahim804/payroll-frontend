@@ -1,0 +1,14 @@
+<h1 mat-dialog-title> {{ data?.full_name }} </h1>
+<div mat-dialog-content>
+  {{data?.designation}}, {{data?.department_name}} <br>
+  Leave Type: {{data?.leave_type}} <br>
+  Start_Date: {{data?.start_date}} <br>
+  End Date: {{data?.end_date}} <br>
+  Status: {{data?.status}} <br>
+  Leave Description: {{data?.leave_description}} <br>
+  Leave Duration: {{data?.leave_length}} day(s) <br>
+  Leave Available: {{data?.leave_available}} day(s) <br>
+</div>
+<div mat-dialog-actions>
+  <button mat-raised-button mat-dialog-close="ok" cdkFocusInitial > OK </button>
+</div>

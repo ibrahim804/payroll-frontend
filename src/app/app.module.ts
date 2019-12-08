@@ -39,6 +39,8 @@ import { AttendanceReportComponent } from './attendance-report/attendance-report
 import { BlankComponent } from './blank-component/blank-component.component';
 import { UserDetailsComponent } from './user-details/user-details.component';
 import { DialogSalaryDetailsComponent } from './dialog-salary-details/dialog-salary-details.component';
+import { DialogLeaveDetailsComponent } from './dialogs/dialog-leave-details/dialog-leave-details.component';
+import { DialogLeaveConfirmationComponent } from './dialogs/dialog-leave-confirmation/dialog-leave-confirmation.component';
 
 @NgModule({
   declarations: [
@@ -60,7 +62,9 @@ import { DialogSalaryDetailsComponent } from './dialog-salary-details/dialog-sal
     AttendanceReportComponent,
     BlankComponent,
     UserDetailsComponent,
-    DialogSalaryDetailsComponent
+    DialogSalaryDetailsComponent,
+    DialogLeaveDetailsComponent,
+    DialogLeaveConfirmationComponent
   ],
   imports: [
     MaterialModule,
@@ -83,6 +87,8 @@ import { DialogSalaryDetailsComponent } from './dialog-salary-details/dialog-sal
   ],
   entryComponents: [
     DialogSalaryDetailsComponent,
+    DialogLeaveDetailsComponent,
+    DialogLeaveConfirmationComponent,
   ],
   providers: [
     AuthGuard,

@@ -40,19 +40,41 @@ export class LeaveComponent implements OnInit {
       end_date: this.convertDatePickerToString(this.leaveApplicationForm.value.endDate),
     };
 
-    this.dialog.open(DialogConfirmationComponent, {
-      data: {
-        message: 'Request For Leave',
-      }
-    }).afterClosed().subscribe(digResponse => {
-        if (digResponse.toString() === '1') {
-          this.leaveService.submitLeaveApplication(leaveApplication).subscribe(response => {
-            if (! this.checkError(response[0])) {
-              alert('Leave application submitted succesfully');
-            }
-          });
+    const thisLeave = this.leaveCategories[+leaveApplication.leave_category_id - 1];
+    this.leaveService.getAvailableCountsAndDuration(
+      leaveApplication.leave_category_id, leaveApplication.start_date, leaveApplication.end_date
+    ).subscribe(durationResponse => {
+      this.dialog.open(DialogConfirmationComponent, {
+        data: {
+          message: 'Request For Leave',
+          leaveCategory: thisLeave.leave_type,
+          startDate: leaveApplication.start_date,
+          endDate: leaveApplication.end_date,
+          description: leaveApplication.leave_description,
+          availablePaidLeft: durationResponse[0].leave_left,
+          requestedDuration: durationResponse[0].duration,
+          unpaidLeaveCount: this.calculateUnpaidLeaveCount(
+            durationResponse[0].duration, durationResponse[0].leave_left
+          ),
         }
+      }).afterClosed().subscribe(digResponse => {
+          if (digResponse.toString() === '1') {
+            this.leaveService.submitLeaveApplication(leaveApplication).subscribe(response => {
+              if (! this.checkError(response[0])) {
+                alert('Leave application submitted succesfully');
+              }
+            });
+          }
+      });
     });
+  }
+
+  calculateUnpaidLeaveCount(duration: string, leaveCount: string) {
+    let diff = (+duration) - (+leaveCount);
+    if (diff < 0) {
+      diff = 0;
+    }
+    return diff;
   }
 
   convertDatePickerToString(paramDate: any) {

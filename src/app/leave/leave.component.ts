@@ -16,6 +16,7 @@ export class LeaveComponent implements OnInit {
   leaveCategories: any;
   leaveApplicationForm: FormGroup;
   errMessage: any;
+  isDefaultView = true;
 
   constructor(
     private leaveService: LeaveService,

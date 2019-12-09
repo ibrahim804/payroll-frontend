@@ -14,6 +14,12 @@ export class LeaveService {
     return this.authService.getFromHTTP(apiRoutes.leaves);
   }
 
+  getAvailableCountsAndDuration(categoryId: string, startDate: string, endDate: string) {
+    return this.authService.getFromHTTP(
+      `${apiRoutes.leaveAvailableAndDuration}/${categoryId}/${startDate}/${endDate}`
+    );
+  }
+
   submitLeaveApplication(leaveApplication: CreateLeave) {
     return this.authService.postInHTTP(apiRoutes.leave, leaveApplication);
   }

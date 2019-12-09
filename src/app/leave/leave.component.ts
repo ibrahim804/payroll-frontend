@@ -18,6 +18,7 @@ export class LeaveComponent implements AfterViewInit, OnInit {
   leaveApplicationForm: FormGroup;
   errMessage: any;
   isDefaultView = true;
+  isCreate: boolean;
 
   displayedColumns = ['serial_no', 'leave_type' , 'start_date', 'end_date', 'description',
                       'requested_duration', 'leave_available', 'status', 'update'];
@@ -203,6 +204,7 @@ export class LeaveComponent implements AfterViewInit, OnInit {
   }
 
   alterView(command: string) {
+    this.isCreate = command === 'create';
     this.isDefaultView = !this.isDefaultView;
     (this.isDefaultView) ? this.setDataSource() : this.buildForm();
   }

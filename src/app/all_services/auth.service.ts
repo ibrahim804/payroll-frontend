@@ -57,6 +57,10 @@ export class AuthService {
     return localStorage.getItem(key);
   }
 
+  getMyUserId() {
+    return this.getValueFromLocalStorage('id');
+  }
+
   deleteFromLocalStorage(key: any) {
     localStorage.removeItem(key);
   }
@@ -68,7 +72,7 @@ export class AuthService {
   shouldBeUnique(control: AbstractControl): Observable<ValidationErrors | null> {
     return new Observable(observer => {
       this.getFromHTTP(apiRoutes.checkUniqueMail).subscribe(response => {
-        if (response[0].exists == 'yes') {
+        if (response[0].exists === 'yes') {
           observer.next({shouldBeUnique: true});
         } else {
           observer.next(null);

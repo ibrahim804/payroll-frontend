@@ -45,13 +45,13 @@
       <ng-container matColumnDef="view_salary">
           <mat-header-cell *matHeaderCellDef
               class="primary-background white-color-foreground font-size-16"> Salary Details </mat-header-cell>
-          <mat-cell *matCellDef="let element"> <button mat-raised-button (click)="redirectsToDetails(element.serial_no)">View Details</button> </mat-cell>
+          <mat-cell *matCellDef="let element"> <button class="btn btn-secondary btn-sm mr-1" (click)="redirectsToDetails(element.serial_no)">View Details</button> </mat-cell>
       </ng-container>
 
       <ng-container matColumnDef="update">
         <mat-header-cell *matHeaderCellDef
             class="primary-background white-color-foreground font-size-16"> Update Salary </mat-header-cell>
-        <mat-cell *matCellDef="let element"> <button mat-raised-button (click)="redirectsToSalaryUpdate(element.serial_no)">update</button> </mat-cell>
+        <mat-cell *matCellDef="let element"> <button class="btn btn-success btn-sm mr-1" (click)="redirectsToSalaryUpdate(element.serial_no)">UPDATE</button> </mat-cell>
       </ng-container>
 
       <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>

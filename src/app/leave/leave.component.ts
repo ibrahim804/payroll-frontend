@@ -189,8 +189,8 @@ export class LeaveComponent implements AfterViewInit, OnInit {
           start_date: i.start_date,
           end_date: i.end_date,
           description: i.leave_description,
-          requested_duration: '-1',
-          leave_available: '-2',
+          requested_duration: i.requested_duration,
+          leave_available: i.leave_available,
           status: i.approval_status,
         });
         count = count + 1;

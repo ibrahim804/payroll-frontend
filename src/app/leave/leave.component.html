@@ -1,15 +1,108 @@
-<!-- <div style="text-align: center;" *ngIf="leaveApplicationForm.errors">
-  <mat-error>
-    <b> Please fill out all the required fields. </b>
-  </mat-error>
-</div> -->
 
-<form *ngIf="isDefaultView" [formGroup]="leaveApplicationForm" #credentials="ngForm" (ngSubmit)="checkOverAllBeforeLogin(credentials.value)">
+<div *ngIf="isDefaultView">
+
+
+  <br> <div class="card-header" style="background: #263238; width: 94%; margin: auto;">
+      <h4 class="text-center" style="color: white">Your Leave Requests</h4>
+  </div> <br>
+
+  <div fxLayout='row' fxLayoutAlign='space-around center' fxLayoutGap="24px" class='mx-40 mt-40 '>
+
+      <div class='w-100-p'>
+          <mat-form-field  appearance="outline">
+          <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+          <mat-icon matPrefix class='mr-16'>search</mat-icon>
+          </mat-form-field>
+      </div>
+      <div class='pb-16'>
+          <button mat-raised-button style="background: #263238; color: white;" (click)="alterView('create')" class='h-60 w-224'>
+              Request Leave
+          </button>
+      </div>
+  </div>
+
+  <div fxLayout="column" class="mx-40 mb-40 mat-elevation-z8">
+    <mat-table #table [dataSource]="leaves" matSort matSortActive="serial_no" matSortDirection="asc" [class.isMobile]="isMobile">
+
+        <ng-container matColumnDef="serial_no">
+            <mat-header-cell *matHeaderCellDef mat-sort-header
+                class="primary-background white-color-foreground font-size-16"> SI No </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.serial_no}} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="leave_type">
+            <mat-header-cell *matHeaderCellDef mat-sort-header
+                class="primary-background white-color-foreground font-size-16"> Category </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.leave_type}} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="start_date">
+            <mat-header-cell *matHeaderCellDef mat-sort-header
+                class="primary-background white-color-foreground font-size-16"> Start From </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.start_date}} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="end_date">
+            <mat-header-cell *matHeaderCellDef mat-sort-header
+                class="primary-background white-color-foreground font-size-16"> End At </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.end_date}} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="description">
+          <mat-header-cell *matHeaderCellDef mat-sort-header
+              class="primary-background white-color-foreground font-size-16"> Description </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.description}} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="requested_duration">
+            <mat-header-cell *matHeaderCellDef mat-sort-header
+                class="primary-background white-color-foreground font-size-16"> Requesting Days </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.requested_duration}} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="leave_available">
+          <mat-header-cell *matHeaderCellDef mat-sort-header
+              class="primary-background white-color-foreground font-size-16"> Leave Available </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.leave_available}} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="status">
+          <mat-header-cell *matHeaderCellDef mat-sort-header
+              class="primary-background white-color-foreground font-size-16"> Status </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.status}} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="update">
+          <mat-header-cell *matHeaderCellDef
+              class="primary-background white-color-foreground font-size-16"> Update </mat-header-cell>
+          <mat-cell *matCellDef="let element">
+            <button class="btn btn-success btn-sm mr-1" [disabled]="element.status != 'Pending'" (click)="alterView('update')">
+              Update Leave
+            </button>
+          </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+
+    <mat-paginator [pageSize]="5" [pageSizeOptions]="[5, 10, 20, 50, 100]" showFirstLastButtons></mat-paginator>
+  </div>
+</div>
+
+
+<form *ngIf="!isDefaultView" [formGroup]="leaveApplicationForm" #credentials="ngForm" (ngSubmit)="checkOverAllBeforeLogin(credentials.value)">
 
   <div class="card m-3">
     <div class="card-header" style="background: #263238">
         <h4 class="text-center" style="color: white">Application for Leave</h4>
     </div> <br>
+
+    <!-- <div style="text-align: center;" *ngIf="leaveApplicationForm.errors">
+      <mat-error>
+        <b> Please fill out all the required fields. </b>
+      </mat-error>
+    </div> -->
 
     <div class="row">
         <div class="col-4"></div>
@@ -62,7 +155,8 @@
                   </div>
                 </div>
 
-                <div class="d-flex justify-content-center">
+                <div fxLayout="row" fxLayoutAlign="space-around center" class="mb-24 mt-8 mr-64">
+                    <button type="button" class="btn btn-secondary btn-md" id="back" (click)="alterView('')">Go Back</button>
                     <button type="submit" class="btn btn-success btn-md" id="submit" (click)="applyForLeave()">Submit</button>
                 </div>
             </div>
@@ -72,6 +166,5 @@
   </div>
 </form>
 
-<!-- Make a table -->
 
 

@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { AuthService } from './../all_services/auth.service';
+import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { LeaveService } from '../all_services/leave.service';
 import { CreateLeave } from '../config/interfaces/leave.interface';
 import { LeaveCategoryService } from '../all_services/leave-category.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { MatDialog } from '@angular/material';
+import { MatDialog, MatTableDataSource, MatSort, MatPaginator } from '@angular/material';
 import { DialogConfirmationComponent } from '../dialogs/dialog-confirmation/dialog-confirmation.component';
 
 @Component({
@@ -11,14 +12,24 @@ import { DialogConfirmationComponent } from '../dialogs/dialog-confirmation/dial
   templateUrl: './leave.component.html',
   styleUrls: ['./leave.component.scss']
 })
-export class LeaveComponent implements OnInit {
+export class LeaveComponent implements AfterViewInit, OnInit {
 
   leaveCategories: any;
   leaveApplicationForm: FormGroup;
   errMessage: any;
   isDefaultView = true;
 
+  displayedColumns = ['serial_no', 'leave_type' , 'start_date', 'end_date', 'description',
+                      'requested_duration', 'leave_available', 'status', 'update'];
+  leaves = new MatTableDataSource<any>();
+  searchKey: string;
+  leavesIds = [];
+
+  @ViewChild(MatSort, { static: true }) sort: MatSort;
+  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
+
   constructor(
+    private authService: AuthService,
     private leaveService: LeaveService,
     private leaveCategoryService: LeaveCategoryService,
     private formBuilder: FormBuilder,
@@ -28,8 +39,12 @@ export class LeaveComponent implements OnInit {
   ngOnInit() {
     this.leaveCategoryService.getLeaveCategories().subscribe(res => {
       this.leaveCategories = res[0].leave_categories;
+      if (this.isDefaultView) {
+        this.setDataSource();
+      } else {
+        this.buildForm();
+      }
     });
-    this.buildForm();
   }
 
   applyForLeave() {
@@ -62,6 +77,7 @@ export class LeaveComponent implements OnInit {
             this.leaveService.submitLeaveApplication(leaveApplication).subscribe(response => {
               if (! this.checkError(response[0])) {
                 alert('Leave application submitted succesfully');
+                this.alterView('');
               }
             });
           }
@@ -162,11 +178,38 @@ export class LeaveComponent implements OnInit {
     });
   }
 
-}
+  setDataSource() {
+    let responseData = [];
+    let count = 1;
+    this.leaveService.getAllLeavesOfAnEmployee(this.authService.getMyUserId()).subscribe(response => {
+      for (let i of response[0].leaves) {
+        responseData.push({
+          serial_no: count,
+          leave_type: this.leaveCategories[i.leave_category_id - 1].leave_type,
+          start_date: i.start_date,
+          end_date: i.end_date,
+          description: i.leave_description,
+          requested_duration: '-1',
+          leave_available: '-2',
+          status: i.approval_status,
+        });
+        count = count + 1;
+        this.leavesIds.push(i.id);
+      }
+      this.leaves.data = responseData;
+      this.leaves.sort = this.sort;
+      this.leaves.paginator = this.paginator;
+    });
+  }
 
-/*
-credentials.leaveCategoryId.length === 0 ||
-credentials.description.length === 0 ||
-!this.convertDatePickerToString(credentials.startDate) ||
-!this.convertDatePickerToString(credentials.endDate)
-*/
+  alterView(command: string) {
+    this.isDefaultView = !this.isDefaultView;
+    (this.isDefaultView) ? this.setDataSource() : this.buildForm();
+  }
+
+  applyFilter(filterValue: string) {
+    this.leaves.filter = filterValue.trim().toLowerCase();
+  }
+
+  ngAfterViewInit() {}
+}

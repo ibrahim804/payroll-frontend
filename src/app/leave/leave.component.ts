@@ -4,7 +4,7 @@ import { CreateLeave } from '../config/interfaces/leave.interface';
 import { LeaveCategoryService } from '../all_services/leave-category.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material';
-import { DialogLeaveConfirmationComponent } from '../dialogs/dialog-leave-confirmation/dialog-leave-confirmation.component';
+import { DialogConfirmationComponent } from '../dialogs/dialog-confirmation/dialog-confirmation.component';
 
 @Component({
   selector: 'app-leave',
@@ -40,7 +40,7 @@ export class LeaveComponent implements OnInit {
       end_date: this.convertDatePickerToString(this.leaveApplicationForm.value.endDate),
     };
 
-    this.dialog.open(DialogLeaveConfirmationComponent, {
+    this.dialog.open(DialogConfirmationComponent, {
       data: {
         message: 'Request For Leave',
       }

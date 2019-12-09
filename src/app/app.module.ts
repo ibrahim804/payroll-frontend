@@ -40,7 +40,7 @@ import { BlankComponent } from './blank-component/blank-component.component';
 import { UserDetailsComponent } from './user-details/user-details.component';
 import { DialogSalaryDetailsComponent } from './dialog-salary-details/dialog-salary-details.component';
 import { DialogLeaveDetailsComponent } from './dialogs/dialog-leave-details/dialog-leave-details.component';
-import { DialogLeaveConfirmationComponent } from './dialogs/dialog-leave-confirmation/dialog-leave-confirmation.component';
+import { DialogConfirmationComponent } from './dialogs/dialog-confirmation/dialog-confirmation.component';
 
 @NgModule({
   declarations: [
@@ -64,7 +64,7 @@ import { DialogLeaveConfirmationComponent } from './dialogs/dialog-leave-confirm
     UserDetailsComponent,
     DialogSalaryDetailsComponent,
     DialogLeaveDetailsComponent,
-    DialogLeaveConfirmationComponent
+    DialogConfirmationComponent,
   ],
   imports: [
     MaterialModule,
@@ -88,7 +88,7 @@ import { DialogLeaveConfirmationComponent } from './dialogs/dialog-leave-confirm
   entryComponents: [
     DialogSalaryDetailsComponent,
     DialogLeaveDetailsComponent,
-    DialogLeaveConfirmationComponent,
+    DialogConfirmationComponent,
   ],
   providers: [
     AuthGuard,

@@ -2,7 +2,7 @@ import { DialogLeaveDetailsComponent } from './../dialogs/dialog-leave-details/d
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator, MatSort, MatTableDataSource, MatDialog } from '@angular/material';
 import { LeaveService } from '../all_services/leave.service';
-import { DialogLeaveConfirmationComponent } from '../dialogs/dialog-leave-confirmation/dialog-leave-confirmation.component';
+import { DialogConfirmationComponent } from '../dialogs/dialog-confirmation/dialog-confirmation.component';
 
 @Component({
   selector: 'app-leave-management',
@@ -85,7 +85,7 @@ export class LeaveManagementComponent implements OnInit {
   }
 
   leaveApplication(serialNo: number) {
-    this.dialog.open(DialogLeaveConfirmationComponent, {
+    this.dialog.open(DialogConfirmationComponent, {
       data: {
         message: 'Leave Acceptance',
       }
@@ -105,7 +105,7 @@ export class LeaveManagementComponent implements OnInit {
   }
 
   cancelLeave(serialNo: number) {
-    this.dialog.open(DialogLeaveConfirmationComponent, {
+    this.dialog.open(DialogConfirmationComponent, {
       data: {
         message: 'Leave Cancelation',
       }

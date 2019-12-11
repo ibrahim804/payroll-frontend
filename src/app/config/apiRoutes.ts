@@ -52,6 +52,14 @@ export const apiRoutes = {
 
   payment: `${baseUrl}/payment`,
 
+  providentFund: `${baseUrl}/provident-fund`,
+
+  loanRequest: `${baseUrl}/loan-request`,
+  loanRequests: `${baseUrl}/loan-requests`,
+
+  loanHistory: `${baseUrl}/loan-history`,
+  loanHistories: `${baseUrl}/loan-histories`,
+
   fileUploadCreateUser: `${baseUrl}/file-upload/create/user`,
   uploadUserProfilePicture: `${baseUrl}/upload/user/profile-picture`,
   getUserProfilePicture: `${baseUrl}/get-profile-picture`,

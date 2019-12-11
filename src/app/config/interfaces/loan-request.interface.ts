@@ -1,6 +1,5 @@
 
 export interface Create {
-  user_id: string;
   requested_amount: string;
 }
 

@@ -50,6 +50,8 @@ export const apiRoutes = {
 
   workingDay: `${baseUrl}/working-day`,
 
+  payment: `${baseUrl}/payment`,
+
   fileUploadCreateUser: `${baseUrl}/file-upload/create/user`,
   uploadUserProfilePicture: `${baseUrl}/upload/user/profile-picture`,
   getUserProfilePicture: `${baseUrl}/get-profile-picture`,

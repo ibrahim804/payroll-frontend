@@ -41,6 +41,7 @@ import { UserDetailsComponent } from './user-details/user-details.component';
 import { DialogSalaryDetailsComponent } from './dialog-salary-details/dialog-salary-details.component';
 import { DialogLeaveDetailsComponent } from './dialogs/dialog-leave-details/dialog-leave-details.component';
 import { DialogConfirmationComponent } from './dialogs/dialog-confirmation/dialog-confirmation.component';
+import { PaymentComponent } from './payment/payment.component';
 
 @NgModule({
   declarations: [
@@ -65,6 +66,7 @@ import { DialogConfirmationComponent } from './dialogs/dialog-confirmation/dialo
     DialogSalaryDetailsComponent,
     DialogLeaveDetailsComponent,
     DialogConfirmationComponent,
+    PaymentComponent,
   ],
   imports: [
     MaterialModule,

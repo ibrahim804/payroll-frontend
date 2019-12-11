@@ -20,6 +20,7 @@ import { SalaryComponent } from './salary/salary.component';
 import { GeneralSettingsComponent } from './general-settings/general-settings.component';
 import { AdminGuard } from './_guard/admin.guard';
 import { UserDetailsComponent } from './user-details/user-details.component';
+import { PaymentComponent } from './payment/payment.component';
 
 const routes: Routes = [
   {
@@ -123,6 +124,11 @@ const routes: Routes = [
       {
         path: 'salary/update',
         component: SalaryManagementComponent,
+        canActivate: [AuthGuard, AdminGuard]
+      },
+      {
+        path: 'payment',
+        component: PaymentComponent,
         canActivate: [AuthGuard, AdminGuard]
       },
       {

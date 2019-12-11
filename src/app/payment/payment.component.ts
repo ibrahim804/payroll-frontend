@@ -17,11 +17,12 @@ export class PaymentComponent implements AfterViewInit, OnInit {
 
   employees: any;
 
-  displayedColumns = [ 'serial_no', 'name', 'department', 'designation', 'net_salary', 'payment'];
+  displayedColumns = [ 'serial_no', 'name', 'department', 'designation', 'payable_amount', 'payment'];
   payments = new MatTableDataSource<any>();
   searchKey: string;
-  paymentsIds = [];
-  payableIds = [];
+  employeeIds = [];
+  alreadyPaidIds = [];
+  employeeUnpaidLeave = [];
 
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
@@ -44,7 +45,8 @@ export class PaymentComponent implements AfterViewInit, OnInit {
       this.userService.getEmployees(),
       this.paymentService.getPayments(),
     ).subscribe(combinedResponse => {
-      this.payableIds = combinedResponse[1][0].payments_user_id;
+      this.alreadyPaidIds = combinedResponse[1][0].payments_user_id;
+      this.employeeUnpaidLeave = combinedResponse[1][0].userCountMap;
       for (let i of combinedResponse[0][0].users) {
         responseData.push({
           serial_no: count,
@@ -52,13 +54,14 @@ export class PaymentComponent implements AfterViewInit, OnInit {
           department: i.department,
           designation: i.designation,
           net_salary: i.salary,
-          isActive: this.payableIds.indexOf(i.id) === -1,
-          label: (this.payableIds.indexOf(i.id) === -1) ? 'Make Payment' : 'Already Paid',
-          class: (this.payableIds.indexOf(i.id) === -1) ?
+          payableAmount: this.calculatePayableAmount(i.id, i.salary),
+          isActive: this.alreadyPaidIds.indexOf(i.id) === -1,
+          label: (this.alreadyPaidIds.indexOf(i.id) === -1) ? 'Make Payment' : 'Already Paid',
+          class: (this.alreadyPaidIds.indexOf(i.id) === -1) ?
             'btn btn-success btn-sm mr-1' : 'btn btn-dark btn-sm mr-1',
         });
         count = count + 1;
-        this.paymentsIds.push(i.id);
+        this.employeeIds.push(i.id);
       }
       this.payments.data = responseData;
       this.payments.sort = this.sort;
@@ -66,9 +69,15 @@ export class PaymentComponent implements AfterViewInit, OnInit {
     });
   }
 
+  calculatePayableAmount(userId: string, netSalary: any) {
+    const unpaidCount = (this.employeeUnpaidLeave[userId]) ? this.employeeUnpaidLeave[userId] : 0;
+    const payableAmount: any = (netSalary / 22) * (22 - unpaidCount);
+    return payableAmount.toFixed(2);
+  }
+
   redirectsToMakePayment(serialNo: number) {
     const payload: PAY = {
-      user_id: String(this.paymentsIds[serialNo - 1]),
+      user_id: String(this.employeeIds[serialNo - 1]),
       employee_monthly_cost: '-1',
       payable_amount: '-1',
     };

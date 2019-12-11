@@ -76,6 +76,12 @@ export class PaymentComponent implements AfterViewInit, OnInit {
     return payableAmount.toFixed(2);
   }
 
+  calculateLeaveDeduction(userId: string, netSalary: any) {
+    const unpaidCount = (this.employeeUnpaidLeave[userId]) ? this.employeeUnpaidLeave[userId] : 0;
+    const deductionAmount: any = (netSalary / 22) * unpaidCount;
+    return deductionAmount.toFixed(2);
+  }
+
   redirectsToDetails(serialNo: number) {
     this.dialog.open(DialogSalaryDetailsComponent, {
       data: {
@@ -91,8 +97,10 @@ export class PaymentComponent implements AfterViewInit, OnInit {
   redirectsToMakePayment(serialNo: number) {
     const payload: PAY = {
       user_id: String(this.employeeIds[serialNo - 1]),
-      employee_monthly_cost: '-1',
-      payable_amount: '-1',
+      employee_monthly_cost: this.calculateLeaveDeduction(
+        this.employeeIds[serialNo - 1], this.payments.data[serialNo - 1].net_salary
+      ),
+      payable_amount: this.payments.data[serialNo - 1].payableAmount,
     };
     this.dialog.open(DialogConfirmationComponent, {
       data: {message: 'Make Payment'}

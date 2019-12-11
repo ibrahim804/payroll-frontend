@@ -15,6 +15,7 @@ export interface User {
   phone: string;
   present_address: string;
   net_salary: string;
+  provident_fund?: string;
 }
 
 export interface Register {

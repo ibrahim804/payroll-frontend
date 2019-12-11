@@ -146,6 +146,7 @@ export class SalaryManagementComponent implements OnInit {
     const flag1 = this.salary != null;
     const flag2 = this.readOnlyValues != null;
     (document.getElementById('basic_salary') as HTMLInputElement).value = (flag1) ? this.salary.basic_salary : null;
+    (document.getElementById('provident_fund') as HTMLInputElement).value = (flag1) ? this.salary.provident_fund : null;
     (document.getElementById('tax_deduction') as HTMLInputElement).value = (flag1) ? this.salary.tax_deduction : null;
     (document.getElementById('other_deduction') as HTMLInputElement).value = (flag1) ? this.salary.other_deduction : null;
     (document.getElementById('house_rent_allowance') as HTMLInputElement).value = (flag1) ? this.salary.house_rent_allowance : null;

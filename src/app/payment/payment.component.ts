@@ -91,6 +91,7 @@ export class PaymentComponent implements AfterViewInit, OnInit {
     };
     this.providentFundService.createProvidentFund(payload).subscribe(response => {
       if (! this.checkError(response[0])) {
+        this.setDataSource();
         alert('Payment Done. Also, Provident Fund calculated');
       }
     });

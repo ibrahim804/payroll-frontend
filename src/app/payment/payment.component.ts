@@ -21,7 +21,7 @@ export class PaymentComponent implements AfterViewInit, OnInit {
   payments = new MatTableDataSource<any>();
   searchKey: string;
   paymentsIds = [];
-  payableObjts = [];
+  payableIds = [];
 
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
@@ -44,13 +44,18 @@ export class PaymentComponent implements AfterViewInit, OnInit {
       this.userService.getEmployees(),
       this.paymentService.getPayments(),
     ).subscribe(combinedResponse => {
+      this.payableIds = combinedResponse[1][0].payments_user_id;
       for (let i of combinedResponse[0][0].users) {
         responseData.push({
           serial_no: count,
           name: i.full_name,
           department: i.department,
           designation: i.designation,
-          net_salary: i.salary
+          net_salary: i.salary,
+          isActive: this.payableIds.indexOf(i.id) === -1,
+          label: (this.payableIds.indexOf(i.id) === -1) ? 'Make Payment' : 'Already Paid',
+          class: (this.payableIds.indexOf(i.id) === -1) ?
+            'btn btn-success btn-sm mr-1' : 'btn btn-dark btn-sm mr-1',
         });
         count = count + 1;
         this.paymentsIds.push(i.id);
@@ -58,7 +63,6 @@ export class PaymentComponent implements AfterViewInit, OnInit {
       this.payments.data = responseData;
       this.payments.sort = this.sort;
       this.payments.paginator = this.paginator;
-      this.payableObjts = combinedResponse[1][0].payments;
     });
   }
 
@@ -90,15 +94,6 @@ export class PaymentComponent implements AfterViewInit, OnInit {
         alert('Payment Done. Also, Provident Fund calculated');
       }
     });
-  }
-
-  checkPayability(serialNo: number) {
-    for (let i = 0; i < this.payableObjts.length; i++) {
-      if (this.payableObjts[i].user_id === this.paymentsIds[serialNo - 1]) {
-        return false;
-      }
-    }
-    return true;
   }
 
   applyFilter(filterValue: string) {

@@ -11,8 +11,11 @@ import { SingleObj } from '../config/interfaces/salary.interface';
 export class DialogSalaryDetailsComponent implements OnInit {
 
   employeeSalary: SingleObj;
+  isExpanded: false;
 
-  constructor(@Inject(MAT_DIALOG_DATA) private data: any, private salaryService: SalaryService) {}
+  constructor(@Inject(MAT_DIALOG_DATA) private data: any, private salaryService: SalaryService) {
+    this.isExpanded = data.isExpanded;
+  }
 
   ngOnInit() {
     this.salaryService.getSalary(this.data.id).subscribe(response => {
@@ -22,6 +25,15 @@ export class DialogSalaryDetailsComponent implements OnInit {
         this.employeeSalary.total_deduction = response[0].total_deduction;
         this.employeeSalary.net_salary = response[0].net_salary;
         this.assignDefaultValue();
+        if (this.isExpanded) {
+          this.employeeSalary.unpaidLeave = this.data.unpaidLeave;
+          this.employeeSalary.leaveDeduction = this.calculateLeaveDeduction(
+            this.employeeSalary.net_salary, +this.employeeSalary.unpaidLeave
+          );
+          this.employeeSalary.payableAmount = this.calculatePayableAmount(
+            this.employeeSalary.net_salary, +this.employeeSalary.unpaidLeave
+          );
+        }
       } else {
         this.employeeSalary = null;
       }
@@ -39,5 +51,13 @@ export class DialogSalaryDetailsComponent implements OnInit {
     if (! this.employeeSalary.tax_deduction) { this.employeeSalary.tax_deduction = '0'; }
     if (! this.employeeSalary.provident_fund) { this.employeeSalary.provident_fund = '0'; }
     if (! this.employeeSalary.other_deduction) { this.employeeSalary.other_deduction = '0'; }
+  }
+
+  private calculateLeaveDeduction(netSalary: any, unpaidLeave: number) {
+    return String(((netSalary / 22) * unpaidLeave).toFixed(2));
+  }
+
+  private calculatePayableAmount(netSalary: any, unpaidLeave: number) {
+    return String(((netSalary / 22) * (22 - unpaidLeave)).toFixed(2));
   }
 }

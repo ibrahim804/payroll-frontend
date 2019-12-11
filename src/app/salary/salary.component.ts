@@ -59,6 +59,7 @@ export class SalaryComponent implements AfterViewInit, OnInit {
       data: {
         id: this.salariesIds[serialNo - 1],
         name: this.salaries.data[serialNo - 1].name,
+        isExpanded: false,
       }
     }).afterClosed().subscribe(result => {
         // console.log(result);

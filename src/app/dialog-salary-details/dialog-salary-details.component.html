@@ -13,6 +13,11 @@
   Gross Salary: {{ employeeSalary?.gross_salary }} <br>
   Total Deduction: {{ employeeSalary?.total_deduction }} <br>
   Net Salary: {{ employeeSalary?.net_salary }} <br>
+  <div *ngIf="isExpanded">
+    Unpaid Leave Taken: {{ employeeSalary?.unpaidLeave }} day(s) <br>
+    Deduction For Leave: {{employeeSalary?.leaveDeduction}} <br>
+    Payable Amount: {{employeeSalary?.payableAmount}} <br>
+  </div>
 </div>
 <div *ngIf="employeeSalary == null">
   Salary not set yet

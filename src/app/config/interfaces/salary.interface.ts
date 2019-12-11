@@ -39,4 +39,7 @@ export interface SingleObj {
   gross_salary?: string;
   total_deduction?: string;
   net_salary?: string;
+  unpaidLeave?: string;
+  leaveDeduction?: string;
+  payableAmount?: string;
 }

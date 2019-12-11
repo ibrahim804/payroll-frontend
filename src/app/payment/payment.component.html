@@ -42,17 +42,15 @@
         <mat-cell *matCellDef="let element"> {{element.payableAmount}} </mat-cell>
       </ng-container>
 
-      <!-- <ng-container matColumnDef="view_salary">
+      <ng-container matColumnDef="view_details">
           <mat-header-cell *matHeaderCellDef
-              class="primary-background white-color-foreground font-size-16"> Salary Details </mat-header-cell>
-          <mat-cell *matCellDef="let element"> <button class="btn btn-secondary btn-sm mr-1" (click)="redirectsToDetails(element.serial_no)">View Details</button> </mat-cell>
-      </ng-container> -->
-
-      <!-- <ng-container matColumnDef="update">
-        <mat-header-cell *matHeaderCellDef
-            class="primary-background white-color-foreground font-size-16"> Update Salary </mat-header-cell>
-        <mat-cell *matCellDef="let element"> <button class="btn btn-success btn-sm mr-1" (click)="redirectsToSalaryUpdate(element.serial_no)">UPDATE</button> </mat-cell>
-      </ng-container> -->
+              class="primary-background white-color-foreground font-size-16"> View Details </mat-header-cell>
+          <mat-cell *matCellDef="let element">
+            <button mat-button (click)="redirectsToDetails(element.serial_no)">
+              <mat-icon> view_list </mat-icon>
+            </button>
+          </mat-cell>
+      </ng-container>
 
       <ng-container matColumnDef="payment">
         <mat-header-cell *matHeaderCellDef

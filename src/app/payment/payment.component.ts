@@ -7,6 +7,7 @@ import { PaymentService } from './../all_services/payment.service';
 import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { MatTableDataSource, MatSort, MatPaginator, MatDialog } from '@angular/material';
 import { combineLatest } from 'rxjs';
+import { DialogSalaryDetailsComponent } from '../dialog-salary-details/dialog-salary-details.component';
 
 @Component({
   selector: 'app-payment',
@@ -17,7 +18,7 @@ export class PaymentComponent implements AfterViewInit, OnInit {
 
   employees: any;
 
-  displayedColumns = [ 'serial_no', 'name', 'department', 'designation', 'payable_amount', 'payment'];
+  displayedColumns = [ 'serial_no', 'name', 'department', 'designation', 'payable_amount', 'view_details', 'payment'];
   payments = new MatTableDataSource<any>();
   searchKey: string;
   employeeIds = [];
@@ -73,6 +74,18 @@ export class PaymentComponent implements AfterViewInit, OnInit {
     const unpaidCount = (this.employeeUnpaidLeave[userId]) ? this.employeeUnpaidLeave[userId] : 0;
     const payableAmount: any = (netSalary / 22) * (22 - unpaidCount);
     return payableAmount.toFixed(2);
+  }
+
+  redirectsToDetails(serialNo: number) {
+    this.dialog.open(DialogSalaryDetailsComponent, {
+      data: {
+        id: this.employeeIds[serialNo - 1],
+        name: this.payments.data[serialNo - 1].name,
+        isExpanded: true,
+        unpaidLeave: (this.employeeUnpaidLeave[this.employeeIds[serialNo - 1]]) ?
+                      this.employeeUnpaidLeave[this.employeeIds[serialNo - 1]] : 0,
+      }
+    });
   }
 
   redirectsToMakePayment(serialNo: number) {

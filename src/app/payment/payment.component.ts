@@ -1,4 +1,6 @@
-import { Create } from './../config/interfaces/payment.interface';
+import { ProvidentFundService } from './../provident-fund.service';
+import { Create as PF } from './../config/interfaces/provident-fund.interface';
+import { Create as PAY } from './../config/interfaces/payment.interface';
 import { UserService } from './../all_services/user.service';
 import { PaymentService } from './../all_services/payment.service';
 import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
@@ -24,6 +26,7 @@ export class PaymentComponent implements AfterViewInit, OnInit {
   constructor(
     private paymentService: PaymentService,
     private userService: UserService,
+    private providentFundService: ProvidentFundService,
     ) { }
 
   ngOnInit() {
@@ -52,15 +55,27 @@ export class PaymentComponent implements AfterViewInit, OnInit {
   }
 
   redirectsToMakePayment(serialNo: number) {
-    const data: Create = {
+    const data: PAY = {
       user_id: String(this.paymentsIds[serialNo - 1]),
       employee_monthly_cost: '-1',
       payable_amount: '-1',
     };
     this.paymentService.makePayment(data).subscribe(response => {
       console.log(response[0]);
-      if (response[0].status === 'OK') {
-        // start provident fund
+      if (! this.checkError(response[0])) {
+        this.depositProvidentFund(data.user_id);
+      }
+    });
+  }
+
+  depositProvidentFund(userId: string) {
+    const payload: PF = {
+      user_id: userId,
+    };
+    this.providentFundService.createProvidentFund(payload).subscribe(response => {
+      console.log(response[0]);
+      if (! this.checkError(response[0])) {
+        alert('Payment Done. Also, Provident Fund calculated');
       }
     });
   }
@@ -70,5 +85,13 @@ export class PaymentComponent implements AfterViewInit, OnInit {
   }
 
   ngAfterViewInit() {}
+
+  private checkError(response: any) {
+    if (response.status === 'FAILED') {
+      console.log(response.message);
+      return true;
+    }
+    return false;
+  }
 
 }

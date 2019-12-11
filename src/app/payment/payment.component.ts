@@ -1,10 +1,12 @@
+import { DialogConfirmationComponent } from './../dialogs/dialog-confirmation/dialog-confirmation.component';
 import { ProvidentFundService } from './../provident-fund.service';
 import { Create as PF } from './../config/interfaces/provident-fund.interface';
 import { Create as PAY } from './../config/interfaces/payment.interface';
 import { UserService } from './../all_services/user.service';
 import { PaymentService } from './../all_services/payment.service';
 import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
-import { MatTableDataSource, MatSort, MatPaginator } from '@angular/material';
+import { MatTableDataSource, MatSort, MatPaginator, MatDialog } from '@angular/material';
+import { combineLatest } from 'rxjs';
 
 @Component({
   selector: 'app-payment',
@@ -19,6 +21,7 @@ export class PaymentComponent implements AfterViewInit, OnInit {
   payments = new MatTableDataSource<any>();
   searchKey: string;
   paymentsIds = [];
+  payableObjts = [];
 
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
@@ -27,6 +30,7 @@ export class PaymentComponent implements AfterViewInit, OnInit {
     private paymentService: PaymentService,
     private userService: UserService,
     private providentFundService: ProvidentFundService,
+    private dialog: MatDialog,
     ) { }
 
   ngOnInit() {
@@ -36,8 +40,11 @@ export class PaymentComponent implements AfterViewInit, OnInit {
   setDataSource() {
     let responseData = [];
     let count = 1;
-    this.userService.getEmployees().subscribe(response => {
-      for (let i of response[0].users) {
+    combineLatest(
+      this.userService.getEmployees(),
+      this.paymentService.getPayments(),
+    ).subscribe(combinedResponse => {
+      for (let i of combinedResponse[0][0].users) {
         responseData.push({
           serial_no: count,
           name: i.full_name,
@@ -51,19 +58,25 @@ export class PaymentComponent implements AfterViewInit, OnInit {
       this.payments.data = responseData;
       this.payments.sort = this.sort;
       this.payments.paginator = this.paginator;
+      this.payableObjts = combinedResponse[1][0].payments;
     });
   }
 
   redirectsToMakePayment(serialNo: number) {
-    const data: PAY = {
+    const payload: PAY = {
       user_id: String(this.paymentsIds[serialNo - 1]),
       employee_monthly_cost: '-1',
       payable_amount: '-1',
     };
-    this.paymentService.makePayment(data).subscribe(response => {
-      console.log(response[0]);
-      if (! this.checkError(response[0])) {
-        this.depositProvidentFund(data.user_id);
+    this.dialog.open(DialogConfirmationComponent, {
+      data: {message: 'Make Payment'}
+    }).afterClosed().subscribe(result => {
+      if (result === '1') {
+        this.paymentService.makePayment(payload).subscribe(response => {
+          if (! this.checkError(response[0])) {
+            this.depositProvidentFund(payload.user_id);
+          }
+        });
       }
     });
   }
@@ -73,11 +86,19 @@ export class PaymentComponent implements AfterViewInit, OnInit {
       user_id: userId,
     };
     this.providentFundService.createProvidentFund(payload).subscribe(response => {
-      console.log(response[0]);
       if (! this.checkError(response[0])) {
         alert('Payment Done. Also, Provident Fund calculated');
       }
     });
+  }
+
+  checkPayability(serialNo: number) {
+    for (let i = 0; i < this.payableObjts.length; i++) {
+      if (this.payableObjts[i].user_id === this.paymentsIds[serialNo - 1]) {
+        return false;
+      }
+    }
+    return true;
   }
 
   applyFilter(filterValue: string) {
@@ -88,7 +109,7 @@ export class PaymentComponent implements AfterViewInit, OnInit {
 
   private checkError(response: any) {
     if (response.status === 'FAILED') {
-      console.log(response.message);
+      alert(response.message);
       return true;
     }
     return false;

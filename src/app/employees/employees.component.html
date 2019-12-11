@@ -56,7 +56,7 @@
         <ng-container matColumnDef="action">
             <mat-header-cell *matHeaderCellDef mat-sort-header
                 class="primary-background white-color-foreground font-size-16"> Action </mat-header-cell>
-            <mat-cell *matCellDef="let element"> <button mat-raised-button (click)="updateEmployee(element.serial_no)">Update</button> </mat-cell>
+            <mat-cell *matCellDef="let element"> <button class="btn btn-info btn-sm mr-1" (click)="updateEmployee(element.serial_no)">Update</button> </mat-cell>
         </ng-container>
 
         <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>

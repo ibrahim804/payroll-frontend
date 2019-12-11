@@ -51,6 +51,7 @@ export const apiRoutes = {
   workingDay: `${baseUrl}/working-day`,
 
   payment: `${baseUrl}/payment`,
+  payments: `${baseUrl}/payments`,
 
   providentFund: `${baseUrl}/provident-fund`,
 

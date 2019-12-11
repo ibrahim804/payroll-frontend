@@ -135,8 +135,8 @@
 
       <ng-container matColumnDef="show_details">
         <mat-header-cell *matHeaderCellDef
-            class="primary-background white-color-foreground font-size-16"> Details </mat-header-cell>
-        <mat-cell *matCellDef="let element"> <button mat-raised-button (click)="redirectsToDetails(element.serial_no)"> <mat-icon>view_list</mat-icon> </button> </mat-cell>
+            class="primary-background white-color-foreground font-size-16"> View Details </mat-header-cell>
+        <mat-cell *matCellDef="let element"> <button mat-button (click)="redirectsToDetails(element.serial_no)"> <mat-icon>view_list</mat-icon> </button> </mat-cell>
       </ng-container>
 
       <ng-container matColumnDef="status">

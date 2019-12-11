@@ -57,7 +57,11 @@
       <ng-container matColumnDef="payment">
         <mat-header-cell *matHeaderCellDef
             class="primary-background white-color-foreground font-size-16"> Payment </mat-header-cell>
-        <mat-cell *matCellDef="let element"> <button class="btn btn-success btn-sm mr-1" (click)="redirectsToMakePayment(element.serial_no)">Pay Employee</button> </mat-cell>
+        <mat-cell *matCellDef="let element">
+          <button class="btn btn-success btn-sm mr-1" [disabled]="!checkPayability(element.serial_no)" (click)="redirectsToMakePayment(element.serial_no)">
+            Pay Employee
+          </button>
+        </mat-cell>
       </ng-container>
 
       <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>

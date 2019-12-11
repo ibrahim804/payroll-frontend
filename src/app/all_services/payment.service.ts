@@ -10,6 +10,10 @@ export class PaymentService {
 
   constructor(private authService: AuthService) { }
 
+  getPayments() {
+    return this.authService.getFromHTTP(apiRoutes.payments);
+  }
+
   makePayment(data: Create) {
     return this.authService.postInHTTP(apiRoutes.payment, data);
   }

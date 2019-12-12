@@ -16,6 +16,8 @@ export interface User {
   present_address: string;
   net_salary: string;
   provident_fund?: string;
+  on_loan?: string;
+  available_pf?: string;
 }
 
 export interface Register {

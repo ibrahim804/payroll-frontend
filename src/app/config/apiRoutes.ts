@@ -92,6 +92,7 @@ export const urlRoutes = {
   payment: `/payment`,    // Payment
 
   loanRequests: `/loan/requests`, // Loan Requests, Admin
+  loanHistories: `/loan/histories`,
   applyForLoan: `/loan/application`, // Apply For Loan, User
 
   settings: `/settings`,    // Company
@@ -156,8 +157,8 @@ export const genericNavConstants = {  // Route Flow: sidebar->urlRoute->appRouti
       mini_name: 'Loan',
     },
     {
-      name: 'Apply For Loan',
-      url: urlRoutes.applyForLoan,
+      name: 'Loan History',
+      url: urlRoutes.loanHistories,
       icon: 'monetization_on',
       role: [role.USER],
       mini_name: 'Loan',

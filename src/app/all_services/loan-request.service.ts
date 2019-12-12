@@ -10,6 +10,10 @@ export class LoanRequestService {
 
   constructor(private authService: AuthService) { }
 
+  getActualPF_OnLoan_AvailablePF() {
+    return this.authService.getFromHTTP(apiRoutes.userMe);
+  }
+
   requestForLoan(data: Create) {
     return this.authService.postInHTTP(apiRoutes.loanRequest, data);
   }

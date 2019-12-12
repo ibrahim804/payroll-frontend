@@ -10,7 +10,7 @@
       </mat-form-field>
   </div>
   <div class='pb-16'>
-    <button mat-raised-button color="primary" class='h-60 w-224' (click)="redirectsToLoanApply()">
+    <button mat-raised-button color="primary" [disabled]="!isActive" class='h-60 w-224' (click)="redirectsToLoanApply()">
         Request For Loan
     </button>
   </div>

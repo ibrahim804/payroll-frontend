@@ -20,7 +20,7 @@ export class ApplyLoanRequestComponent implements OnInit {
   ngOnInit() {
     this.buildForm();
     this.providentFund = this.data.responses.provident_fund;
-    this.onLoan = this.data.responses.on_loan; this.onLoan  = 0;
+    this.onLoan = this.data.responses.on_loan;
     this.availablePF = this.data.responses.available_pf;
   }
 
@@ -35,10 +35,14 @@ export class ApplyLoanRequestComponent implements OnInit {
 
   returnData(flag: any) {
     flag = +flag;
-    return {
-      availablePF: this.availablePF,
-      requestedAmount: (flag === 1) ? +this.requested_amount.value : 0,
-    };
+    if (flag === 0) {
+      return {availablePF: -1};
+    } else {
+      return {
+        availablePF: this.availablePF,
+        requestedAmount: (flag === 1) ? +this.requested_amount.value : 0,
+      };
+    }
   }
 
   buildForm() {

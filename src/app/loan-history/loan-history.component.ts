@@ -1,3 +1,4 @@
+import { Create } from './../config/interfaces/loan-request.interface';
 import { LoanHistoryService } from './../all_services/loan-history.service';
 import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { MatTableDataSource, MatSort, MatPaginator, MatDialog } from '@angular/material';
@@ -16,6 +17,7 @@ export class LoanHistoryComponent implements AfterViewInit, OnInit {
   loanHistories = new MatTableDataSource<any>();
   searchKey: string;
   loanHistoryIds = [];
+  isActive: boolean;
 
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
@@ -31,30 +33,35 @@ export class LoanHistoryComponent implements AfterViewInit, OnInit {
   }
 
   setDataSource() {
-    let responseData = [];
-    let count = 1;
-    this.loanHistoryService.getEmployeesHistory().subscribe(response => {
-      for (let i of response[0].loan_histories) {
-        responseData.push({
-          serial_no: count,
-          month: i.month,
-          year: i.year,
-          month_count: this.ordinal_suffix_of(i.month_count + 1),
-          actual_loan_amount: i.actual_loan_amount + ' TK',
-          yearly_interest_rate: i.yearly_interest_rate,
-          current_loan_amount: i.current_loan_amount + ' TK',
-          paid_amount: i.paid_amount + ' TK',
-          loan_status:
-            ((i.loan_status).substring(0, 1)).toUpperCase() + (i.loan_status).substring(1, (i.loan_status).length),
-        });
-        count = count + 1;
-        this.loanHistoryIds.push(i.id);
+    this.loanRequestService.checkForPendingRequest().subscribe(outerResponse => {
+      if (outerResponse[0].status === 'FAILED') {
+        this.isActive = false;
+      } else {
+        this.isActive = true;
       }
-      this.loanHistories.data = responseData;
-      this.loanHistories.sort = this.sort;
-      this.loanHistories.paginator = this.paginator;
-      // console.log(this.loanHistoryIds);
-      // console.log(this.loanHistories.data);
+      let responseData = [];
+      let count = 1;
+      this.loanHistoryService.getEmployeesHistory().subscribe(response => {
+        for (let i of response[0].loan_histories) {
+          responseData.push({
+            serial_no: count,
+            month: i.month,
+            year: i.year,
+            month_count: this.ordinal_suffix_of(i.month_count + 1),
+            actual_loan_amount: i.actual_loan_amount + ' TK',
+            yearly_interest_rate: i.yearly_interest_rate,
+            current_loan_amount: i.current_loan_amount + ' TK',
+            paid_amount: i.paid_amount + ' TK',
+            loan_status:
+              ((i.loan_status).substring(0, 1)).toUpperCase() + (i.loan_status).substring(1, (i.loan_status).length),
+          });
+          count = count + 1;
+          this.loanHistoryIds.push(i.id);
+        }
+        this.loanHistories.data = responseData;
+        this.loanHistories.sort = this.sort;
+        this.loanHistories.paginator = this.paginator;
+      });
     });
   }
 
@@ -67,13 +74,23 @@ export class LoanHistoryComponent implements AfterViewInit, OnInit {
           responses: myConsiderableAmounts,
         }
       }).afterClosed().subscribe(result => {
-          // console.log('kahar', result.availablePF, result.requestedAmount);
-          if (result.requestedAmount <= 0 || result.requestedAmount > result.availablePF) {
+          if (result.availablePF === -1) {
+            // do nothing
+          } else if (result.requestedAmount <= 0 || result.requestedAmount > result.availablePF) {
             alert('Requested Amount is not in range');
           } else if (isNaN(result.requestedAmount)) {
             alert('Invalid Input');
           } else {
-            console.log(result);
+            // console.log(result);
+            const payload: Create = {
+              requested_amount: String(result.requestedAmount)
+            };
+            this.loanRequestService.requestForLoan(payload).subscribe(innerResponse => {
+              if (! this.checkError(innerResponse[0])) {
+                alert('Successfully made loan request');
+                this.setDataSource();
+              }
+            });
           }
       });
     });
@@ -97,6 +114,14 @@ export class LoanHistoryComponent implements AfterViewInit, OnInit {
 
   applyFilter(filterValue: string) {
     this.loanHistories.filter = filterValue.trim().toLowerCase();
+  }
+
+  private checkError(response: any) {
+    if (response.status === 'FAILED') {
+      alert(response.message);
+      return true;
+    }
+    return false;
   }
 
   ngAfterViewInit() {}

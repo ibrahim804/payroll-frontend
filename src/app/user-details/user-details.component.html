@@ -50,7 +50,7 @@
           <div>Total Deduction</div>
           <div>Net Salary</div>
         </div>
-        <div fxLayout="column" fxLayoutAlign="center start" [ngClass.xs]="{ 'pl-8 ': true }" [ngClass.sm]="{ 'pl-8 ': true }" ngClass="pl-60" fxLayoutGap="12px">
+        <div fxLayout="column" fxLayoutAlign="space-between end" [ngClass.xs]="{ 'pl-8 ': true }" [ngClass.sm]="{ 'pl-8 ': true }" ngClass="pl-60" fxLayoutGap="12px">
             <div>{{employeeSalary?.basic_salary}}</div>
             <div>{{employeeSalary?.house_rent_allowance}}</div>
             <div>{{employeeSalary?.medical_allowance}}</div>
@@ -66,8 +66,8 @@
             <div>{{employeeSalary?.net_salary}}</div>
         </div>
       </div>
-
-      <div fxLayout="row" fxLayoutAlign="space-around center" class="mb-24 mt-8 mr-64">
+                                                        <!--  class="mb-24 mt-8 mr-64" -->
+      <div fxLayout="row" fxLayoutAlign="space-around center" class="py-48">
         <button (click)="redirectsToDashboard()" mat-raised-button color="primary" class="w-224 h-40">
           Home
         </button>

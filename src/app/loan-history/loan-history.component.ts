@@ -2,6 +2,7 @@ import { LoanHistoryService } from './../all_services/loan-history.service';
 import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { MatTableDataSource, MatSort, MatPaginator, MatDialog } from '@angular/material';
 import { ApplyLoanRequestComponent } from '../apply-loan-request/apply-loan-request.component';
+import { LoanRequestService } from '../all_services/loan-request.service';
 
 @Component({
   selector: 'app-loan-history',
@@ -21,7 +22,8 @@ export class LoanHistoryComponent implements AfterViewInit, OnInit {
 
   constructor(
     private loanHistoryService: LoanHistoryService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private loanRequestService: LoanRequestService,
   ) { }
 
   ngOnInit() {
@@ -37,7 +39,7 @@ export class LoanHistoryComponent implements AfterViewInit, OnInit {
           serial_no: count,
           month: i.month,
           year: i.year,
-          month_count: this.ordinal_suffix_of(i.month_count),
+          month_count: this.ordinal_suffix_of(i.month_count + 1),
           actual_loan_amount: i.actual_loan_amount + ' TK',
           yearly_interest_rate: i.yearly_interest_rate,
           current_loan_amount: i.current_loan_amount + ' TK',
@@ -56,15 +58,24 @@ export class LoanHistoryComponent implements AfterViewInit, OnInit {
     });
   }
 
-  redirectsToDetails(serialNo: number) {
-    this.dialog.open(ApplyLoanRequestComponent, {
-      data: {
-        id: this.loanHistoryIds[serialNo - 1],
-        name: this.loanHistories.data[serialNo - 1].name,
-        // isExpanded: false,
-      }
-    }).afterClosed().subscribe(result => {
-        // console.log(result);
+  redirectsToLoanApply() {
+    this.loanRequestService.getActualPF_OnLoan_AvailablePF().subscribe(response => {
+      const myConsiderableAmounts = response[0].description;
+      this.dialog.open(ApplyLoanRequestComponent, {
+        data: {
+          message: 'Make Your Loan Request',
+          responses: myConsiderableAmounts,
+        }
+      }).afterClosed().subscribe(result => {
+          // console.log('kahar', result.availablePF, result.requestedAmount);
+          if (result.requestedAmount <= 0 || result.requestedAmount > result.availablePF) {
+            alert('Requested Amount is not in range');
+          } else if (isNaN(result.requestedAmount)) {
+            alert('Invalid Input');
+          } else {
+            console.log(result);
+          }
+      });
     });
   }
 

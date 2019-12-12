@@ -1,7 +1,7 @@
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { LoanRequestService } from './../all_services/loan-request.service';
-import { Component, OnInit } from '@angular/core';
-import { CustomValidators } from '../shared/custom.validators';
+import { CustomValidators } from './../shared/custom.validators';
+import { FormGroup, FormBuilder, AbstractControl, Validators } from '@angular/forms';
+import { Component, OnInit, Inject } from '@angular/core';
+import { MAT_DIALOG_DATA } from '@angular/material';
 
 @Component({
   selector: 'app-apply-loan-request',
@@ -10,35 +10,41 @@ import { CustomValidators } from '../shared/custom.validators';
 })
 export class ApplyLoanRequestComponent implements OnInit {
 
-  myConsiderableAmounts: any;
   loanRequestForm: FormGroup;
+  providentFund: any;
+  onLoan: any;
+  availablePF: any;
 
-  constructor(
-    private loanRequestService: LoanRequestService,
-    private formBuilder: FormBuilder,
-  ) { }
+  constructor(@Inject(MAT_DIALOG_DATA) private data: any, private formBuilder: FormBuilder) {}
 
   ngOnInit() {
     this.buildForm();
-    this.loanRequestService.getActualPF_OnLoan_AvailablePF().subscribe(response => {
-      this.myConsiderableAmounts = response[0].description;
-      // console.log(this.myConsiderableAmounts);
-    });
+    this.providentFund = this.data.responses.provident_fund;
+    this.onLoan = this.data.responses.on_loan; this.onLoan  = 0;
+    this.availablePF = this.data.responses.available_pf;
+  }
+
+  compareTwoAmounts() {
+    const diff = (+this.requested_amount.value) - this.availablePF;
+    if (diff > 0) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  returnData(flag: any) {
+    flag = +flag;
+    return {
+      availablePF: this.availablePF,
+      requestedAmount: (flag === 1) ? +this.requested_amount.value : 0,
+    };
   }
 
   buildForm() {
     this.loanRequestForm = this.formBuilder.group({
-        // name: ['', [
-        //     Validators.required,
-        //     Validators.minLength(3),
-        //     Validators.maxLength(25),
-        //     CustomValidators.containsOnlyAlphabet,
-        //   ],
-        // ],
-      requested_amount: ['', [
-          Validators.required,
-          Validators.pattern(/^\d+$/),
-          Validators.min(0),
+      requested_amount: [0, [
+          CustomValidators.containsDecimalNumber
         ],
       ],
     });

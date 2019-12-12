@@ -102,6 +102,7 @@ import { ApplyLoanRequestComponent } from './apply-loan-request/apply-loan-reque
     DialogLeaveDetailsComponent,
     DialogConfirmationComponent,
     DialogLoanRequestComponent,
+    ApplyLoanRequestComponent,
   ],
   providers: [
     AuthGuard,

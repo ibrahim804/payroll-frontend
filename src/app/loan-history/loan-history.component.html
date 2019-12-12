@@ -1,3 +1,6 @@
+<br> <div class="card-header" style="background: #263238; width: 94%; margin: auto;">
+    <h4 class="text-center" style="color: white">Your Loan Transactions</h4>
+</div> <br>
 
 <div fxLayout='row' fxLayoutAlign='space-around center' fxLayoutGap="24px" class='mx-40 mt-40 '>
   <div class='w-100-p'>
@@ -5,6 +8,11 @@
       <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
       <mat-icon matPrefix class='mr-16'>search</mat-icon>
       </mat-form-field>
+  </div>
+  <div class='pb-16'>
+    <button mat-raised-button color="primary" class='h-60 w-224' (click)="redirectsToLoanApply()">
+        Request For Loan
+    </button>
   </div>
 </div>
 

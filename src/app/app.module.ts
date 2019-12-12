@@ -46,6 +46,7 @@ import { ProvidentFundComponent } from './provident-fund/provident-fund.componen
 import { LoanHistoryComponent } from './loan-history/loan-history.component';
 import { LoanRequestComponent } from './loan-request/loan-request.component';
 import { DialogLoanRequestComponent } from './dialogs/dialog-loan-request/dialog-loan-request.component';
+import { ApplyLoanRequestComponent } from './apply-loan-request/apply-loan-request.component';
 
 @NgModule({
   declarations: [
@@ -75,6 +76,7 @@ import { DialogLoanRequestComponent } from './dialogs/dialog-loan-request/dialog
     LoanHistoryComponent,
     LoanRequestComponent,
     DialogLoanRequestComponent,
+    ApplyLoanRequestComponent,
   ],
   imports: [
     MaterialModule,

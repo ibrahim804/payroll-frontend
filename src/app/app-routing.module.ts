@@ -22,6 +22,7 @@ import { GeneralSettingsComponent } from './general-settings/general-settings.co
 import { AdminGuard } from './_guard/admin.guard';
 import { UserDetailsComponent } from './user-details/user-details.component';
 import { PaymentComponent } from './payment/payment.component';
+import { ApplyLoanRequestComponent } from './apply-loan-request/apply-loan-request.component';
 
 const routes: Routes = [
   {
@@ -136,6 +137,11 @@ const routes: Routes = [
         path: 'loan/requests',
         component: LoanRequestComponent,
         canActivate: [AuthGuard, AdminGuard]
+      },
+      {
+        path: 'loan/application',
+        component: ApplyLoanRequestComponent,
+        canActivate: [AuthGuard, UserGuard]
       },
       {
         path: 'settings',

@@ -96,6 +96,10 @@ export class LoanHistoryComponent implements AfterViewInit, OnInit {
     });
   }
 
+  redirectsToLoanPay() {
+
+  }
+
   ordinal_suffix_of(i: number) {
     let j = i % 10;
     let k = i % 100;

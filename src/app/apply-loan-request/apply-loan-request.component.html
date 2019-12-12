@@ -44,9 +44,12 @@
   </form>
 </div>
 
-<div *ngIf="onLoan > 0" style="width: 300px; height: 150px;">
-  <h3 style="color: red;"> Oops!! You have already taken a loan and didn't pay it back fully.</h3>
-  <p> Your current loan amount is <b>{{onLoan}}</b> TK </p>
+<div *ngIf="onLoan > 0" style="width: 300px; height: 240px;">
+  <div fxLayout="column" fxLayoutAlign="center center" class="py-48">
+      <h3 style="color: red;"> Oops!! You have already taken a loan and didn't pay it back fully.</h3>
+      <p> Your current loan amount is <b>{{onLoan}}</b> TK </p>
+    <button class="btn btn-secondary" [mat-dialog-close]="returnData(0)" color="warn" cdkFocusInitial>OK</button>
+  </div>
 </div>
 
 

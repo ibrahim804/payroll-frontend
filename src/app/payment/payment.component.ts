@@ -1,5 +1,5 @@
 import { DialogConfirmationComponent } from './../dialogs/dialog-confirmation/dialog-confirmation.component';
-import { ProvidentFundService } from './../provident-fund.service';
+import { ProvidentFundService } from '../all_services/provident-fund.service';
 import { Create as PF } from './../config/interfaces/provident-fund.interface';
 import { Create as PAY } from './../config/interfaces/payment.interface';
 import { UserService } from './../all_services/user.service';

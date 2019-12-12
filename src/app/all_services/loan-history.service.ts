@@ -1,6 +1,6 @@
-import { apiRoutes } from './config/apiRoutes';
-import { Create } from './config/interfaces/loan-history.interface';
-import { AuthService } from './all_services/auth.service';
+import { apiRoutes } from '../config/apiRoutes';
+import { Create } from '../config/interfaces/loan-history.interface';
+import { AuthService } from './auth.service';
 import { Injectable } from '@angular/core';
 
 @Injectable({

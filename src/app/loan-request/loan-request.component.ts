@@ -1,6 +1,6 @@
 import { Update } from './../config/interfaces/loan-request.interface';
 import { DialogLoanRequestComponent } from './../dialogs/dialog-loan-request/dialog-loan-request.component';
-import { LoanRequestService } from './../loan-request.service';
+import { LoanRequestService } from '../all_services/loan-request.service';
 import { Component, OnInit, AfterViewInit, ViewChild } from '@angular/core';
 import { MatTableDataSource, MatSort, MatPaginator, MatDialog } from '@angular/material';
 

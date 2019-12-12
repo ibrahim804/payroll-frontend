@@ -1,7 +1,7 @@
-import { apiRoutes } from './config/apiRoutes';
-import { Create, Update } from './config/interfaces/loan-request.interface';
+import { apiRoutes } from '../config/apiRoutes';
+import { Create, Update } from '../config/interfaces/loan-request.interface';
 import { Injectable } from '@angular/core';
-import { AuthService } from './all_services/auth.service';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'

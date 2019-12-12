@@ -75,7 +75,7 @@ export class LoanRequestComponent implements AfterViewInit, OnInit {
           };
           this.loanRequestService.approveLoanRequest(this.requestsIds[serialNo - 1], payload).subscribe(response => {
             if (! this.checkError(response[0])) {
-              console.log(response[0]);
+              // console.log(response[0]);
               if (result === '1') {
                 alert('Loan Request Accepted');
               } else {

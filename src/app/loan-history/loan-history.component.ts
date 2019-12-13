@@ -87,7 +87,7 @@ export class LoanHistoryComponent implements AfterViewInit, OnInit {
           });
           count = count + 1;
           this.loanHistoryIds.push(i.id);
-          if (! this.latestLoanAmount) {
+          if (this.latestLoanAmount == null) {
             this.latestLoanAmount = i.current_loan_amount;
             this.actualLoan = i.actual_loan_amount;
             this.latestAlreadyPaid = i.paid_amount;

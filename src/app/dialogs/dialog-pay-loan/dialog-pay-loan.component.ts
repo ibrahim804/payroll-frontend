@@ -58,7 +58,6 @@ export class DialogPayLoanComponent implements OnInit {
     const yearToday = now.getFullYear();
     const monthToday = now.getMonth() + 1;
     const monthDiff = (yearToday - this.year) * 12 + (monthToday - this.month) + this.monthCount;
-    // console.log(monthDiff);
     this.loanToPay = this.actualLoan + this.actualLoan * this.rate * monthDiff - this.alreadyPaid;
   }
 

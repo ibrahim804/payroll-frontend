@@ -18,6 +18,8 @@ export class LoanRequestComponent implements AfterViewInit, OnInit {
   requestsIds = [];
   employeesIds = [];
 
+  defaultView = true;
+
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
@@ -27,10 +29,35 @@ export class LoanRequestComponent implements AfterViewInit, OnInit {
   ) { }
 
   ngOnInit() {
-    this.setDataSource();
+    this.setDataSourceForLoanRequests();
   }
 
-  setDataSource() {
+  setDataSourceForLoanRequests() {
+    let responseData = [];
+    let count = 1;
+    this.loanRequestService.getPendingRequetst().subscribe(response => {
+      for (let i of response[0].loan_requests) {
+        responseData.push({
+          serial_no: count,
+          name: i.full_name,
+          department: i.department,
+          designation: i.designation,
+          application_date: i.application_date,
+          provident_fund: i.provident_fund,
+          requested_amount: i.requested_amount,
+        });
+        count = count + 1;
+        this.requestsIds.push(i.id);
+        this.employeesIds.push(i.user_id);
+      }
+      this.loanRequests.data = responseData;
+      this.loanRequests.sort = this.sort;
+      this.loanRequests.paginator = this.paginator;
+      // console.log(this.loanRequests.data);
+    });
+  }
+
+  setDataSourceForLoanPaybacks() {      // work with it
     let responseData = [];
     let count = 1;
     this.loanRequestService.getPendingRequetst().subscribe(response => {
@@ -81,11 +108,20 @@ export class LoanRequestComponent implements AfterViewInit, OnInit {
               } else {
                 alert('Loan Request Rejected');
               }
-              this.setDataSource();
+              this.setDataSourceForLoanRequests();
             }
           });
         }
     });
+  }
+
+  showLoanRequests() {
+    this.setDataSourceForLoanRequests();
+    this.defaultView = true;
+  }
+
+  showPayBack() {
+    this.defaultView = false;
   }
 
   applyFilter(filterValue: string) {

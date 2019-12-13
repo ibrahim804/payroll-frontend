@@ -61,6 +61,7 @@ export const apiRoutes = {
 
   loanHistory: `${baseUrl}/loan-history`,
   loanHistories: `${baseUrl}/loan-histories`,
+  payThisMonthEligibility: `${baseUrl}/loan-history/pay/eligibility`,
 
   fileUploadCreateUser: `${baseUrl}/file-upload/create/user`,
   uploadUserProfilePicture: `${baseUrl}/upload/user/profile-picture`,

@@ -10,6 +10,10 @@ export class LoanHistoryService {
 
   constructor(private authService: AuthService) { }
 
+  checkIfAlreadyPaid() {
+    return this.authService.getFromHTTP(apiRoutes.payThisMonthEligibility);
+  }
+
   createLoanHistory(data: Create) {
     return this.authService.postInHTTP(apiRoutes.loanHistory, data);
   }

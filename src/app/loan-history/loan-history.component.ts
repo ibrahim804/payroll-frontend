@@ -1,3 +1,4 @@
+import { combineLatest } from 'rxjs';
 import { Create } from './../config/interfaces/loan-request.interface';
 import { LoanHistoryService } from './../all_services/loan-history.service';
 import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
@@ -17,7 +18,12 @@ export class LoanHistoryComponent implements AfterViewInit, OnInit {
   loanHistories = new MatTableDataSource<any>();
   searchKey: string;
   loanHistoryIds = [];
+
   isActive: boolean;
+
+  latestLoanAmount: any = null;
+  payLoanLabel: string;
+  payLoanDisabled: boolean;
 
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
@@ -32,9 +38,20 @@ export class LoanHistoryComponent implements AfterViewInit, OnInit {
     this.setDataSource();
   }
 
+  setDefaultValues() {
+    this.latestLoanAmount = null;
+    this.payLoanLabel = 'Pay Loan';
+    this.payLoanDisabled = false;
+  }
+
   setDataSource() {
-    this.loanRequestService.checkForPendingRequest().subscribe(outerResponse => {
-      if (outerResponse[0].status === 'FAILED') {
+    this.setDefaultValues();
+
+    combineLatest(
+      this.loanRequestService.checkForPendingRequest(),
+      this.loanHistoryService.checkIfAlreadyPaid(), // for this month and year
+    ).subscribe(combinedResponse => {
+      if (combinedResponse[0][0].status === 'FAILED') {
         this.isActive = false;
       } else {
         this.isActive = true;
@@ -57,6 +74,16 @@ export class LoanHistoryComponent implements AfterViewInit, OnInit {
           });
           count = count + 1;
           this.loanHistoryIds.push(i.id);
+          if (! this.latestLoanAmount) {
+            this.latestLoanAmount = i.current_loan_amount;
+          }
+        }
+        if (this.latestLoanAmount === 0) {
+          this.payLoanLabel = 'Loan Fully Paid';
+          this.payLoanDisabled = true;
+        } else if (combinedResponse[1][0].status === 'FAILED') {
+          this.payLoanLabel = 'Paid This Month';
+          this.payLoanDisabled = true;
         }
         this.loanHistories.data = responseData;
         this.loanHistories.sort = this.sort;
@@ -97,7 +124,7 @@ export class LoanHistoryComponent implements AfterViewInit, OnInit {
   }
 
   redirectsToLoanPay() {
-
+    //
   }
 
   ordinal_suffix_of(i: number) {

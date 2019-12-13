@@ -10,8 +10,8 @@
       </mat-form-field>
   </div>
   <div class='pb-16'>
-    <button mat-raised-button color="warn" class='h-60 w-224' (click)="redirectsToLoanPay()">
-        Pay Loan
+    <button mat-raised-button color="warn" [disabled]="payLoanDisabled" class='h-60 w-224' (click)="redirectsToLoanPay()">
+        {{payLoanLabel}}
     </button>
   </div>
   <div class='pb-16'>

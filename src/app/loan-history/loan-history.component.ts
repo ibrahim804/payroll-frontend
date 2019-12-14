@@ -167,7 +167,7 @@ export class LoanHistoryComponent implements AfterViewInit, OnInit {
           };
           this.loanHistoryService.createLoanHistory(payload).subscribe(innerResponse => {
             if (! this.checkError(innerResponse[0])) {
-              alert('Successfully Paid loan');
+              alert('Request for Paid Loan Sent');
               this.setDataSource();
             }
           });

@@ -1,3 +1,4 @@
+import { DialogConfirmationComponent } from './../dialogs/dialog-confirmation/dialog-confirmation.component';
 import { LoanHistoryService } from './../all_services/loan-history.service';
 import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { MatTableDataSource, MatSort, MatPaginator, MatDialog } from '@angular/material';
@@ -9,8 +10,8 @@ import { MatTableDataSource, MatSort, MatPaginator, MatDialog } from '@angular/m
 })
 export class LoanPayBackComponent implements AfterViewInit, OnInit {
 
-  displayedColumns = [ 'serial_no',
-                       'actual_loan_amount', 'current_loan_amount', 'paid_amount', 'loan_status', 'approve'];
+  displayedColumns = [ 'serial_no', 'name', 'department', 'designation',
+                       'actual_loan_amount', 'current_loan_amount', 'previoud_paid', 'paid_amount', 'loan_status', 'approve'];
   payBackRequests = new MatTableDataSource<any>();
   searchKey: string;
   payBackIds = [];
@@ -32,13 +33,18 @@ export class LoanPayBackComponent implements AfterViewInit, OnInit {
     let responseData = [];
     let count = 1;
     this.loanHistoryService.getAllPendingPayBacks().subscribe(response => {
+      // console.log(response);
       for (let i of response[0].loan_pay_backs) {
         responseData.push({
           serial_no: count,
+          name: i.full_name,
+          department: i.department,
+          designation: i.designation,
           actual_loan_amount: i.actual_loan_amount,
           current_loan_amount: i.current_loan_amount,
+          previoud_paid: i.previoud_paid,
           paid_amount: i.paid_amount,
-          loan_status: i.loan_status,
+          loan_status: ((i.loan_status).substring(0, 1)).toUpperCase() + (i.loan_status).substring(1, (i.loan_status).length),
         });
         count = count + 1;
         this.payBackIds.push(i.id);
@@ -85,10 +91,21 @@ export class LoanPayBackComponent implements AfterViewInit, OnInit {
   // }
 
   acceptLoanPayBack(serialNo: number) {
-    const id = this.payBackIds[serialNo - 1];
-    this.loanHistoryService.acceptLoanPayBack(id).subscribe(response => {
-      if (! this.checkError(response[0])) {
-        alert('Loan Pay Back Request Accepted');
+    this.dialog.open(DialogConfirmationComponent, {
+      data: {
+        message: 'Pay Back Acceptance',
+      }
+    }).afterClosed().subscribe(dialogResponse => {
+      if (dialogResponse === '0') {
+        alert('OK, Not Approved');
+      } else {
+        const id = this.payBackIds[serialNo - 1];
+        this.loanHistoryService.acceptLoanPayBack(id).subscribe(response => {
+          if (! this.checkError(response[0])) {
+            alert('Loan Pay Back Request Accepted');
+            this.setDataSource();
+          }
+        });
       }
     });
   }

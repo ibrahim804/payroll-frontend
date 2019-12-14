@@ -24,6 +24,7 @@ import { UserDetailsComponent } from './user-details/user-details.component';
 import { PaymentComponent } from './payment/payment.component';
 import { ApplyLoanRequestComponent } from './apply-loan-request/apply-loan-request.component';
 import { LoanHistoryComponent } from './loan-history/loan-history.component';
+import { LoanPayBackComponent } from './loan-pay-back/loan-pay-back.component';
 
 const routes: Routes = [
   {
@@ -137,6 +138,11 @@ const routes: Routes = [
       {
         path: 'loan/requests',
         component: LoanRequestComponent,
+        canActivate: [AuthGuard, AdminGuard]
+      },
+      {
+        path: 'loan/paybacks',
+        component: LoanPayBackComponent,
         canActivate: [AuthGuard, AdminGuard]
       },
       {

@@ -59,9 +59,11 @@ export const apiRoutes = {
   loanRequests: `${baseUrl}/loan-requests`,
   loanPendingRequest: `${baseUrl}/loan-pending-request`,
 
-  loanHistory: `${baseUrl}/loan-history`,
-  loanHistories: `${baseUrl}/loan-histories`,
   payThisMonthEligibility: `${baseUrl}/loan-history/pay/eligibility`,
+  loanHistory: `${baseUrl}/loan-history`,
+  getAllPendingPayBacks: `${baseUrl}/loan-pay-backs`,
+  acceptPayBack: `${baseUrl}/loan-pay-back-accept`,
+  loanHistories: `${baseUrl}/loan-histories`,
 
   fileUploadCreateUser: `${baseUrl}/file-upload/create/user`,
   uploadUserProfilePicture: `${baseUrl}/upload/user/profile-picture`,
@@ -94,6 +96,7 @@ export const urlRoutes = {
   payment: `/payment`,    // Payment
 
   loanRequests: `/loan/requests`, // Loan Requests, Admin
+  payBackRequest: `/loan/paybacks`, // loan payback, Admin
   loanHistories: `/loan/histories`,
   applyForLoan: `/loan/application`, // Apply For Loan, User
 
@@ -116,13 +119,13 @@ export const genericNavConstants = {  // Route Flow: sidebar->urlRoute->appRouti
       role: [role.ADMIN],
       mini_name: 'Employees'
     },
-    {
-      name: 'Department',
-      url: urlRoutes.departmentsList,
-      icon: 'group_work',
-      role: [role.ADMIN],
-      mini_name: 'Department'
-    },
+    // {
+    //   name: 'Department',
+    //   url: urlRoutes.departmentsList,
+    //   icon: 'group_work',
+    //   role: [role.ADMIN],
+    //   mini_name: 'Department'
+    // },
     {
       name: 'Leave Management',
       url: urlRoutes.leaveManagement,
@@ -157,6 +160,13 @@ export const genericNavConstants = {  // Route Flow: sidebar->urlRoute->appRouti
       icon: 'monetization_on',
       role: [role.ADMIN],
       mini_name: 'Loan',
+    },
+    {
+      name: 'Pay Back Requests',
+      url: urlRoutes.payBackRequest,
+      icon: 'monetization_on',
+      role: [role.ADMIN],
+      mini_name: 'Pay Back',
     },
     {
       name: 'Loan History',

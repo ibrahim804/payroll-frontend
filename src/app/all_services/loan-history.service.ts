@@ -18,6 +18,14 @@ export class LoanHistoryService {
     return this.authService.postInHTTP(apiRoutes.loanHistory, data);
   }
 
+  getAllPendingPayBacks() {
+    return this.authService.getFromHTTP(apiRoutes.getAllPendingPayBacks);
+  }
+
+  acceptLoanPayBack(id: string) {
+    return this.authService.getFromHTTP(`${apiRoutes.acceptPayBack}/${id}`);
+  }
+
   getEmployeesHistory() {
     return this.authService.getFromHTTP(apiRoutes.loanHistories);
   }

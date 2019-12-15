@@ -1,3 +1,5 @@
+import { combineLatest } from 'rxjs';
+import { LeaveCountService } from './../all_services/leave-count.service';
 import { AuthService } from './../all_services/auth.service';
 import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { LeaveService } from '../all_services/leave.service';
@@ -20,6 +22,8 @@ export class LeaveComponent implements AfterViewInit, OnInit {
   formErrorMessage: any;
   isDefaultView = true;
   isCreate: boolean;
+  leaveCounts: any;
+  leaveLeft: number;
 
   displayedColumns = ['serial_no', 'leave_type' , 'start_date', 'end_date', 'description',
                       'requested_duration', 'leave_available', 'status', 'update'];
@@ -34,6 +38,7 @@ export class LeaveComponent implements AfterViewInit, OnInit {
     private authService: AuthService,
     private leaveService: LeaveService,
     private leaveCategoryService: LeaveCategoryService,
+    private leaveCountService: LeaveCountService,
     private formBuilder: FormBuilder,
     private dialog: MatDialog,
   ) { }
@@ -43,12 +48,18 @@ export class LeaveComponent implements AfterViewInit, OnInit {
     this.formErrorMessage = null;
     this.isDefaultView = true;
     this.isCreate = false;
+    this.leaveCounts = null;
+    this.leaveLeft = null;
   }
 
   ngOnInit() {
     this.setDefault();
-    this.leaveCategoryService.getLeaveCategories().subscribe(res => {
-      this.leaveCategories = res[0].leave_categories;
+    combineLatest(
+      this.leaveCategoryService.getLeaveCategories(),
+      this.leaveCountService.getLeaveCountsOfEmployee(this.authService.getMyUserId()),
+    ).subscribe(res => {
+      this.leaveCategories = res[0][0].leave_categories;
+      this.leaveCounts = res[1][0].leave_counts;
       if (this.isDefaultView) {
         this.setDataSource();
       } else {
@@ -104,6 +115,17 @@ export class LeaveComponent implements AfterViewInit, OnInit {
       diff = 0;
     }
     return diff;
+  }
+
+  showLeaveCountOfThisCategory() {
+    this.leaveLeft = null;
+    const selectedValue = this.leaveCategoryId.value;
+    for (let i of this.leaveCounts) {
+      if (i.leave_category_id == selectedValue) {
+        this.leaveLeft = i.leave_left;
+        break;
+      }
+    }
   }
 
   convertDatePickerToString(paramDate: any) {
@@ -232,6 +254,7 @@ export class LeaveComponent implements AfterViewInit, OnInit {
 
   alterView(command: string) {
     this.formErrorMessage = null;
+    this.leaveLeft = null;
     this.isCreate = command === 'create';
     this.isDefaultView = !this.isDefaultView;
     (this.isDefaultView) ? this.setDataSource() : this.buildForm();

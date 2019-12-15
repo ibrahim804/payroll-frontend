@@ -17,7 +17,8 @@ import {
   MatFormFieldModule,
   MatInputModule,
   MatDialogModule,
-  MatChipsModule
+  MatChipsModule,
+  MatProgressBarModule,
 } from '@angular/material';
 
 @NgModule({
@@ -40,7 +41,8 @@ import {
     MatInputModule,
     FlexLayoutModule,
     MatDialogModule,
-    MatChipsModule
+    MatChipsModule,
+    MatProgressBarModule,
   ],
   exports: [
     MatButtonModule,
@@ -59,7 +61,8 @@ import {
     MatInputModule,
     FlexLayoutModule,
     MatDialogModule,
-    MatChipsModule
+    MatChipsModule,
+    MatProgressBarModule,
   ],
 })
 export class MaterialModule { }

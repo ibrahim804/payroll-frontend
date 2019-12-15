@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { first } from 'rxjs/operators';
 import { apiRoutes } from '../config/apiRoutes';
-import { Login, Register } from '../config/interfaces/user.interface';
+import { Login, Register, ForgotPassword, VerifyCode, SetNewPassword } from '../config/interfaces/user.interface';
 import { AbstractControl, ValidationErrors } from '@angular/forms';
 
 @Injectable({
@@ -34,6 +34,18 @@ export class AuthService {
 
   register(credentials: Register) {
     return this.postInHTTP(apiRoutes.register, credentials);
+  }
+
+  sendVerificationCode(data: ForgotPassword) {
+    return this.postInHTTP(apiRoutes.forgotPassword, data);
+  }
+
+  verifyVerificationCode(data: VerifyCode) {
+    return this.postInHTTP(apiRoutes.verifyVerificationCode, data);
+  }
+
+  setNewPassword(data: SetNewPassword) {
+    return this.postInHTTP(apiRoutes.setNewPassword, data);
   }
 
   isLoggedIn() {

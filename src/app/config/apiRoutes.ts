@@ -52,6 +52,7 @@ export const apiRoutes = {
 
   payment: `${baseUrl}/payment`,
   payments: `${baseUrl}/payments`,
+  paymentInMail: `${baseUrl}/payment/send-payment-to-mail`,
 
   providentFund: `${baseUrl}/provident-fund`,
 

@@ -17,4 +17,8 @@ export class PaymentService {
   makePayment(data: Create) {
     return this.authService.postInHTTP(apiRoutes.payment, data);
   }
+
+  sendPaymentInMail(userId: string) {
+    return this.authService.getFromHTTP(`${apiRoutes.paymentInMail}/${userId}`);
+  }
 }

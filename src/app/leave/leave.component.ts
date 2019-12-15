@@ -17,6 +17,7 @@ export class LeaveComponent implements AfterViewInit, OnInit {
   leaveCategories: any;
   leaveApplicationForm: FormGroup;
   errMessage: any;
+  formErrorMessage: any;
   isDefaultView = true;
   isCreate: boolean;
 
@@ -37,7 +38,15 @@ export class LeaveComponent implements AfterViewInit, OnInit {
     private dialog: MatDialog,
   ) { }
 
+  setDefault() {
+    this.errMessage = null;
+    this.formErrorMessage = null;
+    this.isDefaultView = true;
+    this.isCreate = false;
+  }
+
   ngOnInit() {
+    this.setDefault();
     this.leaveCategoryService.getLeaveCategories().subscribe(res => {
       this.leaveCategories = res[0].leave_categories;
       if (this.isDefaultView) {
@@ -49,6 +58,9 @@ export class LeaveComponent implements AfterViewInit, OnInit {
   }
 
   applyForLeave() {
+    if (! this.validateForm()) {
+      return;
+    }
     const leaveApplication: CreateLeave = {
       leave_category_id: this.leaveApplicationForm.value.leaveCategoryId,
       leave_description: this.leaveApplicationForm.value.description,
@@ -120,6 +132,21 @@ export class LeaveComponent implements AfterViewInit, OnInit {
       return false;
     } else {
       this.errMessage = null;
+      return true;
+    }
+  }
+
+  validateForm() {
+    if (
+      this.leaveCategoryId.value.length === 0 ||
+      this.startDate.value === null || this.startDate.value.length === 0 ||
+      this.endDate.value === null || this.endDate.value.length === 0 ||
+      this.description.value.length === 0
+    ) {
+      this.formErrorMessage = 'All fields are required*';
+      return false;
+    } else {
+      this.formErrorMessage = null;
       return true;
     }
   }
@@ -204,9 +231,30 @@ export class LeaveComponent implements AfterViewInit, OnInit {
   }
 
   alterView(command: string) {
+    this.formErrorMessage = null;
     this.isCreate = command === 'create';
     this.isDefaultView = !this.isDefaultView;
     (this.isDefaultView) ? this.setDataSource() : this.buildForm();
+  }
+
+  openDialog(serialNo: number) {
+    const leaveId = this.leavesIds[serialNo - 1];
+    this.dialog.open(DialogConfirmationComponent, {
+      data: {
+        message: 'Leave Cancellation',
+      }
+    }).afterClosed().subscribe(diaRes => {
+      if (diaRes === '0') {
+        alert('Ok, Not Cancelled');
+      } else {
+        this.leaveService.removeLeave(leaveId).subscribe(response => {
+          if (! this.checkError(response[0])) {
+            alert('Leave Cancelled Successfully');
+            this.setDataSource();
+          }
+        });
+      }
+    });
   }
 
   applyFilter(filterValue: string) {

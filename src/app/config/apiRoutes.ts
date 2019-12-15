@@ -47,6 +47,7 @@ export const apiRoutes = {
   leaveAvailableAndDuration: `${baseUrl}/leave/available-duration`,
   leaveApprove: `${baseUrl}/leave/approve`,
   leaveCancel: `${baseUrl}/leave/cancel`,
+  leaveRemove: `${baseUrl}/leave/remove`,
 
   workingDay: `${baseUrl}/working-day`,
 

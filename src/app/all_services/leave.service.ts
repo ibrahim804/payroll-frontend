@@ -35,4 +35,8 @@ export class LeaveService {
   cancelLeave(id: string) {
     return this.authService.getFromHTTP(`${apiRoutes.leaveCancel}/${id}`);
   }
+
+  removeLeave(id: string) {
+    return this.authService.getFromHTTP(`${apiRoutes.leaveRemove}/${id}`);
+  }
 }

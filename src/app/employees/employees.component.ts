@@ -11,7 +11,7 @@ import { urlRoutes } from '../config/apiRoutes';
 })
 export class EmployeesComponent implements OnInit {
 
-  displayedColumns: string[] = ['serial_no', 'name', 'department', 'designation', 'casual_leave', 'sick_leave', 'action'];
+  displayedColumns: string[] = ['serial_no', 'name', 'department', 'designation', 'email', 'phone'];
   employees = new MatTableDataSource<any>();
   searchKey: string;
   employeesIds = [];
@@ -28,7 +28,7 @@ export class EmployeesComponent implements OnInit {
   ngOnInit() {
     this.setDataSource();
   }
-  
+
 	setDataSource() {
     let responseData = [];
     let count = 1;
@@ -38,7 +38,9 @@ export class EmployeesComponent implements OnInit {
 					serial_no: count,
 					name: i.full_name,
 					department: i.department,
-					designation: i.designation,
+          designation: i.designation,
+          email: i.email,
+          phone: i.phone,
           casual_leave: i.casual_leave,
           sick_leave: i.sick_leave,
         });
@@ -51,11 +53,11 @@ export class EmployeesComponent implements OnInit {
       // console.log(this.employeesIds);
     });
   }
-  
+
 	applyFilter(filterValue: string) {
 		this.employees.filter = filterValue.trim().toLowerCase();
   }
-  
+
   redirectsToRegister() {
     this.router.navigate([urlRoutes.employeesAdd]);
   }

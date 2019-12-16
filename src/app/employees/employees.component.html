@@ -2,14 +2,14 @@
   <h4 class="text-center" style="color: white">All Employees</h4>
 </div> <br>
 
-<div fxLayout='row' fxLayoutAlign='space-around center' fxLayoutGap="24px" class='mx-40 mt-40 '>
-    <div class='w-100-p'>
-        <mat-form-field  appearance="outline">
+<div fxLayout='row' fxLayoutAlign='center center' fxLayoutGap="24px" class='mx-40 mt-40 '>
+    <div fxFlex='80'>
+        <mat-form-field class='w-100-p' appearance="outline">
         <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
         <mat-icon matPrefix class='mr-16'>search</mat-icon>
         </mat-form-field>
     </div>
-    <div class='pb-16'>
+    <div fxFlex='20' class='pb-22'>
         <button mat-raised-button style="background: #263238; color: white;" (click)="redirectsToRegister()" class='h-60 w-224'>
             Register Employee
         </button>
@@ -44,22 +44,16 @@
             <mat-cell *matCellDef="let element"> {{element.designation}} </mat-cell>
         </ng-container>
 
-        <ng-container matColumnDef="casual_leave">
+        <ng-container matColumnDef="email">
             <mat-header-cell *matHeaderCellDef mat-sort-header
-                class="primary-background white-color-foreground font-size-16"> Casual leave left </mat-header-cell>
-            <mat-cell *matCellDef="let element"> {{element.casual_leave}} </mat-cell>
+                class="primary-background white-color-foreground font-size-16"> Email </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.email}} </mat-cell>
         </ng-container>
 
-        <ng-container matColumnDef="sick_leave">
+        <ng-container matColumnDef="phone">
             <mat-header-cell *matHeaderCellDef mat-sort-header
-                class="primary-background white-color-foreground font-size-16"> Sick leave left </mat-header-cell>
-            <mat-cell *matCellDef="let element"> {{element.sick_leave}} </mat-cell>
-        </ng-container>
-
-        <ng-container matColumnDef="action">
-            <mat-header-cell *matHeaderCellDef mat-sort-header
-                class="primary-background white-color-foreground font-size-16"> Action </mat-header-cell>
-            <mat-cell *matCellDef="let element"> <button class="btn btn-info btn-sm mr-1" (click)="updateEmployee(element.serial_no)">Update</button> </mat-cell>
+                class="primary-background white-color-foreground font-size-16"> Phone </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.phone}} </mat-cell>
         </ng-container>
 
         <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>

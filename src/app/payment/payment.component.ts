@@ -1,3 +1,4 @@
+import { AuthService } from 'src/app/all_services/auth.service';
 import { DialogConfirmationComponent } from './../dialogs/dialog-confirmation/dialog-confirmation.component';
 import { ProvidentFundService } from '../all_services/provident-fund.service';
 import { Create as PF } from './../config/interfaces/provident-fund.interface';
@@ -33,6 +34,7 @@ export class PaymentComponent implements AfterViewInit, OnInit {
     private userService: UserService,
     private providentFundService: ProvidentFundService,
     private dialog: MatDialog,
+    private authService: AuthService
     ) { }
 
   ngOnInit() {
@@ -106,9 +108,12 @@ export class PaymentComponent implements AfterViewInit, OnInit {
       data: {message: 'Make Payment'}
     }).afterClosed().subscribe(result => {
       if (result === '1') {
+        this.authService.showSpinner();
         this.paymentService.makePayment(payload).subscribe(response => {
           if (! this.checkError(response[0])) {
             this.depositProvidentFund(payload.user_id);
+          } else {
+            this.authService.hideSpinner();
           }
         });
       }
@@ -122,10 +127,15 @@ export class PaymentComponent implements AfterViewInit, OnInit {
     this.providentFundService.createProvidentFund(payload).subscribe(response => {
       if (! this.checkError(response[0])) {
         this.setDataSource();
-        alert('Payment Done. Provident Fund Increased');
+        // alert('Payment Done. Provident Fund Increased');
         this.paymentService.sendPaymentInMail(userId).subscribe(mailResponse => {
           console.log(mailResponse);
+          this.authService.hideSpinner();
+        }, (err) => {
+          this.authService.hideSpinner();
         });
+      } else {
+        this.authService.hideSpinner();
       }
     });
   }

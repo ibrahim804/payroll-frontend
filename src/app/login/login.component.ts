@@ -68,8 +68,12 @@ export class LoginComponent implements OnInit {
 
   sendOTP() {
     const email = (document.getElementById('email') as HTMLInputElement).value;
+    this.authService.showSpinner();
+
     if (email.length === 0) {
       alert('Email must be provided to get email');
+      this.authService.hideSpinner();
+
     } else {
       this.isLoading = true;
       const payload: ForgotPassword = {email};
@@ -80,6 +84,9 @@ export class LoginComponent implements OnInit {
           this.header = 'OTP Verification';
           this.buttonActivity = 'Verify Code';
         }
+        this.authService.hideSpinner();
+      }, (err) => {
+        this.authService.hideSpinner();
       });
     }
   }

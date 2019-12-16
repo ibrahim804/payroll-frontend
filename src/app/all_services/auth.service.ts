@@ -5,13 +5,14 @@ import { first } from 'rxjs/operators';
 import { apiRoutes } from '../config/apiRoutes';
 import { Login, Register, Update, ForgotPassword, VerifyCode, SetNewPassword } from '../config/interfaces/user.interface';
 import { AbstractControl, ValidationErrors } from '@angular/forms';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private spinner: NgxSpinnerService) {}
 
   getAuthorizedHeader() {
     const token = this.getValueFromLocalStorage('token');
@@ -127,5 +128,13 @@ export class AuthService {
         observer.complete();
       });
     });
+  }
+
+  showSpinner() {
+    this.spinner.show();
+  }
+
+  hideSpinner() {
+    this.spinner.hide();
   }
 }

@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {FlexLayoutModule} from '@angular/flex-layout';
+import { NgxSpinnerModule } from 'ngx-spinner';
 import {
   MatButtonModule,
   MatCheckboxModule,
@@ -43,6 +44,7 @@ import {
     MatDialogModule,
     MatChipsModule,
     MatProgressBarModule,
+    NgxSpinnerModule
   ],
   exports: [
     MatButtonModule,
@@ -63,6 +65,7 @@ import {
     MatDialogModule,
     MatChipsModule,
     MatProgressBarModule,
+    NgxSpinnerModule
   ],
 })
 export class MaterialModule { }

@@ -1,11 +1,12 @@
+import { Router } from '@angular/router';
 import { Create } from './../config/interfaces/working-day.interface';
 import { Register } from './../config/interfaces/user.interface';
 // import { UserService } from './../all_services/user.service';
 import { AuthService } from './../all_services/auth.service';
-import { apiRoutes } from './../config/apiRoutes';
+import { urlRoutes } from './../config/apiRoutes';
 import { DepartmentService } from '../all_services/department.service';
 import { DesignationService } from '../all_services/designation.service';
-import { FileUploader } from 'ng2-file-upload';
+// import { FileUploader } from 'ng2-file-upload';
 // import { DataService } from '../_services/data.service';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, Validators, FormArray } from '@angular/forms';
@@ -19,13 +20,14 @@ import { WorkingDayService } from '../all_services/working-day.service';
 })
 export class AddEmployeeComponent implements OnInit {
 
-  public uploader: FileUploader;
-  public hasBaseDropZoneOver = false;
-  public hasAnotherDropZoneOver = false;
+  // public uploader: FileUploader;
+  // public hasBaseDropZoneOver = false;
+  // public hasAnotherDropZoneOver = false;
 
   public departments;
   private departmentIdAttrbute;
   public designations;
+  formErrMessage: any;
 
   // AMAR
 
@@ -48,22 +50,24 @@ export class AddEmployeeComponent implements OnInit {
     private designationService: DesignationService,
     // private data: DataService,
     private workingDaysService: WorkingDayService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private router: Router,
   ) {}
 
   ngOnInit() {
-    this.uploader = new FileUploader({
-      url: apiRoutes.fileUploadCreateUser,
-      isHTML5: true,
-      method: 'POST',
-      authTokenHeader:  'authorization',
-      authToken: 'Bearer ' + this.authService.getValueFromLocalStorage('token'),
-      itemAlias: 'file'
-    });
+    // this.uploader = new FileUploader({
+    //   url: apiRoutes.fileUploadCreateUser,
+    //   isHTML5: true,
+    //   method: 'POST',
+    //   authTokenHeader:  'authorization',
+    //   authToken: 'Bearer ' + this.authService.getValueFromLocalStorage('token'),
+    //   itemAlias: 'file'
+    // });
 
+    this.formErrMessage = null;
     this.getDepartments();
 
-    this.uploader.onAfterAddingFile = (file) => { file.withCredentials = false; };
+    // this.uploader.onAfterAddingFile = (file) => { file.withCredentials = false; };
 
     // amar
     this.buildForm();
@@ -82,7 +86,10 @@ export class AddEmployeeComponent implements OnInit {
     });
   }
 
-  registerEmployee() {    // my one
+  registerEmployee() {
+    if (! this.checkOverAllBeforeLogin()) {
+      return;
+    }
     const full_name = (this.registerForm.value.name.length) ? this.registerForm.value.name : null;
     const date_of_birth = this.convertDatePickerToString(this.registerForm.value.dateOfBirth);
     const gender = (this.registerForm.value.gender.length) ? this.registerForm.value.gender : null;
@@ -160,17 +167,18 @@ export class AddEmployeeComponent implements OnInit {
     this.workingDaysService.createWorkingDay(data).subscribe(response => {
       if (! this.checkError(response[0])) {
         // console.log(response[0].working_day_id);
+        this.router.navigate([urlRoutes.employeesList]);
       }
     });
   }
 
-  public fileOverBase(e: any): void {
-    this.hasBaseDropZoneOver = e;
-  }
+  // public fileOverBase(e: any): void {
+  //   this.hasBaseDropZoneOver = e;
+  // }
 
-  public fileOverAnother(e: any): void {
-    this.hasAnotherDropZoneOver = e;
-  }
+  // public fileOverAnother(e: any): void {
+  //   this.hasAnotherDropZoneOver = e;
+  // }
 
   // AMAR
 
@@ -342,11 +350,22 @@ export class AddEmployeeComponent implements OnInit {
     return this.registerForm.get('workingDays');
   }
 
-  checkOverAllBeforeLogin(credentials: any) {
-    // console.log(credentials);
-    this.registerForm.setErrors({
-      invalidLogin: true
-    });
+  checkOverAllBeforeLogin() {
+    this.formErrMessage = null;
+    if (
+      this.name.value.length === 0 ||
+      this.gender.value === null || this.gender.value.length === 0 ||
+      this.email.value.length === 0 ||
+      this.phone.value.length === 0 ||
+      this.password.value.length === 0 ||
+      this.joiningDate.value === null || this.joiningDate.value.length === 0
+    ) {
+      this.formErrMessage = 'All required field must be filled out';
+      return false;
+    } else {
+      this.formErrMessage = null;
+      return true;
+    }
   }
 
   private checkError(response: any) {

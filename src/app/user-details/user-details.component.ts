@@ -1,3 +1,5 @@
+import { UpdateUserComponent } from './../dialogs/update-user/update-user.component';
+import { MatDialog } from '@angular/material';
 import { AuthService } from './../all_services/auth.service';
 import { urlRoutes } from './../config/apiRoutes';
 import { Component, OnInit } from '@angular/core';
@@ -26,6 +28,7 @@ export class UserDetailsComponent implements OnInit {
     private router: Router,
     private salaryService: SalaryService,
     private authService: AuthService,
+    private dialog: MatDialog,
   ) { }
 
   ngOnInit() {
@@ -36,8 +39,14 @@ export class UserDetailsComponent implements OnInit {
     this.router.navigate([urlRoutes.dashboard]);
   }
 
-  redirectsToEmployeeAdd() {
-    // this.router.navigate([urlRoutes.employeesAdd]);
+  redirectsToEmployeeUpdate() {
+    // this.router.navigate([urlRoutes.employeeUpdate]);
+    this.dialog.open(UpdateUserComponent, {
+      width: '65vw',
+
+    }).afterClosed().subscribe(response => {
+      console.log(response);
+    });
   }
 
   redirectsToEmployeeInformation() {

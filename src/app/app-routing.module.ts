@@ -1,3 +1,4 @@
+import { UpdateUserComponent } from './dialogs/update-user/update-user.component';
 import { LoanRequestComponent } from './loan-request/loan-request.component';
 import { UserGuard } from './_guard/user.guard';
 import { LoggedInGuard } from './_guard/logged-in.guard';
@@ -90,7 +91,11 @@ const routes: Routes = [
         component: UserDetailsComponent,
         canActivate: [AuthGuard]
       },
-
+      {
+        path: 'employees/update',
+        component: UpdateUserComponent,
+        canActivate: [AuthGuard]
+      },
       {
         path: 'attendance',
         component: TodaysAttendanceComponent,

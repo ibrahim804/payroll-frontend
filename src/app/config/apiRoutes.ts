@@ -85,6 +85,7 @@ export const urlRoutes = {
   employeesList: `/employees/list`,   // Employee
   employeesAdd: `/employees/add`,
   employeesDetails: `/employees/details`,
+  employeeUpdate: `/employees/update`,
 
   attendance: `/attendance`,    // Attendance
   attendanceReport: `/attendance/report`,

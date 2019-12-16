@@ -113,12 +113,12 @@
         <div class="col-4"></div>
         <div class="col-4">
             <div class="card-body">
-                <div> <mat-error> {{formErrorMessage}} </mat-error> </div>
+                <div> <mat-error> {{formErrorMessage}} </mat-error> <br> </div>
                 <div class="form-group">
                     <label for="leaveCategoryId">Leave Category</label>
                     <label *ngIf="leaveLeft"> <h6 style="color: green;">You have {{leaveLeft}} day(s) leave available with this leave category.</h6> </label>
                     <select class="form-control form-control-sm" id="leaveCategoryId" name="leaveCategoryId" formControlName="leaveCategoryId" (change)="showLeaveCountOfThisCategory()">
-                          <option value='0'>Select Category</option>
+                          <!-- <option value='0'>Select Category</option> -->
                           <option *ngFor="let category of leaveCategories" value={{category.id}}>{{category.leave_type}}</option>
                     </select>
                     <div *ngIf="leaveCategoryId.touched && leaveCategoryId.invalid">
@@ -130,29 +130,31 @@
                 <div class="form-group">
                     <div class="input-group">
                         <input class="form-control form-control-sm" placeholder="yyyy-mm-dd" name="startDate" id="startDate" formControlName="startDate" ngbDatepicker #sd="ngbDatepicker">
-                        <div *ngIf="startDate.touched && startDate.invalid">
-                          <div *ngIf="startDate.errors.required && isCreate"> <mat-error> Start Date is required </mat-error> </div>
-                        </div>
                         <div class="input-group-append">
                             <button class="btn btn-outline-secondary calendar" (click)="sd.toggle()"></button>
                         </div>
                     </div>
                 </div>
 
+                <div *ngIf="startDate.touched && startDate.invalid">
+                  <div *ngIf="startDate.errors.required && isCreate"> <mat-error> Start Date is required </mat-error> </div> <br>
+                </div>
+
                 <label for="endDate">End Date</label>
                 <div class="form-group">
                     <div class="input-group">
                         <input class="form-control form-control-sm" placeholder="yyyy-mm-dd" name="endDate" id="endDate" formControlName="endDate" ngbDatepicker #ed="ngbDatepicker">
-                        <div *ngIf="endDate.touched && endDate.invalid">
-                          <div *ngIf="endDate.errors.required && isCreate"> <mat-error> End Date is required </mat-error> </div>
-                        </div>
                         <div class="input-group-append">
                             <button class="btn btn-outline-secondary calendar" (click)="ed.toggle()"></button>
                         </div>
                     </div>
                 </div>
 
-                <div *ngIf="! validateTwoDates()"> <mat-error> {{errMessage}} </mat-error> </div>
+                <div *ngIf="endDate.touched && endDate.invalid">
+                  <div *ngIf="endDate.errors.required && isCreate"> <mat-error> End Date is required </mat-error> <br> </div>
+                </div>
+
+                <div *ngIf="! validateTwoDates()"> <mat-error> {{errMessage}} </mat-error> <br> </div>
 
                 <div class="form-group">
                   <label for="description">Description</label>

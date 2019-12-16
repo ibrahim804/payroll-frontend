@@ -259,9 +259,15 @@ export class AddEmployeeComponent implements OnInit {
         ],
       ],
 
-      departmentId: [''],
+      departmentId: ['', [
+        Validators.required,
+        ],
+      ],
 
-      designationId: [''],
+      designationId: ['', [
+        Validators.required,
+        ],
+      ],
 
       joiningDate: ['', [
           Validators.required,
@@ -358,9 +364,11 @@ export class AddEmployeeComponent implements OnInit {
       this.email.value.length === 0 ||
       this.phone.value.length === 0 ||
       this.password.value.length === 0 ||
-      this.joiningDate.value === null || this.joiningDate.value.length === 0
+      this.joiningDate.value === null || this.joiningDate.value.length === 0 ||
+      this.departmentId.value.length === 0 ||
+      this.designationId.value.length === 0
     ) {
-      this.formErrMessage = 'All required field must be filled out';
+      this.formErrMessage = 'All required fields must be filled out';
       return false;
     } else {
       this.formErrMessage = null;

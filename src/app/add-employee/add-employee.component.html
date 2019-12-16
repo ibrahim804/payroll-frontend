@@ -11,13 +11,13 @@
 
             <div class="card-body">
                 <div class="form-group">
-                    <label for="name">*Full Name</label>
+                    <label for="name"> <span style="color: red;">*</span>Full Name</label>
                     <input type="text" class="form-control form-control-sm rounded-1" id="name" name="name" formControlName="name">
                     <div *ngIf="name.touched && name.invalid">
-                        <div *ngIf="name.errors.required"> name is required </div>
-                        <div *ngIf="name.errors.minlength"> name should be minimum {{ name.errors.minlength.requiredLength }} characters </div>
-                        <div *ngIf="name.errors.maxlength"> name should be maximum {{ name.errors.maxlength.requiredLength }} characters </div>
-                        <div *ngIf="name.errors.containsOnlyAlphabet"> name should be only alphabetic. </div>
+                        <div *ngIf="name.errors.required"> <mat-error> name is required </mat-error> </div>
+                        <div *ngIf="name.errors.minlength"> <mat-error>name should be minimum {{ name.errors.minlength.requiredLength }} characters</mat-error> </div>
+                        <div *ngIf="name.errors.maxlength"> <mat-error>name should be maximum {{ name.errors.maxlength.requiredLength }} characters</mat-error> </div>
+                        <div *ngIf="name.errors.containsOnlyAlphabet"> <mat-error>name should be only alphabetic.</mat-error> </div>
                     </div>
                 </div>
 
@@ -46,7 +46,7 @@
 
                 <!-- ibrahim, new div, instead of previous -->
                 <div class="form-group">
-                  <label for="gender">*Gender</label> &nbsp;
+                  <label for="gender"><span style="color: red;">*</span>Gender</label> &nbsp;
                   <input type="radio" name="gender" id="gender" value="male" formControlName="gender"> Male
                   <input type="radio" name="gender" id="gender" value="female" formControlName="gender"> Female
                 </div>
@@ -63,9 +63,9 @@
                     <label for="fathersName">Father's Name</label>
                     <input type="text" class="form-control form-control-sm rounded-1" id="fathersName" name="fathersName" formControlName="fathersName">
                     <div *ngIf="fathersName.touched && fathersName.invalid">
-                        <div *ngIf="fathersName.errors.minlength"> Fathers Name should be minimum {{ fathersName.errors.minlength.requiredLength }} characters </div>
-                        <div *ngIf="fathersName.errors.maxlength"> Fathers Name should be maximum {{ fathersName.errors.maxlength.requiredLength }} characters </div>
-                        <div *ngIf="fathersName.errors.containsOnlyAlphabet"> Fathers Name should be alphabetic. </div>
+                        <div *ngIf="fathersName.errors.minlength"> <mat-error>Fathers Name should be minimum {{ fathersName.errors.minlength.requiredLength }} characters</mat-error> </div>
+                        <div *ngIf="fathersName.errors.maxlength"> <mat-error>Fathers Name should be maximum {{ fathersName.errors.maxlength.requiredLength }} characters</mat-error> </div>
+                        <div *ngIf="fathersName.errors.containsOnlyAlphabet"> <mat-error>Fathers Name should be alphabetic.</mat-error> </div>
                     </div>
                 </div>
 
@@ -95,24 +95,24 @@
 
             <div class="card-body">
                 <div class="form-group">
-                    <label>*Email</label>
+                    <label><span style="color: red;">*</span>Email</label>
                     <input type="email" class="form-control form-control-sm rounded-1" id="email" name="email" formControlName="email">
                     <div *ngIf="email.touched && email.invalid">
-                        <div *ngIf="email.errors.required"> email is required </div>
-                        <div *ngIf="email.errors.minlength"> email should be minimum {{ email.errors.minlength.requiredLength }} characters </div>
-                        <div *ngIf="email.errors.maxlength"> email should be maximum {{ email.errors.maxlength.requiredLength }} characters </div>
-                        <div *ngIf="email.errors.cannotContainSpace"> email cannot contain space. </div>
+                        <div *ngIf="email.errors.required"> <mat-error>email is required</mat-error> </div>
+                        <div *ngIf="email.errors.minlength"> <mat-error>email should be minimum {{ email.errors.minlength.requiredLength }} characters</mat-error> </div>
+                        <div *ngIf="email.errors.maxlength"> <mat-error>email should be maximum {{ email.errors.maxlength.requiredLength }} characters</mat-error> </div>
+                        <div *ngIf="email.errors.cannotContainSpace"> <mat-error>email cannot contain space.</mat-error> </div>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label>*Phone number</label>
+                    <label><span style="color: red;">*</span>Phone number</label>
                     <input type="text" class="form-control form-control-sm rounded-1" id="phone" name="phone" formControlName="phone">
                     <div *ngIf="phone.touched && phone.invalid">
-                      <div *ngIf="phone.errors.required"> phone is required </div>
-                      <div *ngIf="phone.errors.minlength"> phone should be minimum {{ phone.errors.minlength.requiredLength }} characters </div>
-                      <div *ngIf="phone.errors.maxlength"> phone should be maximum {{ phone.errors.maxlength.requiredLength }} characters </div>
-                      <div *ngIf="phone.errors.containsOnlyNumber"> phone should contain only number. </div>
+                      <div *ngIf="phone.errors.required"> <mat-error>phone is required</mat-error> </div>
+                      <div *ngIf="phone.errors.minlength"> <mat-error>phone should be minimum {{ phone.errors.minlength.requiredLength }} characters</mat-error> </div>
+                      <div *ngIf="phone.errors.maxlength"> <mat-error>phone should be maximum {{ phone.errors.maxlength.requiredLength }} characters</mat-error> </div>
+                      <div *ngIf="phone.errors.containsOnlyNumber"> <mat-error>phone should contain only number.</mat-error> </div>
                   </div>
                 </div>
 
@@ -120,8 +120,8 @@
                     <label>Present Address</label>
                     <input type="text" class="form-control form-control-sm rounded-1" id="presentAddress" name="presentAddress" formControlName="presentAddress">
                     <div *ngIf="presentAddress.touched && presentAddress.invalid">
-                      <div *ngIf="presentAddress.errors.minlength"> presentAddress should be minimum {{ presentAddress.errors.minlength.requiredLength }} characters </div>
-                      <div *ngIf="presentAddress.errors.maxlength"> presentAddress should be maximum {{ presentAddress.errors.maxlength.requiredLength }} characters </div>
+                      <div *ngIf="presentAddress.errors.minlength"> <mat-error>presentAddress should be minimum {{ presentAddress.errors.minlength.requiredLength }} characters</mat-error> </div>
+                      <div *ngIf="presentAddress.errors.maxlength"> <mat-error>presentAddress should be maximum {{ presentAddress.errors.maxlength.requiredLength }} characters</mat-error> </div>
                     </div>
                 </div>
 
@@ -129,8 +129,8 @@
                     <label>Permanent Address</label>
                     <input type="text" class="form-control form-control-sm rounded-1" id="permanentAddress" name="permanentAddress" formControlName="permanentAddress">
                     <div *ngIf="permanentAddress.touched && permanentAddress.invalid">
-                      <div *ngIf="permanentAddress.errors.minlength"> permanentAddress should be minimum {{ permanentAddress.errors.minlength.requiredLength }} characters </div>
-                      <div *ngIf="permanentAddress.errors.maxlength"> permanentAddress should be maximum {{ permanentAddress.errors.maxlength.requiredLength }} characters </div>
+                      <div *ngIf="permanentAddress.errors.minlength"> <mat-error>permanentAddress should be minimum {{ permanentAddress.errors.minlength.requiredLength }} characters</mat-error> </div>
+                      <div *ngIf="permanentAddress.errors.maxlength"> <mat-error>permanentAddress should be maximum {{ permanentAddress.errors.maxlength.requiredLength }} characters</mat-error> </div>
                     </div>
                 </div>
             </div>
@@ -145,18 +145,18 @@
                 <div class="form-group">
                   <input type="text" class="form-control form-control-sm rounded-1" id="userName" name="userName" placeholder="User Name" formControlName="userName">
                   <div *ngIf="userName.touched && userName.invalid">
-                    <div *ngIf="userName.errors.minlength"> userName should be minimum {{ userName.errors.minlength.requiredLength }} characters </div>
-                    <div *ngIf="userName.errors.maxlength"> userName should be maximum {{ userName.errors.maxlength.requiredLength }} characters </div>
-                    <div *ngIf="userName.errors.cannotContainSpace"> userName cannot contain space. </div>
+                    <div *ngIf="userName.errors.minlength"> <mat-error>userName should be minimum {{ userName.errors.minlength.requiredLength }} characters</mat-error> </div>
+                    <div *ngIf="userName.errors.maxlength"> <mat-error>userName should be maximum {{ userName.errors.maxlength.requiredLength }} characters</mat-error> </div>
+                    <div *ngIf="userName.errors.cannotContainSpace"> <mat-error>userName cannot contain space.</mat-error> </div>
                   </div>
                 </div>
 
                 <div class="form-group">
                     <input type="text" class="form-control form-control-sm rounded-1" id="password" name="password" placeholder="*Password" formControlName="password">
                     <div *ngIf="password.touched && password.invalid">
-                      <div *ngIf="password.errors.required"> password is required </div>
-                      <div *ngIf="password.errors.minlength"> password should be minimum {{ password.errors.minlength.requiredLength }} characters </div>
-                      <div *ngIf="password.errors.maxlength"> password should be maximum {{ password.errors.maxlength.requiredLength }} characters </div>
+                      <div *ngIf="password.errors.required"> <mat-error>password is required</mat-error> </div>
+                      <div *ngIf="password.errors.minlength"> <mat-error>password should be minimum {{ password.errors.minlength.requiredLength }} characters</mat-error> </div>
+                      <div *ngIf="password.errors.maxlength"> <mat-error>password should be maximum {{ password.errors.maxlength.requiredLength }} characters</mat-error> </div>
                     </div>
                 </div>
             </div>
@@ -177,32 +177,39 @@
                 </div> -->
 
                 <div class="form-group">
-                    <label for="departmentId">Department</label>
+                    <label for="departmentId"><span style="color: red;">*</span>Department</label>
                     <select class="form-control form-control-sm" id="departmentId" name="departmentId" formControlName="departmentId" (change)="getDesignations()">
-                        <option>Select Department</option>
+                        <!-- <option>Select Department</option> -->
                         <option *ngFor="let department of departments" value={{department.id}}>{{department.department_name}}</option>
                     </select>
+                    <div *ngIf="departmentId.touched && departmentId.invalid">
+                      <div *ngIf="departmentId.errors.required"> <mat-error>department is required</mat-error> </div>
+                    </div>
                 </div>
 
                 <div class="form-group">
-                    <label for="designationId">Designation</label>
+                    <label for="designationId"><span style="color: red;">*</span>Designation</label>
                     <select class="form-control form-control-sm" id="designationId" name="designationId" formControlName="designationId">
-                        <option>Select Designation</option>
+                        <!-- <option>Select Designation</option> -->
                         <option *ngFor="let designation of designations" value={{designation.id}}>{{designation.designation}}</option>
                     </select>
+                    <div *ngIf="designationId.touched && designationId.invalid">
+                      <div *ngIf="designationId.errors.required"> <mat-error>designation is required</mat-error> </div>
+                    </div>
                 </div>
 
-                <label for="joiningDate">*Joining Date</label>
+                <label for="joiningDate"><span style="color: red;">*</span>Joining Date</label>
                 <div class="form-group form-inline">
                     <div class="input-group">
                         <input class="form-control form-control-sm" placeholder="yyyy-mm-dd" name="joiningDate" id="joiningDate" formControlName="joiningDate" ngbDatepicker #jd="ngbDatepicker">
-                        <div *ngIf="joiningDate.touched && joiningDate.invalid">
-                          <div *ngIf="joiningDate.errors.required"> joiningDate is required </div>
-                        </div>
                         <div class="input-group-append">
                             <button class="btn btn-outline-secondary calendar" (click)="jd.toggle()"></button>
                         </div>
                     </div>
+                </div>
+
+                <div *ngIf="joiningDate.touched && joiningDate.invalid">
+                  <div *ngIf="joiningDate.errors.required"> <mat-error>Joining Date is required</mat-error> </div> <br>
                 </div>
 
                 <div>

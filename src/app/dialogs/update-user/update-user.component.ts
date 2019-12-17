@@ -161,6 +161,8 @@ export class UpdateUserComponent implements OnInit {
         alert('Employee information updated succesfully');
         this.dialogRef.close();
       }
+    }, (err) => {
+      alert(err.error.errors.email[0]);
     });
   }
 

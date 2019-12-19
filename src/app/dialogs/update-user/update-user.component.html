@@ -18,9 +18,9 @@
                     <label for="name">Full Name</label>
                     <input type="text" class="form-control form-control-sm rounded-1" id="name" name="name" formControlName="name">
                     <div *ngIf="name.touched && name.invalid">
-                        <div *ngIf="name.errors.minlength"> name should be minimum {{ name.errors.minlength.requiredLength }} characters </div>
-                        <div *ngIf="name.errors.maxlength"> name should be maximum {{ name.errors.maxlength.requiredLength }} characters </div>
-                        <div *ngIf="name.errors.containsOnlyAlphabet"> name should be only alphabetic. </div>
+                        <div *ngIf="name.errors.minlength"> <mat-error>name should be minimum {{ name.errors.minlength.requiredLength }} characters</mat-error>  </div>
+                        <div *ngIf="name.errors.maxlength"> <mat-error>name should be maximum {{ name.errors.maxlength.requiredLength }} characters</mat-error> </div>
+                        <div *ngIf="name.errors.containsOnlyAlphabet"> <mat-error>name should be only alphabetic.</mat-error> </div>
                     </div>
                 </div>
 
@@ -56,9 +56,9 @@
                     <label for="fathersName">Father's Name</label>
                     <input type="text" class="form-control form-control-sm rounded-1" id="fathersName" name="fathersName" formControlName="fathersName">
                     <div *ngIf="fathersName.touched && fathersName.invalid">
-                        <div *ngIf="fathersName.errors.minlength"> Fathers Name should be minimum {{ fathersName.errors.minlength.requiredLength }} characters </div>
-                        <div *ngIf="fathersName.errors.maxlength"> Fathers Name should be maximum {{ fathersName.errors.maxlength.requiredLength }} characters </div>
-                        <div *ngIf="fathersName.errors.containsOnlyAlphabet"> Fathers Name should be alphabetic. </div>
+                        <div *ngIf="fathersName.errors.minlength"> <mat-error>Fathers Name should be minimum {{ fathersName.errors.minlength.requiredLength }} characters</mat-error> </div>
+                        <div *ngIf="fathersName.errors.maxlength"> <mat-error>Fathers Name should be maximum {{ fathersName.errors.maxlength.requiredLength }} characters</mat-error> </div>
+                        <div *ngIf="fathersName.errors.containsOnlyAlphabet"> <mat-error>Fathers Name should be alphabetic.</mat-error> </div>
                     </div>
                 </div>
 
@@ -89,9 +89,9 @@
                     <label>Email</label>
                     <input type="email" class="form-control form-control-sm rounded-1" id="email" name="email" formControlName="email">
                     <div *ngIf="email.touched && email.invalid">
-                        <div *ngIf="email.errors.minlength"> email should be minimum {{ email.errors.minlength.requiredLength }} characters </div>
-                        <div *ngIf="email.errors.maxlength"> email should be maximum {{ email.errors.maxlength.requiredLength }} characters </div>
-                        <div *ngIf="email.errors.cannotContainSpace"> email cannot contain space. </div>
+                        <div *ngIf="email.errors.minlength"> <mat-error>email should be minimum {{ email.errors.minlength.requiredLength }} characters</mat-error> </div>
+                        <div *ngIf="email.errors.maxlength"> <mat-error>email should be maximum {{ email.errors.maxlength.requiredLength }} characters</mat-error> </div>
+                        <div *ngIf="email.errors.cannotContainSpace"> <mat-error>email cannot contain space.</mat-error> </div>
                     </div>
                 </div>
 
@@ -99,9 +99,9 @@
                     <label>Phone number</label>
                     <input type="text" class="form-control form-control-sm rounded-1" id="phone" name="phone" formControlName="phone">
                     <div *ngIf="phone.touched && phone.invalid">
-                      <div *ngIf="phone.errors.minlength"> phone should be minimum {{ phone.errors.minlength.requiredLength }} characters </div>
-                      <div *ngIf="phone.errors.maxlength"> phone should be maximum {{ phone.errors.maxlength.requiredLength }} characters </div>
-                      <div *ngIf="phone.errors.containsOnlyNumber"> phone should contain only number. </div>
+                      <div *ngIf="phone.errors.minlength"> <mat-error>phone should be minimum {{ phone.errors.minlength.requiredLength }} characters</mat-error> </div>
+                      <div *ngIf="phone.errors.maxlength"> <mat-error>phone should be maximum {{ phone.errors.maxlength.requiredLength }} characters</mat-error> </div>
+                      <div *ngIf="phone.errors.containsOnlyNumber"> <mat-error>phone should contain only number.</mat-error> </div>
                   </div>
                 </div>
 
@@ -109,8 +109,8 @@
                     <label>Present Address</label>
                     <input type="text" class="form-control form-control-sm rounded-1" id="presentAddress" name="presentAddress" formControlName="presentAddress">
                     <div *ngIf="presentAddress.touched && presentAddress.invalid">
-                      <div *ngIf="presentAddress.errors.minlength"> presentAddress should be minimum {{ presentAddress.errors.minlength.requiredLength }} characters </div>
-                      <div *ngIf="presentAddress.errors.maxlength"> presentAddress should be maximum {{ presentAddress.errors.maxlength.requiredLength }} characters </div>
+                      <div *ngIf="presentAddress.errors.minlength"> <mat-error>presentAddress should be minimum {{ presentAddress.errors.minlength.requiredLength }} characters</mat-error> </div>
+                      <div *ngIf="presentAddress.errors.maxlength"> <mat-error>presentAddress should be maximum {{ presentAddress.errors.maxlength.requiredLength }} characters</mat-error> </div>
                     </div>
                 </div>
 
@@ -118,8 +118,8 @@
                     <label>Permanent Address</label>
                     <input type="text" class="form-control form-control-sm rounded-1" id="permanentAddress" name="permanentAddress" formControlName="permanentAddress">
                     <div *ngIf="permanentAddress.touched && permanentAddress.invalid">
-                      <div *ngIf="permanentAddress.errors.minlength"> permanentAddress should be minimum {{ permanentAddress.errors.minlength.requiredLength }} characters </div>
-                      <div *ngIf="permanentAddress.errors.maxlength"> permanentAddress should be maximum {{ permanentAddress.errors.maxlength.requiredLength }} characters </div>
+                      <div *ngIf="permanentAddress.errors.minlength"> <mat-error>permanentAddress should be minimum {{ permanentAddress.errors.minlength.requiredLength }} characters</mat-error> </div>
+                      <div *ngIf="permanentAddress.errors.maxlength"> <mat-error>permanentAddress should be maximum {{ permanentAddress.errors.maxlength.requiredLength }} characters</mat-error> </div>
                     </div>
                 </div>
             </div>

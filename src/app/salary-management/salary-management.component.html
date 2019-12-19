@@ -49,8 +49,8 @@
                   <label>Basic Salary</label>
                   <input type="text" class="form-control form-control-sm rounded-1" id="basic_salary" name="basic_salary" formControlName="basic_salary">
                   <div *ngIf="basic_salary.touched && basic_salary.invalid">
-                    <div *ngIf="basic_salary.errors.required"> Basic Salary is required </div>
-                    <div *ngIf="basic_salary.errors.containsDecimalNumber"> Field contains only decimal number. </div>
+                    <div *ngIf="basic_salary.errors.required"> <mat-error>Basic Salary is required</mat-error> </div>
+                    <div *ngIf="basic_salary.errors.containsDecimalNumber"> <mat-error>Field contains only decimal number.</mat-error> </div>
                   </div>
                 </div>
           </div>
@@ -71,7 +71,7 @@
                   <label>Tax Deduction</label>
                   <input type="text" class="form-control form-control-sm rounded-1" id="tax_deduction" name="tax_deduction" formControlName="tax_deduction">
                   <div *ngIf="tax_deduction.touched && tax_deduction.invalid">
-                    <div *ngIf="tax_deduction.errors.containsDecimalNumber"> Field contains only decimal number. </div>
+                    <div *ngIf="tax_deduction.errors.containsDecimalNumber"> <mat-error>Field contains only decimal number.</mat-error> </div>
                   </div>
                 </div>
 
@@ -79,7 +79,7 @@
                   <label>Other Deduction</label>
                   <input type="text" class="form-control form-control-sm rounded-1" id="other_deduction" name="other_deduction" formControlName="other_deduction">
                   <div *ngIf="other_deduction.touched && other_deduction.invalid">
-                    <div *ngIf="other_deduction.errors.containsDecimalNumber"> Field contains only decimal number. </div>
+                    <div *ngIf="other_deduction.errors.containsDecimalNumber"> <mat-error>Field contains only decimal number.</mat-error> </div>
                   </div>
                 </div>
           </div>
@@ -95,7 +95,7 @@
                   <label>House Rent Allowance</label>
                   <input type="text" class="form-control form-control-sm rounded-1" id="house_rent_allowance" name="house_rent_allowance" formControlName="house_rent_allowance">
                   <div *ngIf="house_rent_allowance.touched && house_rent_allowance.invalid">
-                    <div *ngIf="house_rent_allowance.errors.containsDecimalNumber"> Field contains only decimal number. </div>
+                    <div *ngIf="house_rent_allowance.errors.containsDecimalNumber"> <mat-error>Field contains only decimal number.</mat-error> </div>
                   </div>
               </div>
 
@@ -103,7 +103,7 @@
                   <label>Medical Allowance</label>
                   <input type="text" class="form-control form-control-sm rounded-1" id="medical_allowance" name="medical_allowance" formControlName="medical_allowance">
                   <div *ngIf="medical_allowance.touched && medical_allowance.invalid">
-                    <div *ngIf="medical_allowance.errors.containsDecimalNumber"> Field contains only decimal number. </div>
+                    <div *ngIf="medical_allowance.errors.containsDecimalNumber"> <mat-error>Field contains only decimal number.</mat-error> </div>
                   </div>
               </div>
 
@@ -111,7 +111,7 @@
                   <label>Special Allowance</label>
                   <input type="text" class="form-control form-control-sm rounded-1" id="special_allowance" name="special_allowance" formControlName="special_allowance">
                   <div *ngIf="special_allowance.touched && special_allowance.invalid">
-                    <div *ngIf="special_allowance.errors.containsDecimalNumber"> Field contains only decimal number. </div>
+                    <div *ngIf="special_allowance.errors.containsDecimalNumber"> <mat-error>Field contains only decimal number.</mat-error> </div>
                   </div>
               </div>
 
@@ -119,7 +119,7 @@
                   <label>Phone Bill Allowance</label>
                   <input type="text" class="form-control form-control-sm rounded-1" id="phone_bill_allowance" name="phone_bill_allowance" formControlName="phone_bill_allowance">
                   <div *ngIf="phone_bill_allowance.touched && phone_bill_allowance.invalid">
-                    <div *ngIf="phone_bill_allowance.errors.containsDecimalNumber"> Field contains only decimal number. </div>
+                    <div *ngIf="phone_bill_allowance.errors.containsDecimalNumber"> <mat-error>Field contains only decimal number.</mat-error> </div>
                   </div>
               </div>
 
@@ -127,7 +127,7 @@
                   <label>Fuel Allowance</label>
                   <input type="text" class="form-control form-control-sm rounded-1" id="fuel_allowance" name="fuel_allowance" formControlName="fuel_allowance">
                   <div *ngIf="fuel_allowance.touched && fuel_allowance.invalid">
-                    <div *ngIf="fuel_allowance.errors.containsDecimalNumber"> Field contains only decimal number. </div>
+                    <div *ngIf="fuel_allowance.errors.containsDecimalNumber"> <mat-error>Field contains only decimal number.</mat-error> </div>
                   </div>
               </div>
 
@@ -135,7 +135,7 @@
                   <label>Other Allowance</label>
                   <input type="text" class="form-control form-control-sm rounded-1" id="other_allowance" name="other_allowance" formControlName="other_allowance">
                   <div *ngIf="other_allowance.touched && other_allowance.invalid">
-                    <div *ngIf="other_allowance.errors.containsDecimalNumber"> Field contains only decimal number. </div>
+                    <div *ngIf="other_allowance.errors.containsDecimalNumber"> <mat-error>Field contains only decimal number.</mat-error> </div>
                   </div>
               </div>
           </div>

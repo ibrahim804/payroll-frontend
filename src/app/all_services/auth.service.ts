@@ -37,8 +37,8 @@ export class AuthService {
     return this.postInHTTP(apiRoutes.register, credentials);
   }
 
-  update(userId: string, credentials: Update) {
-    return this.postInHTTP(`${apiRoutes.update}/${userId}`, credentials);
+  update(credentials: Update) {
+    return this.postInHTTP(apiRoutes.update, credentials);
   }
 
   sendVerificationCode(data: ForgotPassword) {
@@ -63,7 +63,7 @@ export class AuthService {
 
   logout() {
     this.clearLocalStorage();
-    this.getFromHTTP(`${apiRoutes.logout}`);
+    this.getFromHTTP(apiRoutes.logout);
   }
 
   setValueInLocalStorage(key: any, value: any) {

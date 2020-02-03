@@ -12,7 +12,7 @@ export const apiRoutes = {
   user: `${baseUrl}/user`,
   userMe: `${baseUrl}/user-me`,
   userDeptDesgIds: `${baseUrl}/user-dept-desg`,
-  update: `${baseUrl}/update`,
+  update: `${baseUrl}/update-user`,
   delete: `${baseUrl}/delete/user`,
   logout: `${baseUrl}/logout`,
   updatePassword: `${baseUrl}/update-password`,

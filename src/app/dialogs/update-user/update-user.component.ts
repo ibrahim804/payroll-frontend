@@ -155,7 +155,7 @@ export class UpdateUserComponent implements OnInit {
       full_name, gender, email, phone,
       date_of_birth, marital_status, fathers_name, nationality, passport_number, present_address, permanent_address,
     };
-    this.authService.update(this.authService.getMyUserId(), data).subscribe(response => {
+    this.authService.update(data).subscribe(response => {
       console.log(response[0]);
       if (! this.checkError(response[0])) {
         alert('Employee information updated succesfully');

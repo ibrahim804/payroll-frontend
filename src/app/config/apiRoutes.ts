@@ -45,6 +45,7 @@ export const apiRoutes = {
 
   leaves: `${baseUrl}/leaves`,
   leave: `${baseUrl}/leave`,
+  leavesOfAUser: `${baseUrl}/leavesOfAUser`,
   leaveAvailableAndDuration: `${baseUrl}/leave/available-duration`,
   leaveApprove: `${baseUrl}/leave/approve`,
   leaveCancel: `${baseUrl}/leave/cancel`,

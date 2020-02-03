@@ -231,7 +231,7 @@ export class LeaveComponent implements AfterViewInit, OnInit {
   setDataSource() {
     let responseData = [];
     let count = 1;
-    this.leaveService.getAllLeavesOfAnEmployee(this.authService.getMyUserId()).subscribe(response => {
+    this.leaveService.getAllLeavesOfAnEmployee().subscribe(response => {
       for (let i of response[0].leaves) {
         responseData.push({
           serial_no: count,

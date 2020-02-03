@@ -14,8 +14,8 @@ export class LeaveService {
     return this.authService.getFromHTTP(apiRoutes.leaves);
   }
 
-  getAllLeavesOfAnEmployee(userId: string) {
-    return this.authService.getFromHTTP(`${apiRoutes.leaves}/${userId}`);
+  getAllLeavesOfAnEmployee() {
+    return this.authService.getFromHTTP(apiRoutes.leavesOfAUser);
   }
 
   getAvailableCountsAndDuration(categoryId: string, startDate: string, endDate: string) {

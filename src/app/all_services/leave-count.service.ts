@@ -9,7 +9,7 @@ export class LeaveCountService {
 
   constructor(private authService: AuthService) { }
 
-  getLeaveCountsOfEmployee(userId: string) {
-    return this.authService.getFromHTTP(`${apiRoutes.leaveCount}/${userId}`);
+  getLeaveCountsOfEmployee() {
+    return this.authService.getFromHTTP(apiRoutes.leaveCountsOfAUser);
   }
 }

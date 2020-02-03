@@ -41,6 +41,7 @@ export const apiRoutes = {
 
   leaveCounts: `${baseUrl}leave-counts`,
   leaveCount: `${baseUrl}/leave-count`,
+  leaveCountsOfAUser: `${baseUrl}/leave-counts-of-user`,
 
   leaves: `${baseUrl}/leaves`,
   leave: `${baseUrl}/leave`,

@@ -56,7 +56,7 @@ export class LeaveComponent implements AfterViewInit, OnInit {
     this.setDefault();
     combineLatest(
       this.leaveCategoryService.getLeaveCategories(),
-      this.leaveCountService.getLeaveCountsOfEmployee(this.authService.getMyUserId()),
+      this.leaveCountService.getLeaveCountsOfEmployee(),
     ).subscribe(res => {
       this.leaveCategories = res[0][0].leave_categories;
       this.leaveCounts = res[1][0].leave_counts;

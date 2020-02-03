@@ -2,7 +2,7 @@ import { AuthService } from 'src/app/all_services/auth.service';
 import { DialogConfirmationComponent } from './../dialogs/dialog-confirmation/dialog-confirmation.component';
 import { ProvidentFundService } from '../all_services/provident-fund.service';
 import { Create as PF } from './../config/interfaces/provident-fund.interface';
-import { Create as PAY } from './../config/interfaces/payment.interface';
+import { Create as PAY, SendMail } from './../config/interfaces/payment.interface';
 import { UserService } from './../all_services/user.service';
 import { PaymentService } from './../all_services/payment.service';
 import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
@@ -128,7 +128,10 @@ export class PaymentComponent implements AfterViewInit, OnInit {
       if (! this.checkError(response[0])) {
         this.setDataSource();
         // alert('Payment Done. Provident Fund Increased');
-        this.paymentService.sendPaymentInMail(userId).subscribe(mailResponse => {
+        const mailPayload: SendMail = {
+          user_id: userId
+        };
+        this.paymentService.sendPaymentInMail(mailPayload).subscribe(mailResponse => {
           console.log(mailResponse);
           this.authService.hideSpinner();
         }, (err) => {

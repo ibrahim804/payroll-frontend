@@ -33,7 +33,7 @@ export class LoanRequestComponent implements AfterViewInit, OnInit {
   setDataSource() {
     let responseData = [];
     let count = 1;
-    this.loanRequestService.getPendingRequetst().subscribe(response => {
+    this.loanRequestService.getPendingRequests().subscribe(response => {
       for (let i of response[0].loan_requests) {
         responseData.push({
           serial_no: count,

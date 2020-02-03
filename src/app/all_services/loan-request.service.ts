@@ -22,7 +22,7 @@ export class LoanRequestService {
     return this.authService.postInHTTP(apiRoutes.loanRequest, data);
   }
 
-  getPendingRequetst() {
+  getPendingRequests() {
     return this.authService.getFromHTTP(apiRoutes.loanRequests);
   }
 

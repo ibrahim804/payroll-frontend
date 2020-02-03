@@ -4,3 +4,7 @@ export interface Create {
   employee_monthly_cost: string;
   payable_amount: string;
 }
+
+export interface SendMail {
+  user_id: string;
+}

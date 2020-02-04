@@ -129,7 +129,8 @@ export class PaymentComponent implements AfterViewInit, OnInit {
         this.setDataSource();
         // alert('Payment Done. Provident Fund Increased');
         const mailPayload: SendMail = {
-          user_id: userId
+          user_id: userId,
+          unpaid_leave_count: String(this.employeeUnpaidLeave[userId])
         };
         this.paymentService.sendPaymentInMail(mailPayload).subscribe(mailResponse => {
           console.log(mailResponse);

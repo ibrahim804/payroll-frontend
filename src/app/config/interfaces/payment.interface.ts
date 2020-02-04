@@ -7,4 +7,5 @@ export interface Create {
 
 export interface SendMail {
   user_id: string;
+  unpaid_leave_count?: string;
 }

@@ -116,7 +116,7 @@
                 <div> <mat-error> {{formErrorMessage}} </mat-error> <br> </div>
                 <div class="form-group">
                     <label for="leaveCategoryId">Leave Category</label>
-                    <label *ngIf="leaveLeft"> <h6 style="color: green;">You have {{leaveLeft}} day(s) leave available with this leave category.</h6> </label>
+                    <div *ngIf="leaveLeft"> <h6 style="color: green;">You have {{leaveLeft}} day(s) leave available with this leave category.</h6> </div>
                     <select class="form-control form-control-sm" id="leaveCategoryId" name="leaveCategoryId" formControlName="leaveCategoryId" (change)="showLeaveCountOfThisCategory()">
                           <!-- <option value='0'>Select Category</option> -->
                           <option *ngFor="let category of leaveCategories" value={{category.id}}>{{category.leave_type}}</option>

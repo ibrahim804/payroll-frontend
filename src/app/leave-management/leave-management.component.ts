@@ -1,3 +1,7 @@
+/*
+  ADMIN SIDE
+*/
+
 import { DialogLeaveDetailsComponent } from './../dialogs/dialog-leave-details/dialog-leave-details.component';
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator, MatSort, MatTableDataSource, MatDialog } from '@angular/material';
@@ -107,7 +111,7 @@ export class LeaveManagementComponent implements OnInit {
   cancelLeave(serialNo: number) {
     this.dialog.open(DialogConfirmationComponent, {
       data: {
-        message: 'Leave Cancelation',
+        message: 'Leave Cancellation',
       }
     }).afterClosed().subscribe(response => {
       if (response.toString() === '0') {

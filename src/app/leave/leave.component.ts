@@ -1,3 +1,7 @@
+/*
+  USER SIDE
+*/
+
 import { combineLatest } from 'rxjs';
 import { LeaveCountService } from './../all_services/leave-count.service';
 import { AuthService } from './../all_services/auth.service';
@@ -100,7 +104,7 @@ export class LeaveComponent implements AfterViewInit, OnInit {
           if (digResponse.toString() === '1') {
             this.leaveService.submitLeaveApplication(leaveApplication).subscribe(response => {
               if (! this.checkError(response[0])) {
-                alert('Leave application submitted succesfully');
+                alert('Leave application submitted successfully');
                 this.alterView('');
               }
             });

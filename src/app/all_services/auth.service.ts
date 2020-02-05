@@ -79,9 +79,9 @@ export class AuthService {
     return localStorage.getItem(key);
   }
 
-  getMyUserId() {
-    return this.getValueFromLocalStorage('id');
-  }
+  // getMyUserId() {
+  //   return this.getValueFromLocalStorage('id');
+  // }
 
   deleteFromLocalStorage(key: any) {
     localStorage.removeItem(key);

@@ -18,6 +18,10 @@ export class SalaryService {
     return this.authService.getFromHTTP(`${apiRoutes.salary}/${id}`);
   }
 
+  getMySalary() {
+    return this.authService.getFromHTTP(apiRoutes.salaryMine);
+  }
+
   createSalary(data: Create) {
     return this.authService.postInHTTP(apiRoutes.salary, data);
   }

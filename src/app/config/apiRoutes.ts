@@ -26,6 +26,7 @@ export const apiRoutes = {
 
   salaries: `${baseUrl}/salaries`,
   salary: `${baseUrl}/salary`,
+  salaryMine: `${baseUrl}/salary-mine`,
 
   entry: `${baseUrl}/entry`,
   exit: `${baseUrl}/exit`,

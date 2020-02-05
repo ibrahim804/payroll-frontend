@@ -59,10 +59,8 @@ export class UserDetailsComponent implements OnInit {
     });
   }
 
-  redirectsToEmployeeSalary() { // ngOnIt of details
-    const userId = this.authService.getMyUserId();
-    // console.log(userId);
-    this.salaryService.getSalary(userId).subscribe(response => {
+  redirectsToEmployeeSalary() {
+    this.salaryService.getMySalary().subscribe(response => {
       if (response[0].status === 'OK') {
         this.employeeSalary = response[0].salary;
         this.employeeSalary.gross_salary = response[0].gross_salary;

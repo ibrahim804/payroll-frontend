@@ -61,9 +61,11 @@ export class AuthService {
     return this.getValueFromLocalStorage('role');
   }
 
-  logout() {
-    this.clearLocalStorage();
-    this.getFromHTTP(apiRoutes.logout);
+  logout(call_back) {
+    this.getFromHTTP(apiRoutes.logout).subscribe(response => {
+      this.clearLocalStorage();
+      call_back();
+    });
   }
 
   setValueInLocalStorage(key: any, value: any) {

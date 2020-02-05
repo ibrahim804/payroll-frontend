@@ -198,7 +198,7 @@ export class SalaryManagementComponent implements OnInit {
       };
       this.salaryService.updateSalary(this.employeeId, data).subscribe(response => {
         if (! this.checkError(response[0])) {
-          alert('Salary Updated Succefully');
+          alert('Salary Updated Successfully');
           this.updateObjects(response);
         }
       });

@@ -15,12 +15,6 @@ import { DialogConfirmationComponent } from '../dialogs/dialog-confirmation/dial
 })
 export class LeaveManagementComponent implements OnInit {
 
-/*
-  response: id, user_id, full_name, department_name, designation,
-  leave_type, leave_description, start_date, end_date, leave_length, leave_available, approval_status
-*/
-
-  /** Columns displayed in the table. Columns IDs can be added, removed, or reordered. */
   displayedColumns = ['serial_no', 'full_name', 'department_name', 'designation',
                       'leave_type' , 'start_date', 'end_date', 'show_details', 'status',
                       'accept', 'decline'];

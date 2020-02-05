@@ -10,9 +10,9 @@ export class UserService {
 
   constructor(private authService: AuthService) { }
 
-  getEmployee(employeeId: string) {
-    return this.authService.getFromHTTP(`${apiRoutes.user}/${employeeId}`);
-  }
+  // getEmployee(employeeId: string) {
+  //   return this.authService.getFromHTTP(`${apiRoutes.user}/${employeeId}`);
+  // }
 
   getLoggedInEmployee() {
     return this.authService.getFromHTTP(apiRoutes.userMe); // to do now
@@ -22,16 +22,16 @@ export class UserService {
     return this.authService.getFromHTTP(apiRoutes.users);
   }
 
-  getEmployeeDeptDesgIds(id: string) {
-    return this.authService.getFromHTTP(`${apiRoutes.userDeptDesgIds}/${id}`);
+  getEmployeeDeptDesgIds(userId: string) {
+    return this.authService.getFromHTTP(`${apiRoutes.userDeptDesgIds}/${userId}`);
   }
 
-  updateEmployee(employee: Update, id: string) {
-    return this.authService.postInHTTP(`${apiRoutes.update}/${id}`, employee);
-  }
+  // updateEmployee(employee: Update, id: string) {
+  //   return this.authService.postInHTTP(`${apiRoutes.update}/${id}`, employee);
+  // }
 
-  deleteEmployee(id: string) {
-    this.authService.getFromHTTP(`${apiRoutes.delete}/${id}`);
-  }
+  // deleteEmployee(id: string) {
+  //   this.authService.getFromHTTP(`${apiRoutes.delete}/${id}`);
+  // }
 
 }

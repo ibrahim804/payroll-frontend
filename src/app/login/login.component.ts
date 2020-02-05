@@ -39,29 +39,11 @@ export class LoginComponent implements OnInit {
 
     if (email.length === 0) {
       alert('Email is required');
-      return;
     } else if (password.length === 0) {
       alert('Password is required');
-      return;
+    } else {
+      this.loginToSystem(email, password);
     }
-
-    const credentials: Login = { email, password };
-
-    this.authService.login(credentials).subscribe(response => {
-      if (response[0].status === 'FAILED') {
-        alert(response[0].message);
-        this.router.navigate(['/login']);
-      } else {
-        this.authService.setValueInLocalStorage('full_name', response[0].full_name);
-        this.authService.setValueInLocalStorage('email', response[0].email);
-        this.authService.setValueInLocalStorage('token', response[0].token);
-        this.authService.setValueInLocalStorage('role', response[0].role);
-        this.authService.setValueInLocalStorage('id', response[0].id);
-
-        // this.getProfilePicture();
-        this.router.navigate(['/dashboard']);
-      }
-    });
   }
 
   goBack(currentState: number) {
@@ -141,6 +123,9 @@ export class LoginComponent implements OnInit {
     } else if (newPassword !== confirmPassword) {
       alert('New Password And Confirm Password Doesn\'t match');
       return;
+    } else if (newPassword.length < 6 || newPassword.length > 30) {
+      alert('Password should be minimum 6 characters and maximum 30 characters');
+      return;
     }
 
     const payload: SetNewPassword = {
@@ -152,27 +137,24 @@ export class LoginComponent implements OnInit {
     this.authService.setNewPassword(payload).subscribe(response => {
       if (! this.checkError(response[0])) {
         alert('Password Updated Successfully');
-        this.systemLogin(this.readOnlyMail, confirmPassword);
+        this.loginToSystem(this.readOnlyMail, confirmPassword);
       }
     });
   }
 
-  systemLogin(email: string, password: string) {
+  loginToSystem(email: string, password: string) {
     const credentials: Login = { email, password };
 
     this.authService.login(credentials).subscribe(response => {
-      if (response[0].status === 'FAILED') {
-        alert(response[0].message);
-        this.router.navigate(['/login']);
-      } else {
+      if (! this.checkError(response[0])) {
         this.authService.setValueInLocalStorage('full_name', response[0].full_name);
         this.authService.setValueInLocalStorage('email', response[0].email);
         this.authService.setValueInLocalStorage('token', response[0].token);
         this.authService.setValueInLocalStorage('role', response[0].role);
-        this.authService.setValueInLocalStorage('id', response[0].id);
-
         // this.getProfilePicture();
         this.router.navigate(['/dashboard']);
+      } else {
+        this.router.navigate(['/login']);
       }
     });
   }

@@ -16,15 +16,19 @@ export class LoginComponent implements OnInit {
   isLoading: boolean = null;
   readOnlyMail: string = null;
 
+  choosenViews: number [] = [0, 1, 2, 3, 4];
+  headings: string [] = ['Dummy', 'Login', 'Forgot Password', 'OTP Verification', 'Set New Password'];
+  buttonActivities: string [] = ['Dummy', 'Login', 'Send OTP', 'Verify Code', 'Set And Login'];
+
   constructor(
     private router: Router,
     private authService: AuthService,
   ) { }
 
   ngOnInit() {
-    this.choosenView = 1;
-    this.header = 'Login';
-    this.buttonActivity = 'Login';
+    this.choosenView = this.choosenViews[1];
+    this.header = this.headings[1];
+    this.buttonActivity = this.buttonActivities[1];
     this.isLoading = false;
     this.readOnlyMail = null;
   }
@@ -60,10 +64,16 @@ export class LoginComponent implements OnInit {
     });
   }
 
+  goBack(currentState: number) {
+    this.choosenView = this.choosenViews[currentState-1];
+    this.header = this.headings[currentState-1];
+    this.buttonActivity = this.buttonActivities[currentState-1];
+  }
+
   forgotPassword() {
-    this.choosenView = 2;
-    this.header = 'Forgot Password';
-    this.buttonActivity = 'Send OTP';
+    this.choosenView = this.choosenViews[2];
+    this.header = this.headings[2];
+    this.buttonActivity = this.buttonActivities[2];
   }
 
   sendOTP() {
@@ -80,9 +90,9 @@ export class LoginComponent implements OnInit {
       this.authService.sendVerificationCode(payload).subscribe(response => {
         this.isLoading = false;
         if (! this.checkError(response[0])) {
-          this.choosenView = 3;
-          this.header = 'OTP Verification';
-          this.buttonActivity = 'Verify Code';
+          this.choosenView = this.choosenViews[3];
+          this.header = this.headings[3];
+          this.buttonActivity = this.buttonActivities[3];
         }
         this.authService.hideSpinner();
       }, (err) => {
@@ -111,9 +121,9 @@ export class LoginComponent implements OnInit {
     this.authService.verifyVerificationCode(payload).subscribe(response => {
       if (! this.checkError(response[0])) {
         this.readOnlyMail = payload.email;
-        this.choosenView = 4;
-        this.header = 'Set New Password';
-        this.buttonActivity = 'Set And Login';
+        this.choosenView = this.choosenViews[4];
+        this.header = this.headings[4];
+        this.buttonActivity = this.buttonActivities[4];
       }
     });
   }
@@ -141,7 +151,7 @@ export class LoginComponent implements OnInit {
 
     this.authService.setNewPassword(payload).subscribe(response => {
       if (! this.checkError(response[0])) {
-        alert('Password Updated Succefully');
+        alert('Password Updated Successfully');
         this.systemLogin(this.readOnlyMail, confirmPassword);
       }
     });

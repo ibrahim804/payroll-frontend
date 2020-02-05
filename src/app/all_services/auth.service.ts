@@ -65,6 +65,9 @@ export class AuthService {
     this.getFromHTTP(apiRoutes.logout).subscribe(response => {
       this.clearLocalStorage();
       call_back();
+    }, err => {
+      this.clearLocalStorage();
+      call_back();
     });
   }
 

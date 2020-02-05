@@ -40,13 +40,16 @@
                             <button *ngIf="choosenView == 3" type="button" class="btn btn-success btn-md btn-block mt-3" id="btnLogin" (click)="verifyOTP()">{{buttonActivity}}</button>
                             <button *ngIf="choosenView == 4" type="button" class="btn btn-success btn-md btn-block mt-3" id="btnLogin" (click)="setNewPassword()">{{buttonActivity}}</button>
                         </div>
+                        <div *ngIf="choosenView != 1" style="padding-left: 5px;">
+                          <button mat-button (click)="goBack(choosenView)">
+                            <mat-icon>arrow_back_ios</mat-icon> Go Back
+                          </button>
+                        </div>
                         <div *ngIf="choosenView == 1" style="text-align: right; padding-right: 20px; padding-bottom: 15px; color: blue;">
                           <a href="javascript:void(0);" (click)="forgotPassword()">forgot password?</a>
                         </div>
                     </div>
                     <div *ngIf="isLoading" class="card mt-5">
-                      <!-- <mat-progress-spinner mode="indeterminate"></mat-progress-spinner> -->
-                      <!-- place here a progress bar -->
                     </div>
                 </div>
             </div>

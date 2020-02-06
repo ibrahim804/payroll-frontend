@@ -12,8 +12,6 @@ import { NgxSpinnerService } from 'ngx-spinner';
 })
 export class AuthService {
 
-  // userRole: string = null;
-
   constructor(private http: HttpClient, private spinner: NgxSpinnerService) {}
 
   getAuthorizedHeader() {
@@ -65,12 +63,7 @@ export class AuthService {
 
   getCurrentRole() {
     return this.getValueFromLocalStorage('role');
-    // return this.userRole;
   }
-
-  // setCurrentRole(role: string) {
-  //   this.userRole = role;
-  // }
 
   logout(call_back) {
     this.getFromHTTP(apiRoutes.logout).subscribe(response => {
@@ -89,10 +82,6 @@ export class AuthService {
   getValueFromLocalStorage(key: any) {
     return localStorage.getItem(key);
   }
-
-  // getMyUserId() {
-  //   return this.getValueFromLocalStorage('id');
-  // }
 
   deleteFromLocalStorage(key: any) {
     localStorage.removeItem(key);

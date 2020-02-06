@@ -22,4 +22,8 @@ export class UserService {
     return this.authService.getFromHTTP(`${apiRoutes.userDeptDesgIds}/${userId}`);
   }
 
+  update(credentials: Update) {
+    return this.authService.postInHTTP(apiRoutes.update, credentials);
+  }
+
 }

@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { first } from 'rxjs/operators';
 import { apiRoutes } from '../config/apiRoutes';
-import { Login, Register, Update, ForgotPassword, VerifyCode, SetNewPassword, UpdatePassword } from '../config/interfaces/user.interface';
+import { Login, Register, ForgotPassword, VerifyCode, SetNewPassword, UpdatePassword } from '../config/interfaces/user.interface';
 import { AbstractControl, ValidationErrors } from '@angular/forms';
 import { NgxSpinnerService } from 'ngx-spinner';
 
@@ -35,10 +35,6 @@ export class AuthService {
 
   register(credentials: Register) {
     return this.postInHTTP(apiRoutes.register, credentials);
-  }
-
-  update(credentials: Update) {
-    return this.postInHTTP(apiRoutes.update, credentials);
   }
 
   changePassword(credentials: UpdatePassword) {

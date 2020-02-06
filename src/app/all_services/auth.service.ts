@@ -12,7 +12,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 })
 export class AuthService {
 
-  userRole: string = null;
+  // userRole: string = null;
 
   constructor(private http: HttpClient, private spinner: NgxSpinnerService) {}
 
@@ -64,13 +64,13 @@ export class AuthService {
   }
 
   getCurrentRole() {
-    // return this.getValueFromLocalStorage('role');
-    return this.userRole;
+    return this.getValueFromLocalStorage('role');
+    // return this.userRole;
   }
 
-  setCurrentRole(role: string) {
-    this.userRole = role;
-  }
+  // setCurrentRole(role: string) {
+  //   this.userRole = role;
+  // }
 
   logout(call_back) {
     this.getFromHTTP(apiRoutes.logout).subscribe(response => {

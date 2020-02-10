@@ -40,8 +40,6 @@ export const apiRoutes = {
   leaveCategories: `${baseUrl}/leave-categories`,
   leaveCategory: `${baseUrl}/leave-category`,
 
-  leaveCounts: `${baseUrl}leave-counts`,
-  leaveCount: `${baseUrl}/leave-count`,
   leaveCountsOfAUser: `${baseUrl}/leave-counts-of-user`,
 
   leaves: `${baseUrl}/leaves`,

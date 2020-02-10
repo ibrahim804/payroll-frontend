@@ -116,7 +116,7 @@ export class AddEmployeeComponent implements OnInit {
     this.authService.register(data).subscribe(response => {
       // console.log(response);
       if (response[0].status === 'OK') {
-        alert('Employee created succesfully');
+        alert('Employee created Successfully');
         this.getProcessedWorkingDayId(response[0].id);
         // const workingDayId = this.getProcessedWorkingDayId(response[0].id);
         // console.log('working days id is: ', workingDayId);

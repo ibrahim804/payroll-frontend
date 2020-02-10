@@ -4,7 +4,6 @@
 
 import { combineLatest } from 'rxjs';
 import { LeaveCountService } from './../all_services/leave-count.service';
-import { AuthService } from './../all_services/auth.service';
 import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { LeaveService } from '../all_services/leave.service';
 import { CreateLeave } from '../config/interfaces/leave.interface';
@@ -39,7 +38,6 @@ export class LeaveComponent implements AfterViewInit, OnInit {
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
   constructor(
-    private authService: AuthService,
     private leaveService: LeaveService,
     private leaveCategoryService: LeaveCategoryService,
     private leaveCountService: LeaveCountService,
@@ -277,6 +275,8 @@ export class LeaveComponent implements AfterViewInit, OnInit {
         this.leaveService.removeLeave(leaveId).subscribe(response => {
           if (! this.checkError(response[0])) {
             alert('Leave Cancelled Successfully');
+            this.setDataSource();
+          } else {
             this.setDataSource();
           }
         });

@@ -21,7 +21,7 @@ export class UpdateUserComponent implements OnInit {
     private authService: AuthService,
     private userService: UserService,
     private formBuilder: FormBuilder,
-    private dialogRef: MatDialogRef <UpdateUserComponent >
+    private dialogRef: MatDialogRef <UpdateUserComponent>
   ) { }
 
   ngOnInit() {
@@ -166,6 +166,10 @@ export class UpdateUserComponent implements OnInit {
     }, (err) => {
       alert(err.error.errors.email[0]);
     });
+  }
+
+  cancelUpdate() {
+    this.dialogRef.close();
   }
 
   convertDatePickerToString(paramDate: any) {

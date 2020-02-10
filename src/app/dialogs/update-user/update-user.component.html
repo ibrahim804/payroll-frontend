@@ -129,13 +129,25 @@
 
     <div class="container">
         <div class="row">
-            <div class="col-4"></div>
+
+            <div class="col-2"></div>
+            <div class="col-3">
+                <button type="submit" class="btn btn-success btn-md btn-block mt-3" id="submit" (click)="updateEmployee()">Update</button>
+            </div>
+            <div class="col-2"></div>
+            <div class="col-3">
+                <button type="submit" class="btn btn-secondary btn-md btn-block mt-3" id="cancel" (click)="cancelUpdate()">Cancel</button>
+            </div>
+            <div class="col-2"></div>
+
+            <!-- <div class="col-4"></div>
             <div class="col-4 ">
                 <div *ngIf="formErrMessage"> <h6 style="color: red;"> {{formErrMessage}} </h6> </div>
                 <button type="submit" class="btn btn-success btn-md btn-block mt-3" id="submit" (click)="updateEmployee()">Update</button>
+                <button type="submit" class="btn btn-secondary btn-md btn-block mt-3" id="cancel" (click)="cancelUpdate()">Cancel</button>
                 <br> <br>
             </div>
-            <div class="col-4"></div>
+            <div class="col-4"></div> -->
         </div>
     </div>
 

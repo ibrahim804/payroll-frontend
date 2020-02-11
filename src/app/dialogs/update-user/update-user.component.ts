@@ -158,7 +158,7 @@ export class UpdateUserComponent implements OnInit {
       date_of_birth, marital_status, fathers_name, nationality, passport_number, present_address, permanent_address,
     };
     this.userService.update(data).subscribe(response => {
-      console.log(response[0]);
+      // console.log(response[0]);
       if (! this.checkError(response[0])) {
         alert('Employee information updated successfully');
         this.dialogRef.close();

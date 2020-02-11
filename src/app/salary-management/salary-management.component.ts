@@ -5,7 +5,8 @@ import { DepartmentService } from './../all_services/department.service';
 import { SalaryService } from './../all_services/salary.service';
 import { Component, OnInit } from '@angular/core';
 import { CustomValidators } from '../shared/custom.validators';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { urlRoutes } from '../config/apiRoutes';
 
 @Component({
   selector: 'app-salary-management',
@@ -41,6 +42,7 @@ export class SalaryManagementComponent implements OnInit {
     private designationService: DesignationService,
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
+    private router: Router
   ) { }
 
   ngOnInit() {
@@ -178,7 +180,7 @@ export class SalaryManagementComponent implements OnInit {
       this.salaryService.createSalary(data).subscribe(response => {
         if (! this.checkError(response[0])) {
           this.actionLabel = 'Update';
-          alert('Salary created Succefully');
+          alert('Salary created Successfully');
           this.updateObjects(response);
         }
       });
@@ -213,6 +215,10 @@ export class SalaryManagementComponent implements OnInit {
       total_deduction: response[0].total_deduction,
       net_salary: response[0].net_salary,
     };
+  }
+
+  goBack() {
+    this.router.navigate([urlRoutes.salaryManagement]);
   }
 
   buildForm() {

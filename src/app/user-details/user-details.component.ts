@@ -27,7 +27,6 @@ export class UserDetailsComponent implements OnInit {
     private userService: UserService,
     private router: Router,
     private salaryService: SalaryService,
-    private authService: AuthService,
     private dialog: MatDialog,
   ) { }
 
@@ -45,7 +44,8 @@ export class UserDetailsComponent implements OnInit {
       width: '65vw',
 
     }).afterClosed().subscribe(response => {
-      console.log(response);
+      // console.log(response);
+      this.redirectsToEmployeeInformation();
     });
   }
 

@@ -12,6 +12,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, Validators, FormArray } from '@angular/forms';
 import { CustomValidators } from '../shared/custom.validators';
 import { WorkingDayService } from '../all_services/working-day.service';
+import { MatDialog } from '@angular/material';
+import { DialogConfirmationComponent } from '../dialogs/dialog-confirmation/dialog-confirmation.component';
 
 @Component({
   selector: 'app-add-employee',
@@ -52,6 +54,7 @@ export class AddEmployeeComponent implements OnInit {
     private workingDaysService: WorkingDayService,
     private formBuilder: FormBuilder,
     private router: Router,
+    private dialog: MatDialog,
   ) {}
 
   ngOnInit() {
@@ -113,15 +116,23 @@ export class AddEmployeeComponent implements OnInit {
       date_of_birth, marital_status, fathers_name, nationality, passport_number, present_address, permanent_address,
     };
 
-    this.authService.register(data).subscribe(response => {
+    this.dialog.open(DialogConfirmationComponent, {
+      data: {message: 'User Registration'}
+    }).afterClosed().subscribe(dialogResponse => {
+      if ( dialogResponse === '1') {
+        this.authService.register(data).subscribe(response => {
       // console.log(response);
-      if (response[0].status === 'OK') {
-        alert('Employee created Successfully');
-        this.getProcessedWorkingDayId(response[0].id);
-        // const workingDayId = this.getProcessedWorkingDayId(response[0].id);
-        // console.log('working days id is: ', workingDayId);
-      } else {
-        alert(response[0].message.email[0]);
+          if (response[0].status === 'OK') {
+            alert('Employee created Successfully');
+            this.getProcessedWorkingDayId(response[0].id);
+            // const workingDayId = this.getProcessedWorkingDayId(response[0].id);
+            // console.log('working days id is: ', workingDayId);
+          } else {
+            alert(response[0].message.email[0]);
+          }
+        }, (err) => {
+          alert('Something wrong.');
+        });
       }
     });
   }
@@ -376,6 +387,10 @@ export class AddEmployeeComponent implements OnInit {
       this.formErrMessage = null;
       return true;
     }
+  }
+
+  goBack() {
+    this.router.navigate([urlRoutes.employeesList]);
   }
 
   private checkError(response: any) {

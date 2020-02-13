@@ -1,13 +1,14 @@
 import { UpdateUserComponent } from './../dialogs/update-user/update-user.component';
 import { MatDialog } from '@angular/material';
 import { AuthService } from './../all_services/auth.service';
-import { urlRoutes } from './../config/apiRoutes';
+import { urlRoutes, apiRoutes } from './../config/apiRoutes';
 import { Component, OnInit } from '@angular/core';
-import { User } from './../config/interfaces/user.interface';
+import { User, UpdatePassword } from './../config/interfaces/user.interface';
 import { UserService } from './../all_services/user.service';
 import { Router } from '@angular/router';
 import { SingleObj } from '../config/interfaces/salary.interface';
 import { SalaryService } from '../all_services/salary.service';
+import { DialogPasswordUpdateComponent } from '../dialogs/dialog-password-update/dialog-password-update.component';
 
 @Component({
   selector: 'app-user-details',
@@ -24,6 +25,7 @@ export class UserDetailsComponent implements OnInit {
   employeeSalary: SingleObj;
 
   constructor(
+    private authService: AuthService,
     private userService: UserService,
     private router: Router,
     private salaryService: SalaryService,
@@ -46,6 +48,25 @@ export class UserDetailsComponent implements OnInit {
     }).afterClosed().subscribe(response => {
       // console.log(response);
       this.redirectsToEmployeeInformation();
+    });
+  }
+
+  redirectsToPasswordUpdate() {
+    this.dialog.open(DialogPasswordUpdateComponent, {
+      data: {
+        message: 'Password Update',
+      }
+    }).afterClosed().subscribe(inputs => {
+      if (! inputs) return;   // when user cancels
+      const structuredData: UpdatePassword = inputs; // to be sure that it receives data of UpdatePassword Type
+      this.authService.changePassword(structuredData).subscribe(response => {
+        if (! this.checkError(response[0])) {
+          alert('Password Updated Successfully');
+          this.authService.logout(() => {
+            this.router.navigate([urlRoutes.login]);
+          });
+        }
+      });
     });
   }
 

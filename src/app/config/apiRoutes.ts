@@ -110,11 +110,11 @@ export const urlRoutes = {
 export const genericNavConstants = {  // Route Flow: sidebar->urlRoute->appRouting->apiRoute
   sideBar: [
     {
-      name: 'Dashboard',
+      name: 'Home',
       url: urlRoutes.dashboard,
       icon: 'home',
       role: [role.ADMIN, role.USER],
-      mini_name: 'Dashboard'
+      mini_name: 'Home'
     },
     {
       name: 'Employees',
@@ -180,7 +180,7 @@ export const genericNavConstants = {  // Route Flow: sidebar->urlRoute->appRouti
       mini_name: 'Loan',
     },
     // {
-    //   name: 'Genaral Settings',
+    //   name: 'General Settings',
     //   url: urlRoutes.settings,
     //   icon: 'build',
     //   role: [role.ADMIN, role.USER],

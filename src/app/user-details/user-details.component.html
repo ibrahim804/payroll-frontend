@@ -71,10 +71,13 @@
         <!-- <button (click)="redirectsToDashboard()" mat-raised-button color="primary" class="w-224 h-40">
           Home
         </button> -->
-        <button *ngIf="isDefaultView" (click)="redirectsToEmployeeUpdate()" mat-raised-button color="warn" class="w-224 h-40">
+        <button *ngIf="isDefaultView" (click)="redirectsToEmployeeUpdate()" mat-raised-button color="primary" style="color: rgb(225, 236, 225);" class="w-224 h-40">
           Update Personal Information
         </button>
-        <button *ngIf="isDefaultView" (click)="redirectsToEmployeeSalary()" mat-raised-button style="color: whitesmoke; background-color:teal;" class="w-224 h-40">
+        <button *ngIf="isDefaultView" (click)="redirectsToPasswordUpdate()" mat-raised-button color="warn" class="w-224 h-40">
+          Update Password
+        </button>
+        <button *ngIf="isDefaultView" (click)="redirectsToEmployeeSalary()" mat-raised-button style="color: white; background-color:darkslategrey;" class="w-224 h-40">
           View Salary
         </button>
         <button *ngIf="!isDefaultView" (click)="redirectsToEmployeeInformation()" mat-raised-button style="color: whitesmoke; background-color:teal;" class="w-224 h-40">

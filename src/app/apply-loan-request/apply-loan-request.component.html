@@ -22,7 +22,7 @@
                           <input type="text" class="form-control form-control-sm rounded-1" id="requested_amount" name="requested_amount" formControlName="requested_amount">
                           <div *ngIf="requested_amount.touched && requested_amount.invalid">
                               <div *ngIf="requested_amount.errors.containsDecimalNumber">
-                                <mat-error> Field can contain only non negetive decimal value </mat-error>
+                                <mat-error> Field can contain only non negative decimal value </mat-error>
                               </div>
                           </div>
                         </div>

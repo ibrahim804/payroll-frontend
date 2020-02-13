@@ -50,6 +50,7 @@ import { ApplyLoanRequestComponent } from './apply-loan-request/apply-loan-reque
 import { DialogPayLoanComponent } from './dialogs/dialog-pay-loan/dialog-pay-loan.component';
 import { LoanPayBackComponent } from './loan-pay-back/loan-pay-back.component';
 import { UpdateUserComponent } from './dialogs/update-user/update-user.component';
+import { DialogPasswordUpdateComponent } from './dialogs/dialog-password-update/dialog-password-update.component';
 
 @NgModule({
   declarations: [
@@ -83,6 +84,7 @@ import { UpdateUserComponent } from './dialogs/update-user/update-user.component
     DialogPayLoanComponent,
     LoanPayBackComponent,
     UpdateUserComponent,
+    DialogPasswordUpdateComponent,
   ],
   imports: [
     MaterialModule,
@@ -109,6 +111,7 @@ import { UpdateUserComponent } from './dialogs/update-user/update-user.component
     DialogConfirmationComponent,
     DialogLoanRequestComponent,
     DialogPayLoanComponent,
+    DialogPasswordUpdateComponent,
     ApplyLoanRequestComponent,
   ],
   providers: [

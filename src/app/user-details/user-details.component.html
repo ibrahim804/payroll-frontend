@@ -1,0 +1,90 @@
+<div class="p-40">
+  <mat-card class="mat-elevation-z8">
+    <div [ngClass.xs]="{ 'p-8': true }" [ngClass.sm]="{ 'p-8': true }" ngClass="px-164 py-64">
+      <div [ngClass.sm]="{ 'pl-8 font-size-24 font-weight-950': true }" ngClass="font-size-24 font-weight-950 pl-60">
+        {{defaultHeader}}
+      </div>
+
+      <div *ngIf="isDefaultView" fxLayout="row" fxLayoutAlign="space-between center" class="py-48">
+        <div fxLayout="column" fxLayoutAlign="center start" [ngClass.xs]="{ 'pl-8 ': true }" [ngClass.sm]="{ 'pl-8 ': true }" ngClass="pl-60" fxLayoutGap="12px">
+          <div>Company</div>
+          <div>Department</div>
+          <div>Designation</div>
+          <div>Email</div>
+          <div>Phone</div>
+          <div>Joining Date</div>
+          <div>Net Salary</div>
+          <div>Actual Provident Fund</div>
+          <div>On Loan</div>
+          <div>Available Provident Fund</div>
+          <div>Address</div>
+        </div>
+        <div fxLayout="column" fxLayoutAlign="center start" [ngClass.xs]="{ 'pl-8 ': true }" [ngClass.sm]="{ 'pl-8 ': true }" ngClass="pl-60" fxLayoutGap="12px">
+            <div>{{user?.company_name}}</div>
+            <div>{{user?.department_name}}</div>
+            <div>{{user?.designation}}</div>
+            <div>{{user?.email}}</div>
+            <div>{{user?.phone}}</div>
+            <div>{{user?.joining_date}}</div>
+            <div>{{user?.net_salary}}</div>
+            <div>{{user?.provident_fund}}</div>
+            <div>{{user?.on_loan}}</div>
+            <div>{{user?.available_pf}}</div>
+            <div>{{user?.present_address}}</div>
+        </div>
+      </div>
+
+      <div *ngIf="!isDefaultView" fxLayout="row" fxLayoutAlign="space-between center" class="py-48">
+        <div fxLayout="column" fxLayoutAlign="center start" [ngClass.xs]="{ 'pl-8 ': true }" [ngClass.sm]="{ 'pl-8 ': true }" ngClass="pl-60" fxLayoutGap="12px">
+          <div>Basic Salary</div>
+          <div>House Rent Allowance</div>
+          <div>Medical Allowance</div>
+          <div>Fuel Allowance</div>
+          <div>Phone Bill Allowance</div>
+          <div>Special Allowance</div>
+          <div>Other Allowance</div>
+          <div>Tax Deduction</div>
+          <div>PF Deduction</div>
+          <div>Other Deduction</div>
+          <div>Gross Salary</div>
+          <div>Total Deduction</div>
+          <div>Net Salary</div>
+        </div>
+        <div fxLayout="column" fxLayoutAlign="space-between end" [ngClass.xs]="{ 'pl-8 ': true }" [ngClass.sm]="{ 'pl-8 ': true }" ngClass="pl-60" fxLayoutGap="12px">
+            <div>{{employeeSalary?.basic_salary}}</div>
+            <div>{{employeeSalary?.house_rent_allowance}}</div>
+            <div>{{employeeSalary?.medical_allowance}}</div>
+            <div>{{employeeSalary?.fuel_allowance}}</div>
+            <div>{{employeeSalary?.phone_bill_allowance}}</div>
+            <div>{{employeeSalary?.special_allowance}}</div>
+            <div>{{employeeSalary?.other_allowance}}</div>
+            <div>{{employeeSalary?.tax_deduction}}</div>
+            <div>{{employeeSalary?.provident_fund}}</div>
+            <div>{{employeeSalary?.other_deduction}}</div>
+            <div>{{employeeSalary?.gross_salary}}</div>
+            <div>{{employeeSalary?.total_deduction}}</div>
+            <div>{{employeeSalary?.net_salary}}</div>
+        </div>
+      </div>
+                                                        <!--  class="mb-24 mt-8 mr-64" -->
+      <div fxLayout="row" fxLayoutAlign="space-around center" class="py-48">
+        <!-- <button (click)="redirectsToDashboard()" mat-raised-button color="primary" class="w-224 h-40">
+          Home
+        </button> -->
+        <button *ngIf="isDefaultView" (click)="redirectsToEmployeeUpdate()" mat-raised-button color="primary" style="color: rgb(225, 236, 225);" class="w-224 h-40">
+          Update Personal Information
+        </button>
+        <button *ngIf="isDefaultView" (click)="redirectsToPasswordUpdate()" mat-raised-button color="warn" class="w-224 h-40">
+          Update Password
+        </button>
+        <button *ngIf="isDefaultView" (click)="redirectsToEmployeeSalary()" mat-raised-button style="color: white; background-color:darkslategrey;" class="w-224 h-40">
+          View Salary
+        </button>
+        <button *ngIf="!isDefaultView" (click)="redirectsToEmployeeInformation()" mat-raised-button style="color: whitesmoke; background-color:teal;" class="w-224 h-40">
+          View Personal Information
+        </button>
+      </div>
+
+    </div>
+  </mat-card>
+</div>

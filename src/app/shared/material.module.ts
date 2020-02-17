@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
+import {FlexLayoutModule} from '@angular/flex-layout';
+import { NgxSpinnerModule } from 'ngx-spinner';
 import {
   MatButtonModule,
   MatCheckboxModule,
@@ -15,7 +16,10 @@ import {
   MatPaginatorModule,
   MatSortModule,
   MatFormFieldModule,
-  MatInputModule
+  MatInputModule,
+  MatDialogModule,
+  MatChipsModule,
+  MatProgressBarModule,
 } from '@angular/material';
 
 @NgModule({
@@ -36,6 +40,11 @@ import {
     MatSortModule,
     MatFormFieldModule,
     MatInputModule,
+    FlexLayoutModule,
+    MatDialogModule,
+    MatChipsModule,
+    MatProgressBarModule,
+    NgxSpinnerModule
   ],
   exports: [
     MatButtonModule,
@@ -52,6 +61,11 @@ import {
     MatSortModule,
     MatFormFieldModule,
     MatInputModule,
+    FlexLayoutModule,
+    MatDialogModule,
+    MatChipsModule,
+    MatProgressBarModule,
+    NgxSpinnerModule
   ],
 })
 export class MaterialModule { }

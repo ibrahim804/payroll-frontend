@@ -5,7 +5,7 @@ import { GeneratePayrollDataSource, GeneratePayrollItem } from './generate-payro
 @Component({
   selector: 'app-generate-payroll',
   templateUrl: './generate-payroll.component.html',
-  styleUrls: ['./generate-payroll.component.css']
+  styleUrls: ['./generate-payroll.component.scss']
 })
 export class GeneratePayrollComponent implements AfterViewInit, OnInit {
   @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;

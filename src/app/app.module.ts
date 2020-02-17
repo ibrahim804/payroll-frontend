@@ -26,7 +26,7 @@ import { TokenInterceptorService } from './_services/token-interceptor.service';
 import { FileUploadModule } from 'ng2-file-upload';
 import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FlatpickrModule } from 'angularx-flatpickr';
 import { AngularFontAwesomeModule } from 'angular-font-awesome';
 import { LeaveManagementComponent } from './leave-management/leave-management.component';
@@ -36,6 +36,21 @@ import { TodaysAttendanceComponent } from './todays-attendance/todays-attendance
 
 import { ChartsModule } from 'ng2-charts';
 import { AttendanceReportComponent } from './attendance-report/attendance-report.component';
+import { BlankComponent } from './blank-component/blank-component.component';
+import { UserDetailsComponent } from './user-details/user-details.component';
+import { DialogSalaryDetailsComponent } from './dialog-salary-details/dialog-salary-details.component';
+import { DialogLeaveDetailsComponent } from './dialogs/dialog-leave-details/dialog-leave-details.component';
+import { DialogConfirmationComponent } from './dialogs/dialog-confirmation/dialog-confirmation.component';
+import { PaymentComponent } from './payment/payment.component';
+import { ProvidentFundComponent } from './provident-fund/provident-fund.component';
+import { LoanHistoryComponent } from './loan-history/loan-history.component';
+import { LoanRequestComponent } from './loan-request/loan-request.component';
+import { DialogLoanRequestComponent } from './dialogs/dialog-loan-request/dialog-loan-request.component';
+import { ApplyLoanRequestComponent } from './apply-loan-request/apply-loan-request.component';
+import { DialogPayLoanComponent } from './dialogs/dialog-pay-loan/dialog-pay-loan.component';
+import { LoanPayBackComponent } from './loan-pay-back/loan-pay-back.component';
+import { UpdateUserComponent } from './dialogs/update-user/update-user.component';
+import { DialogPasswordUpdateComponent } from './dialogs/dialog-password-update/dialog-password-update.component';
 
 @NgModule({
   declarations: [
@@ -54,7 +69,22 @@ import { AttendanceReportComponent } from './attendance-report/attendance-report
     LeaveManagementComponent,
     LeaveComponent,
     TodaysAttendanceComponent,
-    AttendanceReportComponent
+    AttendanceReportComponent,
+    BlankComponent,
+    UserDetailsComponent,
+    DialogSalaryDetailsComponent,
+    DialogLeaveDetailsComponent,
+    DialogConfirmationComponent,
+    PaymentComponent,
+    ProvidentFundComponent,
+    LoanHistoryComponent,
+    LoanRequestComponent,
+    DialogLoanRequestComponent,
+    ApplyLoanRequestComponent,
+    DialogPayLoanComponent,
+    LoanPayBackComponent,
+    UpdateUserComponent,
+    DialogPasswordUpdateComponent,
   ],
   imports: [
     MaterialModule,
@@ -67,12 +97,22 @@ import { AttendanceReportComponent } from './attendance-report/attendance-report
     NgbModule,
     FileUploadModule,
     FormsModule,
+    ReactiveFormsModule,
     ChartsModule,
     FlatpickrModule.forRoot(),
     CalendarModule.forRoot({
       provide: DateAdapter,
       useFactory: adapterFactory
     })
+  ],
+  entryComponents: [
+    DialogSalaryDetailsComponent,
+    DialogLeaveDetailsComponent,
+    DialogConfirmationComponent,
+    DialogLoanRequestComponent,
+    DialogPayLoanComponent,
+    DialogPasswordUpdateComponent,
+    ApplyLoanRequestComponent,
   ],
   providers: [
     AuthGuard,

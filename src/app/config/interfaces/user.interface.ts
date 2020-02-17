@@ -4,6 +4,22 @@ export interface Login {
   password: string;
 }
 
+export interface User {
+  company_name: string;
+  department_name: string;
+  designation: string;
+  email: string;
+  full_name: string;
+  id: string;
+  joining_date: string;
+  phone: string;
+  present_address: string;
+  net_salary: string;
+  provident_fund?: string;
+  on_loan?: string;
+  available_pf?: string;
+}
+
 export interface Register {
   full_name: string;
   email: string;
@@ -24,6 +40,7 @@ export interface Register {
   company_id?: string;
   designation_id?: string;
   department_id?: string;
+  working_day_id?: string;
 }
 
 export interface Update {

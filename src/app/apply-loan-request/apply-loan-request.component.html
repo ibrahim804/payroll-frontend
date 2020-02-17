@@ -1,0 +1,55 @@
+
+<div *ngIf="onLoan === 0" style="width: 600px; height: 400px;">
+  <form [formGroup]="loanRequestForm" #credentials="ngForm">
+    <div>
+        <div class="card m-3">
+            <div class="card-header" style="background: #263238">
+                <h4 class="text-center" style="color: white">{{data?.message}}</h4>
+            </div> <br>
+
+            <div class="row">
+                <div class="col-4"></div>
+                <div class="col-5">
+                    <div class="card-body">
+
+                        <div class="form-group">
+                          Available PF:
+                          <input class="form-control" type="text" [placeholder]="availablePF" readonly>
+                        </div>
+
+                        <div class="form-group">
+                          Demand Amount:
+                          <input type="text" class="form-control form-control-sm rounded-1" id="requested_amount" name="requested_amount" formControlName="requested_amount">
+                          <div *ngIf="requested_amount.touched && requested_amount.invalid">
+                              <div *ngIf="requested_amount.errors.containsDecimalNumber">
+                                <mat-error> Field can contain only non negative decimal value </mat-error>
+                              </div>
+                          </div>
+                        </div>
+
+                        <div *ngIf="! compareTwoAmounts()">
+                          <mat-error> Request can't be greater than the Provident Fund </mat-error>
+                        </div>
+
+                        <div fxLayout="row" fxLayoutAlign="space-between center" class="py-48">
+                            <button mat-raised-button [mat-dialog-close]="returnData(1)" color="primary" cdkFocusInitial>Send</button>
+                            <button mat-raised-button [mat-dialog-close]="returnData(0)" color="warn">Cancel</button>
+                          </div>
+                    </div>
+                </div>
+                <div class="col-3"></div>
+            </div>
+          </div>
+    </div>
+  </form>
+</div>
+
+<div *ngIf="onLoan > 0" style="width: 300px; height: 240px;">
+  <div fxLayout="column" fxLayoutAlign="center center" class="py-48">
+      <h3 style="color: red;"> Oops!! You have already taken a loan and didn't pay it back fully.</h3>
+      <p> Your current loan amount is <b>{{onLoan}}</b> TK </p>
+    <button class="btn btn-secondary" [mat-dialog-close]="returnData(0)" color="warn" cdkFocusInitial>OK</button>
+  </div>
+</div>
+
+

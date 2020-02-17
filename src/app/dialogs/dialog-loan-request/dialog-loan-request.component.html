@@ -1,0 +1,13 @@
+<h1 mat-dialog-title> {{data?.name}} </h1>
+<div mat-dialog-content>
+  <div>
+    Available Provident Fund: {{data?.pfAmount}} BDT <br>
+    Requested Amount: {{data?.reqAmount}} BDT <br>
+    Amount After Acceptance: {{data?.afterAcAmount}} BDT <br>
+  </div> <br>
+</div>
+<div mat-dialog-actions>
+  <button mat-raised-button class="btn btn-success btn-sm mr-1" mat-dialog-close="1" cdkFocusInitial > Accept </button>
+  <button mat-raised-button class="btn btn-danger btn-sm mr-1" mat-dialog-close="0"> Reject </button>
+  <button mat-raised-button class="btn btn-light btn-sm mr-1" mat-dialog-close="-1"> Later </button>
+</div>

@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 @Component({
   selector: 'app-todays-attendance',
   templateUrl: './todays-attendance.component.html',
-  styleUrls: ['./todays-attendance.component.css']
+  styleUrls: ['./todays-attendance.component.scss']
 })
 export class TodaysAttendanceComponent implements OnInit {
 
@@ -21,12 +21,12 @@ export class TodaysAttendanceComponent implements OnInit {
       backgroundColor: ['#5cb85c', '#f0ad4e', '#d9534f', '#34495e']
     }
   ]
- 
+
   // events
   public chartClicked(e:any):void {
     console.log(e);
   }
- 
+
   public chartHovered(e:any):void {
     console.log(e);
   }

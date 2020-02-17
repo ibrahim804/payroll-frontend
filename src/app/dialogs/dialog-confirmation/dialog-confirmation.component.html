@@ -1,0 +1,20 @@
+<h1 mat-dialog-title> {{data?.message}} </h1>
+<div mat-dialog-content>
+  <div *ngIf="isExpanded">
+      Leave Type: {{data?.leaveCategory}} <br>
+      Leave Start From: {{data?.startDate}} <br>
+      Leave End At: {{data?.endDate}} <br>
+      Description: {{data?.description}} <br>
+      Leave Available: {{data?.availablePaidLeft}} <br>
+      Requested Leave Duration: {{data?.requestedDuration}} <br>
+      Unpaid Count: {{data?.unpaidLeaveCount}} <br>
+      <br> <br>
+  </div>
+  <div>
+      Are you sure?
+  </div>
+</div>
+<div mat-dialog-actions>
+  <button mat-raised-button mat-dialog-close="1" cdkFocusInitial > Yes </button>
+  <button mat-raised-button mat-dialog-close="0" cdkFocusInitial > No </button>
+</div>

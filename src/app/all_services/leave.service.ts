@@ -14,6 +14,16 @@ export class LeaveService {
     return this.authService.getFromHTTP(apiRoutes.leaves);
   }
 
+  getAllLeavesOfAnEmployee() {
+    return this.authService.getFromHTTP(apiRoutes.leavesOfAUser);
+  }
+
+  getAvailableCountsAndDuration(categoryId: string, startDate: string, endDate: string) {
+    return this.authService.getFromHTTP(
+      `${apiRoutes.leaveAvailableAndDuration}/${categoryId}/${startDate}/${endDate}`
+    );
+  }
+
   submitLeaveApplication(leaveApplication: CreateLeave) {
     return this.authService.postInHTTP(apiRoutes.leave, leaveApplication);
   }
@@ -24,5 +34,9 @@ export class LeaveService {
 
   cancelLeave(id: string) {
     return this.authService.getFromHTTP(`${apiRoutes.leaveCancel}/${id}`);
+  }
+
+  removeLeave(id: string) {
+    return this.authService.getFromHTTP(`${apiRoutes.leaveRemove}/${id}`);
   }
 }

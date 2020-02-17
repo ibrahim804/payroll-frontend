@@ -1,50 +1,171 @@
-<div class="card m-3">
+<!-- DEFAULT VIEW -->
+
+<div *ngIf="isDefaultView">
+
+  <br> <div class="card-header" style="background: #263238; width: 94%; margin: auto;">
+      <h4 class="text-center" style="color: white">Your Leave Requests</h4>
+  </div> <br>
+
+  <div fxLayout='row' fxLayoutAlign='space-around center' fxLayoutGap="24px" class='mx-40 mt-40 '>
+
+      <div class='w-100-p'>
+          <mat-form-field  appearance="outline">
+          <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+          <mat-icon matPrefix class='mr-16'>search</mat-icon>
+          </mat-form-field>
+      </div>
+      <div class='pb-16'>
+        <button mat-raised-button color="primary" class='h-60 w-224' (click)="alterView('create')">
+          Request Leave
+        </button>
+      </div>
+  </div>
+
+  <div fxLayout="column" class="mx-40 mb-40 mat-elevation-z8">
+    <mat-table #table [dataSource]="leaves" matSort matSortActive="serial_no" matSortDirection="asc" [class.isMobile]="isMobile">
+
+        <ng-container matColumnDef="serial_no">
+            <mat-header-cell *matHeaderCellDef mat-sort-header
+                class="primary-background white-color-foreground font-size-16"> SI No </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.serial_no}} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="leave_type">
+            <mat-header-cell *matHeaderCellDef mat-sort-header
+                class="primary-background white-color-foreground font-size-16"> Category </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.leave_type}} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="start_date">
+            <mat-header-cell *matHeaderCellDef mat-sort-header
+                class="primary-background white-color-foreground font-size-16"> Start From </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.start_date}} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="end_date">
+            <mat-header-cell *matHeaderCellDef mat-sort-header
+                class="primary-background white-color-foreground font-size-16"> End At </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.end_date}} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="description">
+          <mat-header-cell *matHeaderCellDef mat-sort-header
+              class="primary-background white-color-foreground font-size-16"> Description </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.description}} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="requested_duration">
+            <mat-header-cell *matHeaderCellDef mat-sort-header
+                class="primary-background white-color-foreground font-size-16"> Requesting Days </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.requested_duration}} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="leave_available">
+          <mat-header-cell *matHeaderCellDef mat-sort-header
+              class="primary-background white-color-foreground font-size-16"> Leave Available </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.leave_available}} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="status">
+          <mat-header-cell *matHeaderCellDef mat-sort-header
+              class="primary-background white-color-foreground font-size-16"> Status </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.status}} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="update">
+          <mat-header-cell *matHeaderCellDef
+              class="primary-background white-color-foreground font-size-16"> Cancel </mat-header-cell>
+          <mat-cell *matCellDef="let element">
+            <button mat-button color="warn" [disabled]="element.status != 'Pending'" (click)="openDialog(element.serial_no)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+
+    <mat-paginator [pageSize]="5" [pageSizeOptions]="[5, 10, 20, 50, 100]" showFirstLastButtons></mat-paginator>
+  </div>
+  
+</div>
+
+
+<!-- CREATE LEAVE VIEW -->
+
+<form *ngIf="!isDefaultView" [formGroup]="leaveApplicationForm" #credentials="ngForm" (ngSubmit)="checkOverAllBeforeLogin(credentials.value)">
+
+  <div class="card m-3">
     <div class="card-header" style="background: #263238">
         <h4 class="text-center" style="color: white">Application for Leave</h4>
-    </div>
+    </div> <br>
 
     <div class="row">
         <div class="col-4"></div>
         <div class="col-4">
             <div class="card-body">
+                <div> <mat-error> {{formErrorMessage}} </mat-error> <br> </div>
                 <div class="form-group">
-                    <label>Leave Category</label>
-                    <select class="form-control form-control-sm" id="category">
-                          <option>Select Category</option>
+                    <label for="leaveCategoryId">Leave Category</label>
+                    <div *ngIf="leaveLeft"> <h6 style="color: green;">You have {{leaveLeft}} day(s) leave available with this leave category.</h6> </div>
+                    <select class="form-control form-control-sm" id="leaveCategoryId" name="leaveCategoryId" formControlName="leaveCategoryId" (change)="showLeaveCountOfThisCategory()">
+                          <!-- <option value='0'>Select Category</option> -->
                           <option *ngFor="let category of leaveCategories" value={{category.id}}>{{category.leave_type}}</option>
                     </select>
+                    <div *ngIf="leaveCategoryId.touched && leaveCategoryId.invalid">
+                      <div *ngIf="leaveCategoryId.errors.required && isCreate"> <mat-error> Leave Category is required </mat-error> </div>
+                    </div>
                 </div>
 
-                <label>Start Date</label>
+                <label for="startDate">Start Date</label>
                 <div class="form-group">
                     <div class="input-group">
-                        <input class="form-control form-control-sm" placeholder="yyyy-mm-dd" name="start_date" id="start_date" ngbDatepicker #sd="ngbDatepicker">
+                        <input class="form-control form-control-sm" placeholder="yyyy-mm-dd" name="startDate" id="startDate" formControlName="startDate" ngbDatepicker #sd="ngbDatepicker">
                         <div class="input-group-append">
                             <button class="btn btn-outline-secondary calendar" (click)="sd.toggle()"></button>
                         </div>
                     </div>
                 </div>
 
-                <label>End Date</label>
+                <div *ngIf="startDate.touched && startDate.invalid">
+                  <div *ngIf="startDate.errors.required && isCreate"> <mat-error> Start Date is required </mat-error> </div> <br>
+                </div>
+
+                <label for="endDate">End Date</label>
                 <div class="form-group">
                     <div class="input-group">
-                        <input class="form-control form-control-sm" placeholder="yyyy-mm-dd" name="end_date" id="end_date" ngbDatepicker #ed="ngbDatepicker">
+                        <input class="form-control form-control-sm" placeholder="yyyy-mm-dd" name="endDate" id="endDate" formControlName="endDate" ngbDatepicker #ed="ngbDatepicker">
                         <div class="input-group-append">
                             <button class="btn btn-outline-secondary calendar" (click)="ed.toggle()"></button>
                         </div>
                     </div>
                 </div>
 
-                <div class="form-group">
-                    <label>Description</label>
-                    <textarea class="form-control form-control-sm rounded-1" style="resize:none" rows="5" id="description" required name="description"></textarea>
+                <div *ngIf="endDate.touched && endDate.invalid">
+                  <div *ngIf="endDate.errors.required && isCreate"> <mat-error> End Date is required </mat-error> <br> </div>
                 </div>
 
-                <div class="d-flex justify-content-center">
-                    <button class="btn btn-success btn-md" (click)="applyForLeave()">Submit</button>
+                <div *ngIf="! validateTwoDates()"> <mat-error> {{errMessage}} </mat-error> <br> </div>
+
+                <div class="form-group">
+                  <label for="description">Description</label>
+                  <textarea class="form-control form-control-sm rounded-1" style="resize:none" rows="5" id="description" name="description" formControlName="description"></textarea>
+                  <div *ngIf="description.touched && description.invalid">
+                    <div *ngIf="description.errors.required && isCreate"> <mat-error> Description is required </mat-error> </div>
+                  </div>
+                </div>
+
+                <div fxLayout="row" fxLayoutAlign="space-around center" class="mb-24 mt-8 mr-64">
+                    <button type="button" class="btn btn-secondary btn-md" id="back" (click)="alterView('main')">Go Back</button>
+                    <button type="submit" class="btn btn-success btn-md" id="submit" (click)="applyForLeave()">Submit</button>
                 </div>
             </div>
         </div>
         <div class="col-4"></div>
     </div>
-</div>
+  </div>
+</form>
+
+
+

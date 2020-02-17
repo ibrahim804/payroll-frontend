@@ -1,3 +1,5 @@
+@import '../../styles/theme.scss';
+
 button.calendar,
 button.calendar:active {
     width: 2.75rem;
@@ -5,4 +7,21 @@ button.calendar:active {
     background-repeat: no-repeat;
     background-size: 23px;
     background-position: center;
+}
+
+mat-header-cell {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  background-color: silver;
+}
+
+mat-cell {
+  display: flex !important;
+  justify-content: center !important;
+  text-align: center;
+}
+
+mat-paginator {
+  height: 64px !important;
 }

@@ -2,13 +2,17 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { first } from 'rxjs/operators';
+import { apiRoutes } from '../config/apiRoutes';
+import { Login, Register, ForgotPassword, VerifyCode, SetNewPassword, UpdatePassword } from '../config/interfaces/user.interface';
+import { AbstractControl, ValidationErrors } from '@angular/forms';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private spinner: NgxSpinnerService) {}
 
   getAuthorizedHeader() {
     const token = this.getValueFromLocalStorage('token');
@@ -25,8 +29,46 @@ export class AuthService {
     return httpOptions;
   }
 
+  login(credentials: Login) {
+    return this.postInHTTP(apiRoutes.login, credentials);
+  }
+
+  register(credentials: Register) {
+    return this.postInHTTP(apiRoutes.register, credentials);
+  }
+
+  changePassword(credentials: UpdatePassword) {
+    return this.postInHTTP(apiRoutes.updatePassword, credentials);
+  }
+
+  sendVerificationCode(data: ForgotPassword) {
+    return this.postInHTTP(apiRoutes.forgotPassword, data);
+  }
+
+  verifyVerificationCode(data: VerifyCode) {
+    return this.postInHTTP(apiRoutes.verifyVerificationCode, data);
+  }
+
+  setNewPassword(data: SetNewPassword) {
+    return this.postInHTTP(apiRoutes.setNewPassword, data);
+  }
+
   isLoggedIn() {
     return (this.getValueFromLocalStorage('token')) ? true : false;
+  }
+
+  getCurrentRole() {
+    return this.getValueFromLocalStorage('role');
+  }
+
+  logout(call_back) {
+    this.getFromHTTP(apiRoutes.logout).subscribe(response => {
+      this.clearLocalStorage();
+      call_back();
+    }, err => {
+      this.clearLocalStorage();
+      call_back();
+    });
   }
 
   setValueInLocalStorage(key: any, value: any) {
@@ -39,6 +81,22 @@ export class AuthService {
 
   deleteFromLocalStorage(key: any) {
     localStorage.removeItem(key);
+  }
+
+  private clearLocalStorage() {
+    localStorage.clear();
+  }
+
+  shouldBeUnique(control: AbstractControl): Observable<ValidationErrors | null> {
+    return new Observable(observer => {
+      this.getFromHTTP(apiRoutes.checkUniqueMail).subscribe(response => {
+        if (response[0].exists === 'yes') {
+          observer.next({shouldBeUnique: true});
+        } else {
+          observer.next(null);
+        }
+      });
+    });
   }
 
   getFromHTTP(endPoint: string): Observable <any> {
@@ -71,5 +129,13 @@ export class AuthService {
         observer.complete();
       });
     });
+  }
+
+  showSpinner() {
+    this.spinner.show();
+  }
+
+  hideSpinner() {
+    this.spinner.hide();
   }
 }

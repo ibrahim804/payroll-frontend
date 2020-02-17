@@ -1,0 +1,86 @@
+<br> <div class="card-header" style="background: #263238; width: 94%; margin: auto;">
+  <h4 class="text-center" style="color: white">Loan Pay Backs Requests</h4>
+</div> <br>
+
+<div fxLayout='row' fxLayoutAlign='space-around center' fxLayoutGap="24px" class='mx-40 mt-40 '>
+  <div class='w-100-p'>
+      <mat-form-field class='w-100-p' appearance="outline">
+      <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filter">
+      <mat-icon matPrefix class='mr-16'>search</mat-icon>
+      </mat-form-field>
+  </div>
+</div>
+
+<div fxLayout="column" class="mx-40 mb-40 mat-elevation-z8">
+  <mat-table #table [dataSource]="payBackRequests" matSort matSortActive="serial_no" matSortDirection="asc" [class.isMobile]="isMobile">
+
+      <ng-container matColumnDef="serial_no">
+          <mat-header-cell *matHeaderCellDef mat-sort-header
+              class="primary-background white-color-foreground font-size-16"> SI No </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.serial_no}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="name">
+          <mat-header-cell *matHeaderCellDef mat-sort-header
+              class="primary-background white-color-foreground font-size-16"> Name </mat-header-cell>
+          <mat-cell *matCellDef="let element"> {{element.name}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="department">
+        <mat-header-cell *matHeaderCellDef mat-sort-header
+            class="primary-background white-color-foreground font-size-16"> Department </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.department}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="designation">
+        <mat-header-cell *matHeaderCellDef mat-sort-header
+            class="primary-background white-color-foreground font-size-16"> Designation </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.designation}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="actual_loan_amount">
+        <mat-header-cell *matHeaderCellDef mat-sort-header
+            class="primary-background white-color-foreground font-size-16"> Loan Taken </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.actual_loan_amount}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="current_loan_amount">
+        <mat-header-cell *matHeaderCellDef mat-sort-header
+            class="primary-background white-color-foreground font-size-16"> Loan To Pay </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.current_loan_amount}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="previoud_paid">
+        <mat-header-cell *matHeaderCellDef mat-sort-header
+            class="primary-background white-color-foreground font-size-16"> Paid So Far </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.previoud_paid}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="paid_amount">
+        <mat-header-cell *matHeaderCellDef mat-sort-header
+            class="primary-background white-color-foreground font-size-16"> Requesting Amount </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.paid_amount - element.previoud_paid}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="loan_status">
+        <mat-header-cell *matHeaderCellDef mat-sort-header
+            class="primary-background white-color-foreground font-size-16"> Loan Status </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.loan_status}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="approve">
+          <mat-header-cell *matHeaderCellDef
+              class="primary-background white-color-foreground font-size-16"> Action </mat-header-cell>
+          <mat-cell *matCellDef="let element">
+            <button class="btn btn-success btn-sm mr-1" (click)="acceptLoanPayBack(element.serial_no)">
+              Approve
+            </button>
+          </mat-cell>
+      </ng-container>
+
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+  </mat-table>
+
+  <mat-paginator [pageSize]="5" [pageSizeOptions]="[5, 20, 50, 100]" showFirstLastButtons></mat-paginator>
+</div>

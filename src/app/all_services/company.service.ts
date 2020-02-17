@@ -1,3 +1,5 @@
+import { apiRoutes } from './../config/apiRoutes';
+import { AuthService } from './auth.service';
 import { Injectable } from '@angular/core';
 
 @Injectable({
@@ -5,5 +7,9 @@ import { Injectable } from '@angular/core';
 })
 export class CompanyService {
 
-  constructor() { }
+  constructor(private authService: AuthService) { }
+
+  getMotherCompany() {
+    return this.authService.getFromHTTP(apiRoutes.company + '/1');
+  }
 }

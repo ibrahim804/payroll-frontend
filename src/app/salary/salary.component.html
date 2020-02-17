@@ -58,7 +58,11 @@
       <ng-container matColumnDef="update">
         <mat-header-cell *matHeaderCellDef
             class="primary-background white-color-foreground font-size-16"> Update Salary </mat-header-cell>
-        <mat-cell *matCellDef="let element"> <button class="btn btn-success btn-sm mr-1" (click)="redirectsToSalaryUpdate(element.serial_no)">UPDATE</button> </mat-cell>
+        <mat-cell *matCellDef="let element">
+          <button mat-mini-fab style="color: green; background-color: transparent;" (click)="redirectsToSalaryUpdate(element.serial_no)">
+            <mat-icon>update</mat-icon>
+          </button>
+        </mat-cell>
       </ng-container>
 
       <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>

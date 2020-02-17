@@ -1,5 +1,4 @@
 import { urlRoutes } from './../config/apiRoutes';
-import { SalaryService } from './../all_services/salary.service';
 import { UserService } from './../all_services/user.service';
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator, MatSort, MatTableDataSource, MatDialog } from '@angular/material';
@@ -23,7 +22,6 @@ export class SalaryComponent implements AfterViewInit, OnInit {
 
   constructor(
     private userService: UserService,
-    private salaryService: SalaryService,
     private router: Router,
     private dialog: MatDialog,
   ) {}

@@ -63,7 +63,7 @@ const routes: Routes = [
       {
         path: 'departments/list',
         component: DepartmentsComponent,
-        canActivate: [AuthGuard]
+        canActivate: [AuthGuard, AdminGuard]
       },
       {
         path: 'departments/add',

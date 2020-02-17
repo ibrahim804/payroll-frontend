@@ -123,13 +123,13 @@ export const genericNavConstants = {  // Route Flow: sidebar->urlRoute->appRouti
       role: [role.ADMIN],
       mini_name: 'Employees'
     },
-    // {
-    //   name: 'Department',
-    //   url: urlRoutes.departmentsList,
-    //   icon: 'group_work',
-    //   role: [role.ADMIN],
-    //   mini_name: 'Department'
-    // },
+    {
+      name: 'Department',
+      url: urlRoutes.departmentsList,
+      icon: 'group_work',
+      role: [role.ADMIN],
+      mini_name: 'Department'
+    },
     {
       name: 'Leave Management',
       url: urlRoutes.leaveManagement,

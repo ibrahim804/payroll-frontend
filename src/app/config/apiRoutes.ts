@@ -179,13 +179,13 @@ export const genericNavConstants = {  // Route Flow: sidebar->urlRoute->appRouti
       role: [role.USER],
       mini_name: 'Loan',
     },
-    // {
-    //   name: 'General Settings',
-    //   url: urlRoutes.settings,
-    //   icon: 'build',
-    //   role: [role.ADMIN, role.USER],
-    //   mini_name: 'Settings',
-    // },
+    {
+      name: 'General Settings',
+      url: urlRoutes.settings,
+      icon: 'build',
+      role: [role.ADMIN],
+      mini_name: 'Settings',
+    },
 
   ],
 

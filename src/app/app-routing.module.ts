@@ -164,7 +164,7 @@ const routes: Routes = [
       {
         path: 'settings',
         component: GeneralSettingsComponent,
-        canActivate: [AuthGuard]
+        canActivate: [AuthGuard, AdminGuard]
       }
     ]
   }

@@ -11,7 +11,7 @@ export class UserService {
   constructor(private authService: AuthService) { }
 
   getLoggedInEmployee() {
-    return this.authService.getFromHTTP(apiRoutes.userMe); // to do now
+    return this.authService.getFromHTTP(apiRoutes.userMe);
   }
 
   getEmployees() {

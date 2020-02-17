@@ -11,8 +11,7 @@
                         <div class="card-body">
                             <div class="form-group">
                                 <label for="user_name">Email</label>
-                                <input type="text" [disabled]="choosenView == 4" class="form-control form-control-md rounded-1"
-                                      id="email" required name="email" [value]="readOnlyMail">
+                                <input type="text" [disabled]="choosenView == 4" class="form-control form-control-md rounded-1" id="email" required name="email" [value]="readOnlyMail">
                             </div>
 
                             <div *ngIf="choosenView == 1" class="form-group">

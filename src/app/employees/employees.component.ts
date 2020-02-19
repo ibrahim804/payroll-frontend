@@ -41,8 +41,6 @@ export class EmployeesComponent implements OnInit {
           designation: i.designation,
           email: i.email,
           phone: i.phone,
-          casual_leave: i.casual_leave,
-          sick_leave: i.sick_leave,
         });
         count = count + 1;
         this.employeesIds.push(i.id);

@@ -76,7 +76,7 @@ export class LeaveComponent implements AfterViewInit, OnInit {
         for (let i of responseForMainPage[0].leaves) {
           responseData.push({
             serial_no: count,
-            leave_type: this.leaveCategories[i.leave_category_id - 1].leave_type,
+            leave_type: i.leave_type,
             start_date: i.start_date,
             end_date: i.end_date,
             description: i.leave_description,
@@ -105,7 +105,16 @@ export class LeaveComponent implements AfterViewInit, OnInit {
       end_date: this.convertDatePickerToString(this.leaveApplicationForm.value.endDate),
     };
 
-    const thisLeave = this.leaveCategories[+leaveApplication.leave_category_id - 1];
+    let thisLeave = null;
+
+    for(let i=0;  i<this.leaveCategories.length; i++) {
+      if(this.leaveCategories[i].id === +leaveApplication.leave_category_id) {
+        thisLeave = this.leaveCategories[i];
+        break;
+      }
+    }
+
+    // thisLeave = this.leaveCategories[+leaveApplication.leave_category_id - 1];
     this.leaveService.getAvailableCountsAndDuration(
       leaveApplication.leave_category_id, leaveApplication.start_date, leaveApplication.end_date
     ).subscribe(durationResponse => {

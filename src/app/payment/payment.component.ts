@@ -9,6 +9,7 @@ import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { MatTableDataSource, MatSort, MatPaginator, MatDialog } from '@angular/material';
 import { combineLatest } from 'rxjs';
 import { DialogSalaryDetailsComponent } from '../dialog-salary-details/dialog-salary-details.component';
+import { SharedService } from '../all_services/shared.service';
 
 @Component({
   selector: 'app-payment',
@@ -34,7 +35,8 @@ export class PaymentComponent implements AfterViewInit, OnInit {
     private userService: UserService,
     private providentFundService: ProvidentFundService,
     private dialog: MatDialog,
-    private authService: AuthService
+    private authService: AuthService,
+    private sharedService: SharedService
     ) { }
 
   ngOnInit() {
@@ -49,7 +51,7 @@ export class PaymentComponent implements AfterViewInit, OnInit {
       this.paymentService.getPayments(),
     ).subscribe(combinedResponse => {
       this.alreadyPaidIds = combinedResponse[1][0].payments_user_id;
-      this.employeeUnpaidLeave = combinedResponse[1][0].userCountMap;
+      this.employeeUnpaidLeave = combinedResponse[1][0].userCountMap; // key->value  (user_id -> total_unpaid_leave_count_of_this_month)
       for (let i of combinedResponse[0][0].users) {
         responseData.push({
           serial_no: count,
@@ -57,7 +59,12 @@ export class PaymentComponent implements AfterViewInit, OnInit {
           department: i.department,
           designation: i.designation,
           net_salary: i.salary,
-          payableAmount: this.calculatePayableAmount(i.id, i.salary),
+          gross_salary: i.gross_salary,
+          payableAmount: this.sharedService.calculatePayableAmount(
+            (this.employeeUnpaidLeave[i.id]) ? this.employeeUnpaidLeave[i.id] : 0,
+            i.gross_salary,
+            i.salary
+          ),
           isActive: this.alreadyPaidIds.indexOf(i.id) === -1,
           label: (this.alreadyPaidIds.indexOf(i.id) === -1) ? 'Make Payment' : 'Already Paid',
           class: (this.alreadyPaidIds.indexOf(i.id) === -1) ?
@@ -70,18 +77,6 @@ export class PaymentComponent implements AfterViewInit, OnInit {
       this.payments.sort = this.sort;
       this.payments.paginator = this.paginator;
     });
-  }
-
-  calculatePayableAmount(userId: string, netSalary: any) {
-    const unpaidCount = (this.employeeUnpaidLeave[userId]) ? this.employeeUnpaidLeave[userId] : 0;
-    const payableAmount: any = (netSalary / 22) * (22 - unpaidCount);
-    return payableAmount.toFixed(2);
-  }
-
-  calculateLeaveDeduction(userId: string, netSalary: any) {
-    const unpaidCount = (this.employeeUnpaidLeave[userId]) ? this.employeeUnpaidLeave[userId] : 0;
-    const deductionAmount: any = (netSalary / 22) * unpaidCount;
-    return deductionAmount.toFixed(2);
   }
 
   redirectsToDetails(serialNo: number) {
@@ -99,8 +94,9 @@ export class PaymentComponent implements AfterViewInit, OnInit {
   redirectsToMakePayment(serialNo: number) {
     const payload: PAY = {
       user_id: String(this.employeeIds[serialNo - 1]),
-      employee_monthly_cost: this.calculateLeaveDeduction(
-        this.employeeIds[serialNo - 1], this.payments.data[serialNo - 1].net_salary
+      employee_monthly_cost: this.sharedService.calculateLeaveDeduction(
+        (this.employeeUnpaidLeave[this.employeeIds[serialNo - 1]]) ? this.employeeUnpaidLeave[this.employeeIds[serialNo - 1]] : 0,
+        this.payments.data[serialNo - 1].gross_salary
       ),
       payable_amount: this.payments.data[serialNo - 1].payableAmount,
     };
@@ -130,7 +126,7 @@ export class PaymentComponent implements AfterViewInit, OnInit {
         // alert('Payment Done. Provident Fund Increased');
         const mailPayload: SendMail = {
           user_id: userId,
-          unpaid_leave_count: String(this.employeeUnpaidLeave[userId])
+          unpaid_leave_count: (this.employeeUnpaidLeave[userId] == null) ? String(0) : String(this.employeeUnpaidLeave[userId])
         };
         this.paymentService.sendPaymentInMail(mailPayload).subscribe(mailResponse => {
           console.log(mailResponse);

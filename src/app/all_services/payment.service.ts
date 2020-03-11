@@ -21,4 +21,8 @@ export class PaymentService {
   sendPaymentInMail(data: SendMail) { // testing needed
     return this.authService.postInHTTP(apiRoutes.paymentInMail, data);
   }
+
+  getExportableData() {
+    return this.authService.getFromHTTP(apiRoutes.exportSalarySheet);
+  }
 }

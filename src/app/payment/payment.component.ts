@@ -140,6 +140,43 @@ export class PaymentComponent implements AfterViewInit, OnInit {
     });
   }
 
+  exportSalarySheet() {
+    this.paymentService.getExportableData().subscribe(response => {
+      
+      // console.log(response[0].sheet);
+      let exportableData = [];
+  
+      for(let element of response[0].sheet) {
+        exportableData.push({
+          basic_salary: element.basic_salary,
+          house_rent_allowance: element.house_rent_allowance,
+          medical_allowance: element.medical_allowance,
+          special_allowance: element.special_allowance,
+          fuel_allowance: element.fuel_allowance,
+          phone_bill_allowance: element.phone_bill_allowance,
+          other_allowance: element.other_allowance,
+          tax_deduction: element.tax_deduction,
+          provident_fund: element.provident_fund,
+          other_deduction: element.other_deduction,
+          gross_salary: element.gross_salary,
+          total_deduction: element.total_deduction,
+          net_salary: element.net_salary,
+          unpaid_leave_taken: element.unpaid_leave_taken,
+          deduction_leave: element.deduction_leave,
+          payable_amount: element.payable_amount,
+        });
+      }
+
+      this.sharedService.exportExcelSheet(exportableData, this.getTodayDate());
+      /* PARAM 1: MUST BE A TYPE SalarySheet, PARAM 2: FILENAME WITHOUT EXTENSION */
+    });
+  }
+
+  getTodayDate() {
+    const date = new Date();
+    return String(date.getFullYear() + '-' + (date.getMonth() + 1) + '-' + date.getDate());
+  }
+
   applyFilter(filterValue: string) {
     this.payments.filter = filterValue.trim().toLowerCase();
   }

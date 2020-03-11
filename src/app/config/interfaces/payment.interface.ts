@@ -11,6 +11,9 @@ export interface SendMail {
 }
 
 export interface SalarySheet {
+  full_name: string;
+  department_name: string;
+  designation: string;
   basic_salary: string;
   house_rent_allowance: string;
   medical_allowance: string;

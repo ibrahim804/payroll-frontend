@@ -13,7 +13,10 @@ export class SharedService {
   fileType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
   fileExtension = '.xlsx';
 
-  dbColumnToXLColumn = {
+  dbColumnToXLColumn: SalarySheet = {
+    full_name: 'Employee',
+    department_name: 'Department',
+    designation: 'Designation',
     basic_salary: 'Basic Salary',
     house_rent_allowance: 'House Rent Allowance',
     medical_allowance: 'Medical Allowance', 
@@ -41,7 +44,7 @@ export class SharedService {
     return deductionAmount.toFixed(2);
   }
 
-  exportExcelSheet(jsonData: SalarySheet[], fileName: string) {  // type must be xlsx
+  exportExcelSheet(jsonData: SalarySheet[], fileName: string) {  // only file name without extension
     const ws: XLSX.WorkSheet = this.replaceDbColName(XLSX.utils.json_to_sheet(jsonData));
     const wb: XLSX.WorkBook = { Sheets: { 'data': ws }, SheetNames: ['data'] };
     const excelBuffer: any = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
@@ -54,22 +57,25 @@ export class SharedService {
   }
 
   private replaceDbColName(obj: XLSX.WorkSheet) {
-    obj.A1.v = this.dbColumnToXLColumn.basic_salary;
-    obj.B1.v = this.dbColumnToXLColumn.house_rent_allowance;
-    obj.C1.v = this.dbColumnToXLColumn.medical_allowance;
-    obj.D1.v = this.dbColumnToXLColumn.special_allowance;
-    obj.E1.v = this.dbColumnToXLColumn.fuel_allowance;
-    obj.F1.v = this.dbColumnToXLColumn.phone_bill_allowance;
-    obj.G1.v = this.dbColumnToXLColumn.other_allowance;
-    obj.H1.v = this.dbColumnToXLColumn.tax_deduction;
-    obj.I1.v = this.dbColumnToXLColumn.provident_fund;
-    obj.J1.v = this.dbColumnToXLColumn.other_deduction;
-    obj.K1.v = this.dbColumnToXLColumn.gross_salary;
-    obj.L1.v = this.dbColumnToXLColumn.total_deduction;
-    obj.M1.v = this.dbColumnToXLColumn.net_salary;
-    obj.N1.v = this.dbColumnToXLColumn.unpaid_leave_taken;
-    obj.O1.v = this.dbColumnToXLColumn.deduction_leave;
-    obj.P1.v = this.dbColumnToXLColumn.payable_amount;
+    obj.A1.v = this.dbColumnToXLColumn.full_name;
+    obj.B1.v = this.dbColumnToXLColumn.department_name;
+    obj.C1.v = this.dbColumnToXLColumn.designation;
+    obj.D1.v = this.dbColumnToXLColumn.basic_salary;
+    obj.E1.v = this.dbColumnToXLColumn.house_rent_allowance;
+    obj.F1.v = this.dbColumnToXLColumn.medical_allowance;
+    obj.G1.v = this.dbColumnToXLColumn.special_allowance;
+    obj.H1.v = this.dbColumnToXLColumn.fuel_allowance;
+    obj.I1.v = this.dbColumnToXLColumn.phone_bill_allowance;
+    obj.J1.v = this.dbColumnToXLColumn.other_allowance;
+    obj.K1.v = this.dbColumnToXLColumn.tax_deduction;
+    obj.L1.v = this.dbColumnToXLColumn.provident_fund;
+    obj.M1.v = this.dbColumnToXLColumn.other_deduction;
+    obj.N1.v = this.dbColumnToXLColumn.gross_salary;
+    obj.O1.v = this.dbColumnToXLColumn.total_deduction;
+    obj.P1.v = this.dbColumnToXLColumn.net_salary;
+    obj.Q1.v = this.dbColumnToXLColumn.unpaid_leave_taken;
+    obj.R1.v = this.dbColumnToXLColumn.deduction_leave;
+    obj.S1.v = this.dbColumnToXLColumn.payable_amount;
     return obj;
   }
 }

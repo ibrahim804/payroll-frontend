@@ -2,7 +2,7 @@ import { AuthService } from 'src/app/all_services/auth.service';
 import { DialogConfirmationComponent } from './../dialogs/dialog-confirmation/dialog-confirmation.component';
 import { ProvidentFundService } from '../all_services/provident-fund.service';
 import { Create as PF } from './../config/interfaces/provident-fund.interface';
-import { Create as PAY, SendMail } from './../config/interfaces/payment.interface';
+import { Create as PAY, SendMail, SalarySheet } from './../config/interfaces/payment.interface';
 import { UserService } from './../all_services/user.service';
 import { PaymentService } from './../all_services/payment.service';
 import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
@@ -142,12 +142,13 @@ export class PaymentComponent implements AfterViewInit, OnInit {
 
   exportSalarySheet() {
     this.paymentService.getExportableData().subscribe(response => {
-      
-      // console.log(response[0].sheet);
       let exportableData = [];
   
-      for(let element of response[0].sheet) {
-        exportableData.push({
+      for(let element of response[0].sheet) {   // element must be a set/super set SalarySheet from back-end side
+        const rowOfSalarySheet: SalarySheet = {
+          full_name: element.full_name,
+          department_name: element.department_name,
+          designation: element.designation,
           basic_salary: element.basic_salary,
           house_rent_allowance: element.house_rent_allowance,
           medical_allowance: element.medical_allowance,
@@ -164,7 +165,8 @@ export class PaymentComponent implements AfterViewInit, OnInit {
           unpaid_leave_taken: element.unpaid_leave_taken,
           deduction_leave: element.deduction_leave,
           payable_amount: element.payable_amount,
-        });
+        }
+        exportableData.push(rowOfSalarySheet);
       }
 
       this.sharedService.exportExcelSheet(exportableData, this.getTodayDate());

@@ -19,8 +19,9 @@ import { DialogConfirmationComponent } from '../dialogs/dialog-confirmation/dial
 })
 export class LeaveComponent implements AfterViewInit, OnInit {
 
-  leaveCategories: any;
   leaveApplicationForm: FormGroup;
+
+  leaveCategories: any;
   errMessage: any;
   formErrorMessage: any;
   isDefaultView = true;
@@ -45,7 +46,13 @@ export class LeaveComponent implements AfterViewInit, OnInit {
     private dialog: MatDialog,
   ) { }
 
+  ngOnInit() {
+    this.setDefault();
+    this.setDataSource();
+  }
+
   setDefault() {
+    this.leaveCategories = null;
     this.errMessage = null;
     this.formErrorMessage = null;
     this.isDefaultView = true;
@@ -54,19 +61,36 @@ export class LeaveComponent implements AfterViewInit, OnInit {
     this.leaveLeft = null;
   }
 
-  ngOnInit() {
-    this.setDefault();
+  setDataSource() {
+    this.leavesIds = [];
     combineLatest(
       this.leaveCategoryService.getLeaveCategories(),
       this.leaveCountService.getLeaveCountsOfEmployee(),
-    ).subscribe(res => {
-      this.leaveCategories = res[0][0].leave_categories;
-      this.leaveCounts = res[1][0].leave_counts;
-      if (this.isDefaultView) {
-        this.setDataSource();
-      } else {
-        this.buildForm();
-      }
+    ).subscribe(responseForCreatePage => {
+      this.leaveCategories = responseForCreatePage[0][0].leave_categories;
+      this.leaveCounts = responseForCreatePage[1][0].leave_counts;  // leave counts of all category of an employee. Chill!!
+      //so far, create page. From here, lower part for main page
+      let responseData = [];
+      let count = 1;
+      this.leaveService.getAllLeavesOfAnEmployee().subscribe(responseForMainPage => {
+        for (let i of responseForMainPage[0].leaves) {
+          responseData.push({
+            serial_no: count,
+            leave_type: this.leaveCategories[i.leave_category_id - 1].leave_type,
+            start_date: i.start_date,
+            end_date: i.end_date,
+            description: i.leave_description,
+            requested_duration: i.requested_duration,
+            leave_available: i.leave_available,
+            status: i.approval_status,
+          });
+          count = count + 1;
+          this.leavesIds.push(i.id);
+        }
+        this.leaves.data = responseData;
+        this.leaves.sort = this.sort;
+        this.leaves.paginator = this.paginator;
+      });
     });
   }
 
@@ -103,7 +127,7 @@ export class LeaveComponent implements AfterViewInit, OnInit {
             this.leaveService.submitLeaveApplication(leaveApplication).subscribe(response => {
               if (! this.checkError(response[0])) {
                 alert('Leave application submitted successfully');
-                this.alterView('');
+                this.alterView('main');
               }
             });
           }
@@ -152,7 +176,7 @@ export class LeaveComponent implements AfterViewInit, OnInit {
       this.errMessage = 'Start date can\'t be greater than the End date.';
       return false;
     } else if (start > 0 && end > 0 && ((now - start) >= tolerance || (now - end) >= tolerance)) {
-      this.errMessage = 'Start date or End date can\'t be smaler than today.';
+      this.errMessage = 'Start date or End date can\'t be smaller than today.';
       return false;
     } else {
       this.errMessage = null;
@@ -230,36 +254,31 @@ export class LeaveComponent implements AfterViewInit, OnInit {
     });
   }
 
-  setDataSource() {
-    let responseData = [];
-    let count = 1;
-    this.leaveService.getAllLeavesOfAnEmployee().subscribe(response => {
-      for (let i of response[0].leaves) {
-        responseData.push({
-          serial_no: count,
-          leave_type: this.leaveCategories[i.leave_category_id - 1].leave_type,
-          start_date: i.start_date,
-          end_date: i.end_date,
-          description: i.leave_description,
-          requested_duration: i.requested_duration,
-          leave_available: i.leave_available,
-          status: i.approval_status,
-        });
-        count = count + 1;
-        this.leavesIds.push(i.id);
-      }
-      this.leaves.data = responseData;
-      this.leaves.sort = this.sort;
-      this.leaves.paginator = this.paginator;
-    });
-  }
+  /*
+    leaveApplicationForm: FormGroup;
 
-  alterView(command: string) {
-    this.formErrorMessage = null;
-    this.leaveLeft = null;
-    this.isCreate = command === 'create';
-    this.isDefaultView = !this.isDefaultView;
-    (this.isDefaultView) ? this.setDataSource() : this.buildForm();
+    leaveCategories: any;
+    errMessage: any;
+    formErrorMessage: any;
+    isDefaultView = true;
+    isCreate: boolean;
+    leaveCounts: any;
+    leaveLeft: number;
+  */
+
+  alterView(destinationView: string) {
+    if (destinationView === 'create') {
+      this.errMessage = null;
+      this.formErrorMessage = null;
+      this.isDefaultView = false;
+      this.isCreate = true;
+      this.leaveLeft = null;
+      this.buildForm();
+    } else {
+       this.setDataSource();
+       this.isDefaultView = true;
+       this.isCreate = false;
+    }
   }
 
   openDialog(serialNo: number) {

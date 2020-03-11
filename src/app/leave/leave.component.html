@@ -1,6 +1,6 @@
+<!-- DEFAULT VIEW -->
 
 <div *ngIf="isDefaultView">
-
 
   <br> <div class="card-header" style="background: #263238; width: 94%; margin: auto;">
       <h4 class="text-center" style="color: white">Your Leave Requests</h4>
@@ -14,11 +14,6 @@
           <mat-icon matPrefix class='mr-16'>search</mat-icon>
           </mat-form-field>
       </div>
-      <!-- <div class='pb-16'>
-          <button mat-raised-button style="background: #263238; color: white;" (click)="alterView('create')" class='h-60 w-224'>
-              Request Leave
-          </button>
-      </div> -->
       <div class='pb-16'>
         <button mat-raised-button color="primary" class='h-60 w-224' (click)="alterView('create')">
           Request Leave
@@ -93,8 +88,11 @@
 
     <mat-paginator [pageSize]="5" [pageSizeOptions]="[5, 10, 20, 50, 100]" showFirstLastButtons></mat-paginator>
   </div>
+  
 </div>
 
+
+<!-- CREATE LEAVE VIEW -->
 
 <form *ngIf="!isDefaultView" [formGroup]="leaveApplicationForm" #credentials="ngForm" (ngSubmit)="checkOverAllBeforeLogin(credentials.value)">
 
@@ -102,12 +100,6 @@
     <div class="card-header" style="background: #263238">
         <h4 class="text-center" style="color: white">Application for Leave</h4>
     </div> <br>
-
-    <!-- <div style="text-align: center;" *ngIf="leaveApplicationForm.errors">
-      <mat-error>
-        <b> Please fill out all the required fields. </b>
-      </mat-error>
-    </div> -->
 
     <div class="row">
         <div class="col-4"></div>
@@ -165,7 +157,7 @@
                 </div>
 
                 <div fxLayout="row" fxLayoutAlign="space-around center" class="mb-24 mt-8 mr-64">
-                    <button type="button" class="btn btn-secondary btn-md" id="back" (click)="alterView('')">Go Back</button>
+                    <button type="button" class="btn btn-secondary btn-md" id="back" (click)="alterView('main')">Go Back</button>
                     <button type="submit" class="btn btn-success btn-md" id="submit" (click)="applyForLeave()">Submit</button>
                 </div>
             </div>

@@ -143,8 +143,15 @@ export class PaymentComponent implements AfterViewInit, OnInit {
   exportSalarySheet() {
     this.paymentService.getExportableData().subscribe(response => {
       let exportableData = [];
+      let curDeptName = response[0].sheet[0].department_name;
   
       for(let element of response[0].sheet) {   // element must be a set/super set SalarySheet from back-end side
+        if(curDeptName != element.department_name) {
+          exportableData = this.insertEmptyRecord(exportableData);
+          exportableData = this.insertEmptyRecord(exportableData);
+          curDeptName = element.department_name;
+        }
+
         const rowOfSalarySheet: SalarySheet = {
           full_name: element.full_name,
           department_name: element.department_name,
@@ -172,6 +179,22 @@ export class PaymentComponent implements AfterViewInit, OnInit {
       this.sharedService.exportExcelSheet(exportableData, this.getTodayDate());
       /* PARAM 1: MUST BE A TYPE SalarySheet, PARAM 2: FILENAME WITHOUT EXTENSION */
     });
+  }
+
+  insertEmptyRecord(exportableData : any[]) {
+    const emptyRow: SalarySheet = {
+      full_name: null, department_name: null, designation: null,
+      basic_salary: null,
+      house_rent_allowance: null, medical_allowance: null, special_allowance: null, fuel_allowance: null, phone_bill_allowance: null, other_allowance: null,
+      tax_deduction: null, provident_fund: null, other_deduction: null,
+      gross_salary: null, 
+      total_deduction: null, 
+      net_salary: null,
+      unpaid_leave_taken: null, deduction_leave: null, 
+      payable_amount: null
+    }
+    exportableData.push(emptyRow);
+    return exportableData;
   }
 
   getTodayDate() {

@@ -1,0 +1,17 @@
+@import '../../styles/theme.scss';
+
+mat-header-cell {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+}
+
+mat-cell {
+  display: flex !important;
+  justify-content: center !important;
+  text-align: center;
+}
+
+mat-paginator {
+  height: 64px !important;
+}

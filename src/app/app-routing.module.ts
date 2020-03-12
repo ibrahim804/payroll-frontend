@@ -1,3 +1,4 @@
+import { LoanRequestComponent } from './loan-request/loan-request.component';
 import { UserGuard } from './_guard/user.guard';
 import { LoggedInGuard } from './_guard/logged-in.guard';
 import { BlankComponent } from './blank-component/blank-component.component';
@@ -129,6 +130,11 @@ const routes: Routes = [
       {
         path: 'payment',
         component: PaymentComponent,
+        canActivate: [AuthGuard, AdminGuard]
+      },
+      {
+        path: 'loan/requests',
+        component: LoanRequestComponent,
         canActivate: [AuthGuard, AdminGuard]
       },
       {

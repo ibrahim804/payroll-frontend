@@ -91,6 +91,8 @@ export const urlRoutes = {
 
   payment: `/payment`,    // Payment
 
+  loanRequests: `/loan/requests`, // Loan Requests
+
   settings: `/settings`,    // Company
 };
 
@@ -146,12 +148,19 @@ export const genericNavConstants = {  // Route Flow: sidebar->urlRoute->appRouti
       mini_name: 'Payment',
     },
     {
-      name: 'Genaral Settings',
-      url: urlRoutes.settings,
-      icon: 'build',
-      role: [role.ADMIN, role.USER],
-      mini_name: 'Settings',
+      name: 'Loan Requests',
+      url: urlRoutes.loanRequests,
+      icon: 'monetization_on',
+      role: [role.ADMIN],
+      mini_name: 'Loan',
     },
+    // {
+    //   name: 'Genaral Settings',
+    //   url: urlRoutes.settings,
+    //   icon: 'build',
+    //   role: [role.ADMIN, role.USER],
+    //   mini_name: 'Settings',
+    // },
 
   ],
 

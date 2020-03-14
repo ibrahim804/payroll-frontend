@@ -164,7 +164,7 @@ export const genericNavConstants = {  // Route Flow: sidebar->urlRoute->appRouti
     {
       name: 'Pay Back Requests',
       url: urlRoutes.payBackRequest,
-      icon: 'monetization_on',
+      icon: 'sync_alt',
       role: [role.ADMIN],
       mini_name: 'Pay Back',
     },

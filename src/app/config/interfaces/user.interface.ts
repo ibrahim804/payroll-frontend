@@ -41,6 +41,7 @@ export interface Register {
   designation_id?: string;
   department_id?: string;
   working_day_id?: string;
+  deposit_pf?: string;
 }
 
 export interface Update {

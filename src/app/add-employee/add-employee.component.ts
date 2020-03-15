@@ -106,9 +106,10 @@ export class AddEmployeeComponent implements OnInit {
     const department_id = (this.registerForm.value.departmentId.length) ? this.registerForm.value.departmentId : null;
     const designation_id = (this.registerForm.value.designationId.length) ? this.registerForm.value.designationId : null;
     const joining_date = this.convertDatePickerToString(this.registerForm.value.joiningDate);
+    const deposit_pf = (this.registerForm.value.depositPF.length) ? this.registerForm.value.depositPF : null;
 
     const data: Register = {
-      full_name, gender, email, phone, password, joining_date,
+      full_name, gender, email, phone, password, joining_date, deposit_pf,
       user_name, department_id, designation_id,
       date_of_birth, marital_status, fathers_name, nationality, passport_number, present_address, permanent_address,
     };
@@ -282,6 +283,8 @@ export class AddEmployeeComponent implements OnInit {
 
       workingDays: new FormArray([]),
 
+      depositPF: [''],
+
     });
 
     this.addCheckboxes();
@@ -360,6 +363,10 @@ export class AddEmployeeComponent implements OnInit {
 
   get workingDays() {
     return this.registerForm.get('workingDays');
+  }
+
+  get depositPF() {
+    return this.registerForm.get('depositPF');
   }
 
   checkOverAllBeforeLogin() {

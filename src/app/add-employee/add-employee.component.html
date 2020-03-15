@@ -1,4 +1,4 @@
-<!-- signup-form -->
+<!-- sign up-form -->
 
 <form [formGroup]="registerForm">
       <!-- #credentials="ngForm" (ngSubmit)="checkOverAllBeforeLogin(credentials.value)" -->
@@ -213,7 +213,7 @@
                 </div>
 
                 <div>
-                    <label for="days">Working Days</label>
+                    <label for="days"><span style="color: red;">*</span>Working Days</label>
 
                     <div name="days" id="days" formArrayName="workingDays"
                       *ngFor="let workingDay of registerForm.controls.workingDays.controls; let i = index"

@@ -31,8 +31,6 @@ export class AddEmployeeComponent implements OnInit {
   public designations;
   formErrMessage: any;
 
-  // AMAR
-
   weekDays = [
     { id: 100, name: 'Sunday', value: 'sunday' },
     { id: 200, name: 'Monday', value: 'monday' },
@@ -72,7 +70,6 @@ export class AddEmployeeComponent implements OnInit {
 
     // this.uploader.onAfterAddingFile = (file) => { file.withCredentials = false; };
 
-    // amar
     this.buildForm();
   }
 
@@ -147,9 +144,7 @@ export class AddEmployeeComponent implements OnInit {
     return stringDate;
   }
 
-  getProcessedWorkingDayId(userId: string) {
-    // console.log('user id is: ' + userId, this.registerForm.value.workingDays);
-
+  forceToFillUpWorkingDay() {
     let shouldBeCreated = false;
 
     for (let i = 0; i < this.registerForm.value.workingDays.length; i++) {
@@ -159,9 +154,10 @@ export class AddEmployeeComponent implements OnInit {
       }
     }
 
-    if (! shouldBeCreated) {
-      console.log(-1);
-    }
+    return shouldBeCreated;
+  }
+
+  getProcessedWorkingDayId(userId: string) {
 
     const data: Create = {
       sunday: String(this.registerForm.value.workingDays[0]),
@@ -175,11 +171,8 @@ export class AddEmployeeComponent implements OnInit {
       user_id: String(userId),
     };
 
-    // console.log('Final working day paylod is : ', data);
-
     this.workingDaysService.createWorkingDay(data).subscribe(response => {
       if (! this.checkError(response[0])) {
-        // console.log(response[0].working_day_id);
         this.router.navigate([urlRoutes.employeesList]);
       }
     });
@@ -379,7 +372,8 @@ export class AddEmployeeComponent implements OnInit {
       this.password.value.length === 0 ||
       this.joiningDate.value === null || this.joiningDate.value.length === 0 ||
       this.departmentId.value.length === 0 ||
-      this.designationId.value.length === 0
+      this.designationId.value.length === 0 ||
+      this.forceToFillUpWorkingDay() == false
     ) {
       this.formErrMessage = 'All required fields must be filled out';
       return false;

@@ -2,6 +2,7 @@ import { AuthService } from './../all_services/auth.service';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Login, ForgotPassword, VerifyCode, SetNewPassword } from '../config/interfaces/user.interface';
+import { SharedService } from '../all_services/shared.service';
 
 @Component({
   selector: 'app-login',
@@ -23,6 +24,7 @@ export class LoginComponent implements OnInit {
   constructor(
     private router: Router,
     private authService: AuthService,
+    private sharedService: SharedService
   ) { }
 
   ngOnInit() {
@@ -60,11 +62,11 @@ export class LoginComponent implements OnInit {
 
   sendOTP() {
     const email = (document.getElementById('email') as HTMLInputElement).value;
-    this.authService.showSpinner();
+    this.sharedService.showSpinner();
 
     if (email.length === 0) {
       alert('Email must be provided to get email');
-      this.authService.hideSpinner();
+      this.sharedService.hideSpinner();
 
     } else {
       this.isLoading = true;
@@ -76,9 +78,9 @@ export class LoginComponent implements OnInit {
           this.header = this.headings[3];
           this.buttonActivity = this.buttonActivities[3];
         }
-        this.authService.hideSpinner();
+        this.sharedService.hideSpinner();
       }, (err) => {
-        this.authService.hideSpinner();
+        this.sharedService.hideSpinner();
       });
     }
   }

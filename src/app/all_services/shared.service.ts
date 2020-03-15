@@ -2,13 +2,14 @@ import { Injectable } from '@angular/core';
 import * as FileSaver from 'file-saver';
 import * as XLSX from 'xlsx';
 import { SalarySheet } from '../config/interfaces/payment.interface';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SharedService {
 
-  constructor() { }
+  constructor(private spinner: NgxSpinnerService) { }
 
   fileType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8';
   fileExtension = '.xlsx';
@@ -77,5 +78,13 @@ export class SharedService {
     obj.R1.v = this.dbColumnToXLColumn.deduction_leave;
     obj.S1.v = this.dbColumnToXLColumn.payable_amount;
     return obj;
+  }
+
+  showSpinner() {
+    this.spinner.show();
+  }
+
+  hideSpinner() {
+    this.spinner.hide();
   }
 }

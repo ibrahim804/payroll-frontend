@@ -104,12 +104,12 @@ export class PaymentComponent implements AfterViewInit, OnInit {
       data: {message: 'Make Payment'}
     }).afterClosed().subscribe(result => {
       if (result === '1') {
-        this.authService.showSpinner();
+        this.sharedService.showSpinner();
         this.paymentService.makePayment(payload).subscribe(response => {
           if (! this.checkError(response[0])) {
             this.depositProvidentFund(payload.user_id);
           } else {
-            this.authService.hideSpinner();
+            this.sharedService.hideSpinner();
           }
         });
       }
@@ -130,12 +130,12 @@ export class PaymentComponent implements AfterViewInit, OnInit {
         };
         this.paymentService.sendPaymentInMail(mailPayload).subscribe(mailResponse => {
           console.log(mailResponse);
-          this.authService.hideSpinner();
+          this.sharedService.hideSpinner();
         }, (err) => {
-          this.authService.hideSpinner();
+          this.sharedService.hideSpinner();
         });
       } else {
-        this.authService.hideSpinner();
+        this.sharedService.hideSpinner();
       }
     });
   }

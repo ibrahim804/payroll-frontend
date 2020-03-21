@@ -144,7 +144,7 @@ export class PaymentComponent implements AfterViewInit, OnInit {
     this.paymentService.getExportableData().subscribe(response => {
       let exportableData = [];
       let curDeptName = response[0].sheet[0].department_name;
-  
+
       for(let element of response[0].sheet) {   // element must be a set/super set SalarySheet from back-end side
         if(curDeptName != element.department_name) {
           exportableData = this.insertEmptyRecord(exportableData);
@@ -172,7 +172,7 @@ export class PaymentComponent implements AfterViewInit, OnInit {
           unpaid_leave_taken: element.unpaid_leave_taken,
           deduction_leave: element.deduction_leave,
           payable_amount: element.payable_amount,
-        }
+        };
         exportableData.push(rowOfSalarySheet);
       }
 
@@ -185,14 +185,15 @@ export class PaymentComponent implements AfterViewInit, OnInit {
     const emptyRow: SalarySheet = {
       full_name: null, department_name: null, designation: null,
       basic_salary: null,
-      house_rent_allowance: null, medical_allowance: null, special_allowance: null, fuel_allowance: null, phone_bill_allowance: null, other_allowance: null,
+      house_rent_allowance: null, medical_allowance: null,
+      special_allowance: null, fuel_allowance: null, phone_bill_allowance: null, other_allowance: null,
       tax_deduction: null, provident_fund: null, other_deduction: null,
-      gross_salary: null, 
-      total_deduction: null, 
+      gross_salary: null,
+      total_deduction: null,
       net_salary: null,
-      unpaid_leave_taken: null, deduction_leave: null, 
+      unpaid_leave_taken: null, deduction_leave: null,
       payable_amount: null
-    }
+    };
     exportableData.push(emptyRow);
     return exportableData;
   }

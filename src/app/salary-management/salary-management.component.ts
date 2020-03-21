@@ -35,6 +35,7 @@ export class SalaryManagementComponent implements OnInit {
   readOnlyValues: any;
 
   salaryForm: FormGroup;
+  formErrorMessage = null;
 
   constructor(
     private salaryService: SalaryService,
@@ -165,6 +166,9 @@ export class SalaryManagementComponent implements OnInit {
   updateSalary() {
 
     if (! this.salary) {
+      if (! this.considerSubmitError()) {
+        return;
+      }
       const data: Create = {
         user_id: this.employeeId,
         basic_salary: this.salaryForm.value.basic_salary,
@@ -206,6 +210,19 @@ export class SalaryManagementComponent implements OnInit {
       });
     }
 
+  }
+
+  considerSubmitError() {
+    this.formErrorMessage = null;
+    if (
+      this.basic_salary.value.length === 0
+    ) {
+      this.formErrorMessage = 'All required fields must be filled out';
+      return false;
+    } else {
+      this.formErrorMessage = null;
+      return true;
+    }
   }
 
   updateObjects(response: any) {

@@ -1,4 +1,3 @@
-import { AuthService } from 'src/app/all_services/auth.service';
 import { DialogConfirmationComponent } from './../dialogs/dialog-confirmation/dialog-confirmation.component';
 import { ProvidentFundService } from '../all_services/provident-fund.service';
 import { Create as PF } from './../config/interfaces/provident-fund.interface';
@@ -35,7 +34,6 @@ export class PaymentComponent implements AfterViewInit, OnInit {
     private userService: UserService,
     private providentFundService: ProvidentFundService,
     private dialog: MatDialog,
-    private authService: AuthService,
     private sharedService: SharedService
     ) { }
 
@@ -60,6 +58,7 @@ export class PaymentComponent implements AfterViewInit, OnInit {
           designation: i.designation,
           net_salary: i.salary,
           gross_salary: i.gross_salary,
+          total_deduction: i.total_deduction,
           payableAmount: this.sharedService.calculatePayableAmount(
             (this.employeeUnpaidLeave[i.id]) ? this.employeeUnpaidLeave[i.id] : 0,
             i.gross_salary,
@@ -94,10 +93,10 @@ export class PaymentComponent implements AfterViewInit, OnInit {
   redirectsToMakePayment(serialNo: number) {
     const payload: PAY = {
       user_id: String(this.employeeIds[serialNo - 1]),
-      employee_monthly_cost: this.sharedService.calculateLeaveDeduction(
+      employee_monthly_cost: String(+this.sharedService.calculateLeaveDeduction(
         (this.employeeUnpaidLeave[this.employeeIds[serialNo - 1]]) ? this.employeeUnpaidLeave[this.employeeIds[serialNo - 1]] : 0,
         this.payments.data[serialNo - 1].gross_salary
-      ),
+      ) + (+this.payments.data[serialNo - 1].total_deduction)),
       payable_amount: this.payments.data[serialNo - 1].payableAmount,
     };
     this.dialog.open(DialogConfirmationComponent, {
@@ -107,7 +106,7 @@ export class PaymentComponent implements AfterViewInit, OnInit {
         this.sharedService.showSpinner();
         this.paymentService.makePayment(payload).subscribe(response => {
           if (! this.checkError(response[0])) {
-            this.depositProvidentFund(payload.user_id);
+            // this.depositProvidentFund(payload.user_id);
           } else {
             this.sharedService.hideSpinner();
           }

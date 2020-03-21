@@ -90,21 +90,22 @@ export class AddEmployeeComponent implements OnInit {
     if (! this.checkOverAllBeforeLogin()) {
       return;
     }
-    const full_name = (this.registerForm.value.name.length) ? this.registerForm.value.name : null;
+    const full_name = this.registerForm.value.name;
     const date_of_birth = this.convertDatePickerToString(this.registerForm.value.dateOfBirth);
-    const gender = (this.registerForm.value.gender.length) ? this.registerForm.value.gender : null;
+    const gender = this.registerForm.value.gender;
     const marital_status = (this.registerForm.value.maritalStatus.length) ? this.registerForm.value.maritalStatus : null;
     const fathers_name = (this.registerForm.value.fathersName.length) ? this.registerForm.value.fathersName : null;
     const nationality = (this.registerForm.value.nationality.length) ? this.registerForm.value.nationality : null ;
     const passport_number = (this.registerForm.value.passportNumber.length) ? this.registerForm.value.passportNumber : null;
-    const email = (this.registerForm.value.email.length) ? this.registerForm.value.email : null;
-    const phone = (this.registerForm.value.phone.length) ? this.registerForm.value.phone : null;
+    const email = this.registerForm.value.email;
+    const phone = this.registerForm.value.phone;
     const present_address = (this.registerForm.value.presentAddress.length) ? this.registerForm.value.presentAddress : null;
     const permanent_address = (this.registerForm.value.permanentAddress.length) ? this.registerForm.value.permanentAddress : null;
     const user_name = (this.registerForm.value.userName.length) ? this.registerForm.value.userName : null;
-    const password = (this.registerForm.value.password.length) ? this.registerForm.value.password : null;
-    const department_id = (this.registerForm.value.departmentId.length) ? this.registerForm.value.departmentId : null;
-    const designation_id = (this.registerForm.value.designationId.length) ? this.registerForm.value.designationId : null;
+    const password = this.registerForm.value.password;
+    const department_id = this.registerForm.value.departmentId;
+    const designation_id = (this.designations.length === 1) ?
+                            String(this.designations[0].id) : this.registerForm.value.designationId;
     const joining_date = this.convertDatePickerToString(this.registerForm.value.joiningDate);
     const deposit_pf = (this.registerForm.value.depositPF.length) ? this.registerForm.value.depositPF : null;
 

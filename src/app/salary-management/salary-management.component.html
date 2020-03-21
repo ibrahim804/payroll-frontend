@@ -46,7 +46,7 @@
           <div class="card-body">
 
               <div class="form-group">
-                  <label>Basic Salary</label>
+                  <label><span style="color: red;">*</span>Basic Salary</label>
                   <input type="text" class="form-control form-control-sm rounded-1" id="basic_salary" name="basic_salary" formControlName="basic_salary">
                   <div *ngIf="basic_salary.touched && basic_salary.invalid">
                     <div *ngIf="basic_salary.errors.required"> <mat-error>Basic Salary is required</mat-error> </div>
@@ -164,6 +164,9 @@
           </div>
       </div>
 
+      <div *ngIf="formErrorMessage">
+        <h6 style="color: red; text-align: center;"> {{formErrorMessage}} </h6>
+      </div>
       <button type="submit" class="btn btn-success btn-md btn-block m-3" id="save_salary_btn" (click)="updateSalary()">{{ actionLabel }}</button>
       <button type="submit" class="btn btn-dark btn-md btn-block m-3" id="go_back_btn" (click)="goBack()">Go Back</button>
   </div>

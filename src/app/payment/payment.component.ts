@@ -106,7 +106,7 @@ export class PaymentComponent implements AfterViewInit, OnInit {
         this.sharedService.showSpinner();
         this.paymentService.makePayment(payload).subscribe(response => {
           if (! this.checkError(response[0])) {
-            // this.depositProvidentFund(payload.user_id);
+            this.depositProvidentFund(payload.user_id);
           } else {
             this.sharedService.hideSpinner();
           }
@@ -122,20 +122,23 @@ export class PaymentComponent implements AfterViewInit, OnInit {
     this.providentFundService.createProvidentFund(payload).subscribe(response => {
       if (! this.checkError(response[0])) {
         this.setDataSource();
-        // alert('Payment Done. Provident Fund Increased');
-        const mailPayload: SendMail = {
-          user_id: userId,
-          unpaid_leave_count: (this.employeeUnpaidLeave[userId] == null) ? String(0) : String(this.employeeUnpaidLeave[userId])
-        };
-        this.paymentService.sendPaymentInMail(mailPayload).subscribe(mailResponse => {
-          console.log(mailResponse);
-          this.sharedService.hideSpinner();
-        }, (err) => {
-          this.sharedService.hideSpinner();
-        });
+        this.sendPaymentInfoToMail(userId);
       } else {
         this.sharedService.hideSpinner();
       }
+    });
+  }
+
+  sendPaymentInfoToMail(userId: string) {
+    const mailPayload: SendMail = {
+      user_id: userId,
+      unpaid_leave_count: (this.employeeUnpaidLeave[userId] == null) ? String(0) : String(this.employeeUnpaidLeave[userId])
+    };
+    this.paymentService.sendPaymentInMail(mailPayload).subscribe(mailResponse => {
+      console.log(mailResponse);
+      this.sharedService.hideSpinner();
+    }, (err) => {
+      this.sharedService.hideSpinner();
     });
   }
 

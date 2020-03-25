@@ -1,4 +1,1 @@
-
-export interface Create {
-  user_id: string;
-}
+// Empty So Far

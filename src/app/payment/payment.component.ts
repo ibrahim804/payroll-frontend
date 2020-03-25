@@ -1,7 +1,5 @@
 import { DialogConfirmationComponent } from './../dialogs/dialog-confirmation/dialog-confirmation.component';
-import { ProvidentFundService } from '../all_services/provident-fund.service';
-import { Create as PF } from './../config/interfaces/provident-fund.interface';
-import { Create as PAY, SendMail, SalarySheet } from './../config/interfaces/payment.interface';
+import { Create, SendMail, SalarySheet } from './../config/interfaces/payment.interface';
 import { UserService } from './../all_services/user.service';
 import { PaymentService } from './../all_services/payment.service';
 import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
@@ -32,7 +30,6 @@ export class PaymentComponent implements AfterViewInit, OnInit {
   constructor(
     private paymentService: PaymentService,
     private userService: UserService,
-    private providentFundService: ProvidentFundService,
     private dialog: MatDialog,
     private sharedService: SharedService
     ) { }
@@ -91,7 +88,7 @@ export class PaymentComponent implements AfterViewInit, OnInit {
   }
 
   redirectsToMakePayment(serialNo: number) {
-    const payload: PAY = {
+    const payload: Create = {
       user_id: String(this.employeeIds[serialNo - 1]),
       employee_monthly_cost: String(+this.sharedService.calculateLeaveDeduction(
         (this.employeeUnpaidLeave[this.employeeIds[serialNo - 1]]) ? this.employeeUnpaidLeave[this.employeeIds[serialNo - 1]] : 0,
@@ -106,25 +103,15 @@ export class PaymentComponent implements AfterViewInit, OnInit {
         this.sharedService.showSpinner();
         this.paymentService.makePayment(payload).subscribe(response => {
           if (! this.checkError(response[0])) {
-            this.depositProvidentFund(payload.user_id);
+            this.setDataSource();
+            // this.sendPaymentInfoToMail(String(this.employeeIds[serialNo - 1]));    //  MUST BE UNCOMMENTED
+            this.sharedService.hideSpinner(); // MUST BE COMMENTED OUT
           } else {
             this.sharedService.hideSpinner();
           }
+        }, (err) => {
+          this.sharedService.hideSpinner();
         });
-      }
-    });
-  }
-
-  depositProvidentFund(userId: string) {
-    const payload: PF = {
-      user_id: userId,
-    };
-    this.providentFundService.createProvidentFund(payload).subscribe(response => {
-      if (! this.checkError(response[0])) {
-        this.setDataSource();
-        this.sendPaymentInfoToMail(userId);
-      } else {
-        this.sharedService.hideSpinner();
       }
     });
   }

@@ -11,21 +11,17 @@ import { MAT_DIALOG_DATA } from '@angular/material';
 export class ApplyLoanRequestComponent implements OnInit {
 
   loanRequestForm: FormGroup;
-  providentFund: any;
-  onLoan: any;
-  availablePF: any;
+  loanableAmount: any;
 
   constructor(@Inject(MAT_DIALOG_DATA) private data: any, private formBuilder: FormBuilder) {}
 
   ngOnInit() {
     this.buildForm();
-    this.providentFund = this.data.responses.provident_fund;
-    this.onLoan = this.data.responses.on_loan;
-    this.availablePF = this.data.responses.available_pf;
+    this.loanableAmount = this.data.responses;
   }
 
   compareTwoAmounts() {
-    const diff = (+this.requested_amount.value) - this.availablePF;
+    const diff = (+this.requested_amount.value) - this.loanableAmount;
     if (diff > 0) {
       return false;
     } else {
@@ -36,11 +32,12 @@ export class ApplyLoanRequestComponent implements OnInit {
   returnData(flag: any) {
     flag = +flag;
     if (flag === 0) {
-      return {availablePF: -1};
+      return {loanableAmount: -1};
     } else {
       return {
-        availablePF: this.availablePF,
+        loanableAmount: this.loanableAmount,
         requestedAmount: (flag === 1) ? +this.requested_amount.value : 0,
+        contractDuration: (flag === 1) ? +this.contract_duration.value : 0,
       };
     }
   }
@@ -51,11 +48,19 @@ export class ApplyLoanRequestComponent implements OnInit {
           CustomValidators.containsDecimalNumber
         ],
       ],
+      contract_duration: [3, [
+          CustomValidators.containsOnlyNumber
+        ],
+      ],
     });
   }
 
   get requested_amount() {
     return this.loanRequestForm.get('requested_amount');
+  }
+
+  get contract_duration() {
+    return this.loanRequestForm.get('contract_duration');
   }
 
 }

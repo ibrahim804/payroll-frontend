@@ -18,6 +18,10 @@ export class LoanRequestService {
     return this.authService.getFromHTTP(apiRoutes.userMe);
   }
 
+  getLoanableAmount() {
+    return this.authService.getFromHTTP(apiRoutes.loanableAmount);
+  }
+
   requestForLoan(data: Create) {
     return this.authService.postInHTTP(apiRoutes.loanRequest, data);
   }

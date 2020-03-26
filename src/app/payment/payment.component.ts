@@ -101,7 +101,7 @@ export class PaymentComponent implements AfterViewInit, OnInit {
     }).afterClosed().subscribe(result => {
       if (result === '1') {
         this.sharedService.showSpinner();
-        this.paymentService.makePayment(payload).subscribe(response => {
+        this.paymentService.makePayment(payload).subscribe(response => { // Backend will create payment and PF together
           if (! this.checkError(response[0])) {
             this.setDataSource();
             // this.sendPaymentInfoToMail(String(this.employeeIds[serialNo - 1]));    //  MUST BE UNCOMMENTED

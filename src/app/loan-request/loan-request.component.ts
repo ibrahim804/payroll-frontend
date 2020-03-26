@@ -12,7 +12,10 @@ import { MatTableDataSource, MatSort, MatPaginator, MatDialog } from '@angular/m
 export class LoanRequestComponent implements AfterViewInit, OnInit {
 
   displayedColumns = [ 'serial_no', 'name', 'department', 'designation',
-                       'application_date', 'provident_fund', 'requested_amount', 'approve'];
+                       'application_date', 'available_amount', 'requested_amount', 'contract_duration',
+                       'approval_status'
+                    ];
+
   loanRequests = new MatTableDataSource<any>();
   searchKey: string;
   requestsIds = [];
@@ -41,8 +44,9 @@ export class LoanRequestComponent implements AfterViewInit, OnInit {
           department: i.department,
           designation: i.designation,
           application_date: i.application_date,
-          provident_fund: i.provident_fund,
-          requested_amount: i.requested_amount,
+          available_amount: i.available_amount + ' Tk',
+          requested_amount: i.requested_amount + ' Tk',
+          contract_duration: i.contract_duration + ' Months',
         });
         count = count + 1;
         this.requestsIds.push(i.id);
@@ -51,7 +55,6 @@ export class LoanRequestComponent implements AfterViewInit, OnInit {
       this.loanRequests.data = responseData;
       this.loanRequests.sort = this.sort;
       this.loanRequests.paginator = this.paginator;
-      // console.log(this.loanRequests.data);
     });
   }
 
@@ -59,10 +62,8 @@ export class LoanRequestComponent implements AfterViewInit, OnInit {
     this.dialog.open(DialogLoanRequestComponent, {
       data: {
         name: this.loanRequests.data[serialNo - 1].name,
-        pfAmount: this.loanRequests.data[serialNo - 1].provident_fund,
+        availableAmount: this.loanRequests.data[serialNo - 1].available_amount,
         reqAmount: this.loanRequests.data[serialNo - 1].requested_amount,
-        afterAcAmount:
-          this.loanRequests.data[serialNo - 1].provident_fund - this.loanRequests.data[serialNo - 1].requested_amount,
       }
     }).afterClosed().subscribe(result => {
         // console.log(result);

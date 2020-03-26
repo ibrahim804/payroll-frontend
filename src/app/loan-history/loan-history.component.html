@@ -9,13 +9,13 @@
       <mat-icon matPrefix class='mr-16'>search</mat-icon>
       </mat-form-field>
   </div>
-  <div class='pb-16'>
+  <!-- <div class='pb-16'>
     <button mat-raised-button color="warn" [disabled]="payLoanDisabled" class='h-60 w-224' (click)="redirectsToLoanPay()">
         {{payLoanLabel}}
     </button>
-  </div>
+  </div> -->
   <div class='pb-16'>
-    <button mat-raised-button color="primary" [disabled]="!isActive" class='h-60 w-224' (click)="redirectsToLoanApply()">
+    <button mat-raised-button color="warn" [disabled]="!isActive" class='h-60 w-224' (click)="redirectsToLoanApply()">
         Request For Loan
     </button>
   </div>
@@ -55,10 +55,10 @@
         <mat-cell *matCellDef="let element"> {{element.actual_loan_amount}} </mat-cell>
       </ng-container>
 
-      <ng-container matColumnDef="yearly_interest_rate">
+      <ng-container matColumnDef="contract_duration">
         <mat-header-cell *matHeaderCellDef mat-sort-header
-            class="primary-background white-color-foreground font-size-16"> Interest Rate </mat-header-cell>
-        <mat-cell *matCellDef="let element"> {{element.yearly_interest_rate}} </mat-cell>
+            class="primary-background white-color-foreground font-size-16"> Contract Duration </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.contract_duration}} </mat-cell>
       </ng-container>
 
       <ng-container matColumnDef="current_loan_amount">
@@ -67,10 +67,16 @@
         <mat-cell *matCellDef="let element"> {{element.current_loan_amount}} </mat-cell>
       </ng-container>
 
-      <ng-container matColumnDef="paid_amount">
+      <ng-container matColumnDef="paid_this_month">
+        <mat-header-cell *matHeaderCellDef mat-sort-header
+            class="primary-background white-color-foreground font-size-16"> Paid This Month </mat-header-cell>
+        <mat-cell *matCellDef="let element"> {{element.paid_this_month}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="total_paid_amount">
         <mat-header-cell *matHeaderCellDef mat-sort-header
             class="primary-background white-color-foreground font-size-16"> Paid So Far </mat-header-cell>
-        <mat-cell *matCellDef="let element"> {{element.paid_amount}} </mat-cell>
+        <mat-cell *matCellDef="let element"> {{element.total_paid_amount}} </mat-cell>
       </ng-container>
 
       <ng-container matColumnDef="loan_status">

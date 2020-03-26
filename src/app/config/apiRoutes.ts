@@ -62,6 +62,7 @@ export const apiRoutes = {
   loanRequest: `${baseUrl}/loan-request`,
   loanRequests: `${baseUrl}/loan-requests`,
   loanPendingRequest: `${baseUrl}/loan-pending-request`,
+  loanableAmount: `${baseUrl}/loan-request/loanable-amount`,
 
   payThisMonthEligibility: `${baseUrl}/loan-history/pay/eligibility`,
   loanHistory: `${baseUrl}/loan-history`,

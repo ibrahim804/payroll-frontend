@@ -24,16 +24,6 @@ export class LoanHistoryComponent implements AfterViewInit, OnInit {
 
   isActive: boolean;
 
-  // latestLoanAmount: any = null;
-  // actualLoan: any = null;
-  // latestAlreadyPaid: any = null;
-  // latestMonth: any = null;
-  // latestYear: any = null;
-  // latestMonthCount: any = null;
-
-  // payLoanLabel: string;
-  // payLoanDisabled: boolean;
-
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
@@ -47,19 +37,7 @@ export class LoanHistoryComponent implements AfterViewInit, OnInit {
     this.setDataSource();
   }
 
-  setDefaultValues() {
-    // this.latestLoanAmount = null;
-    // this.actualLoan = null;
-    // this.latestAlreadyPaid = null;
-    // this.latestMonth = null;
-    // this.latestYear = null;
-    // this.latestMonthCount = null;
-    // this.payLoanLabel = 'Pay Loan';
-    // this.payLoanDisabled = false;
-  }
-
   setDataSource() {
-    this.setDefaultValues();
 
     combineLatest(
       this.loanRequestService.checkForPendingRequest(),
@@ -92,15 +70,6 @@ export class LoanHistoryComponent implements AfterViewInit, OnInit {
 
         count = count + 1;
         this.loanHistoryIds.push(i.id);
-
-        // if (this.latestLoanAmount == null) {
-        //   this.latestLoanAmount = i.current_loan_amount;
-        //   this.actualLoan = i.actual_loan_amount;
-        //   this.latestAlreadyPaid = i.total_paid_amount;
-        //   this.latestYear = i.year;
-        //   this.latestMonth = this.getNumFromMonthList(i.month);
-        //   this.latestMonthCount = i.month_count;
-        // }
       }
 
       this.loanHistories.data = responseData;

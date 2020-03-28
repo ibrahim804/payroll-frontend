@@ -6,4 +6,5 @@ export interface Create {
 
 export interface Update {
   approval_status: string;
+  contract_duration: string;
 }

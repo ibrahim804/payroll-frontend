@@ -1,12 +1,25 @@
-<h1 mat-dialog-title> {{data?.name}} </h1>
-<div mat-dialog-content>
-  <div>
-    Loanable Amount: {{data?.availableAmount}} BDT <br>
-    Requested Amount: {{data?.reqAmount}} BDT <br>
-  </div> <br>
-</div>
-<div mat-dialog-actions>
-  <button mat-raised-button class="btn btn-success btn-sm mr-1" mat-dialog-close="1" cdkFocusInitial > Accept </button>
-  <button mat-raised-button class="btn btn-danger btn-sm mr-1" mat-dialog-close="0"> Reject </button>
-  <button mat-raised-button class="btn btn-light btn-sm mr-1" mat-dialog-close="-1"> Later </button>
-</div>
+<form [formGroup]="loanRequestForm">
+  <h1 mat-dialog-title> {{data?.name}} </h1>
+  <div mat-dialog-content>
+    <div>
+      Loanable Amount: {{data?.availableAmount}} BDT <br>
+      Requested Amount: {{data?.reqAmount}} BDT <br>
+      Contract Duration: <br>
+      <input type="text" class="form-control form-control-sm rounded-1" id="contractDuration" name="contractDuration" formControlName="contractDuration">
+      <div *ngIf="contractDuration.touched && contractDuration.invalid">
+        <div *ngIf="contractDuration.errors.required"> <mat-error>Contract Duration is required</mat-error> </div>
+        <div *ngIf="contractDuration.errors.minlength"> <mat-error>ContractDuration should be minimum {{ contractDuration.errors.minlength.requiredLength }} digit</mat-error> </div>
+        <div *ngIf="contractDuration.errors.maxlength"> <mat-error>Contract Duration should be maximum {{ contractDuration.errors.maxlength.requiredLength }} digits</mat-error> </div>
+        <div *ngIf="contractDuration.errors.containsOnlyNumber"> <mat-error>Contract Duration should contain only number.</mat-error> </div>
+      </div>
+      <div *ngIf="formErrMessage"> <h6 style="color: red; text-align: center;"> {{formErrMessage}} </h6> <br> </div>
+    </div>
+    <br>
+  </div>
+  <div mat-dialog-actions>
+    <button type="submit" mat-raised-button (click)="returnData(1)" class="btn btn-success btn-sm mr-1" cdkFocusInitial> Accept </button>
+    <button type="submit" mat-raised-button (click)="returnData(-1)" class="btn btn-light btn-sm mr-1"> Later </button>
+    <button type="submit" mat-raised-button (click)="returnData(0)" class="btn btn-danger btn-sm mr-1"> Reject </button>
+  </div>
+</form>
+

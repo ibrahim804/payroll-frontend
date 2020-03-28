@@ -59,29 +59,32 @@ export class LoanRequestComponent implements AfterViewInit, OnInit {
   }
 
   respondeToRequest(serialNo: number) {
+    const splitedDuration = String(this.loanRequests.data[serialNo - 1].contract_duration).split(' ')[0];
+
     this.dialog.open(DialogLoanRequestComponent, {
       data: {
         name: this.loanRequests.data[serialNo - 1].name,
         availableAmount: this.loanRequests.data[serialNo - 1].available_amount,
         reqAmount: this.loanRequests.data[serialNo - 1].requested_amount,
+        contractDuration: splitedDuration,
       }
-    }).afterClosed().subscribe(result => {
-        // console.log(result);
-        result = String(result);
-        if (result === '-1') {
-          alert('Ok, not responded');
+    }).afterClosed().subscribe(result => {  // can be -1 (later), 0 (reject), 1 (accept)
+        if (result.approval_status === -1) {
+          alert('Ok, not responded now');
         } else {
           const payload: Update = {
-            approval_status: result,
+            approval_status: String(result.approval_status),
+            contract_duration: (result.approval_status) ? result.contract_duration : splitedDuration
           };
           this.loanRequestService.approveLoanRequest(this.requestsIds[serialNo - 1], payload).subscribe(response => {
             if (! this.checkError(response[0])) {
-              // console.log(response[0]);
-              if (result === '1') {
+              if (result.approval_status === 1) {
                 alert('Loan Request Accepted');
               } else {
                 alert('Loan Request Rejected');
               }
+              this.setDataSource();
+            } else {
               this.setDataSource();
             }
           });

@@ -165,17 +165,17 @@ export const genericNavConstants = {  // Route Flow: sidebar->urlRoute->appRouti
       url: urlRoutes.loanRequests,
       icon: 'monetization_on',
       role: [role.ADMIN],
-      mini_name: 'Loan',
+      mini_name: 'Requests',
     },
     {
-      name: 'Pay Back Requests',
+      name: 'Loan Histories',   // Pay Back Requests
       url: urlRoutes.payBackRequest,
       icon: 'sync_alt',
       role: [role.ADMIN],
-      mini_name: 'Pay Back',
+      mini_name: 'Histories',
     },
     {
-      name: 'Loan History',
+      name: 'Loan Histories',
       url: urlRoutes.loanHistories,
       icon: 'monetization_on',
       role: [role.USER],

@@ -14,10 +14,6 @@ export class LoanRequestService {
     return this.authService.getFromHTTP(apiRoutes.loanPendingRequest);
   }
 
-  getActualPF_OnLoan_AvailablePF() {
-    return this.authService.getFromHTTP(apiRoutes.userMe);
-  }
-
   getLoanableAmount() {
     return this.authService.getFromHTTP(apiRoutes.loanableAmount);
   }

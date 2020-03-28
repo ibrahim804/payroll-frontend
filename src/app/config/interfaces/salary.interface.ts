@@ -41,5 +41,6 @@ export interface SingleObj {
   net_salary?: string;
   unpaidLeave?: string;
   leaveDeduction?: string;
+  monthlyLoanDeduction?: any;
   payableAmount?: string;
 }

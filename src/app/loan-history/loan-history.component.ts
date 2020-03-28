@@ -14,8 +14,9 @@ import { LoanRequestService } from '../all_services/loan-request.service';
 export class LoanHistoryComponent implements AfterViewInit, OnInit {
 
   displayedColumns = [ 'serial_no', 'year', 'month', 'month_count',
-                        'actual_loan_amount', 'contract_duration', 'current_loan_amount',
-                        'paid_this_month', 'total_paid_amount', 'loan_status'
+                        'actual_loan_amount', 'contract_duration',
+                        'paid_this_month', 'total_paid_amount', 'current_loan_amount',
+                        'loan_status'
                     ];
   loanHistories = new MatTableDataSource<any>();
   searchKey: string;
@@ -60,46 +61,52 @@ export class LoanHistoryComponent implements AfterViewInit, OnInit {
   setDataSource() {
     this.setDefaultValues();
 
-    this.loanRequestService.checkForPendingRequest().subscribe(pendingResponse => {
-      if (pendingResponse[0].status === 'FAILED') {
+    combineLatest(
+      this.loanRequestService.checkForPendingRequest(),
+      this.loanHistoryService.getEmployeesHistory()
+    ).subscribe(combinedResponses => {
+
+      if (combinedResponses[0][0].status === 'FAILED') {
         this.isActive = false;
       } else {
         this.isActive = true;
       }
-      let responseData = [];
+
+      const responseData = [];
       let count = 1;
-      this.loanHistoryService.getEmployeesHistory().subscribe(employeeHistoriesResponse => {
-        for (let i of employeeHistoriesResponse[0].loan_histories) {
-          responseData.push({
-            serial_no: count,
-            month: i.month,
-            year: i.year,
-            month_count: this.ordinal_suffix_of(i.month_count + 1),
-            contract_duration: i.contract_duration + ' Months',
-            actual_loan_amount: i.actual_loan_amount + ' TK',
-            current_loan_amount: i.current_loan_amount + ' TK',
-            paid_this_month: i.paid_this_month + ' TK',
-            total_paid_amount: i.total_paid_amount + ' TK',
-            loan_status:
-              ((i.loan_status).substring(0, 1)).toUpperCase() + (i.loan_status).substring(1, (i.loan_status).length),
-          });
 
-          count = count + 1;
-          this.loanHistoryIds.push(i.id);
+      for (let i of combinedResponses[1][0].loan_histories) {
+        responseData.push({
+          serial_no: count,
+          month: i.month,
+          year: i.year,
+          month_count: this.ordinal_suffix_of(i.month_count + 1),
+          contract_duration: i.contract_duration + ' Months',
+          actual_loan_amount: i.actual_loan_amount.toFixed(2) + ' TK',
+          current_loan_amount: i.current_loan_amount.toFixed(2) + ' TK',
+          paid_this_month: i.paid_this_month.toFixed(2) + ' TK',
+          total_paid_amount: i.total_paid_amount.toFixed(2) + ' TK',
+          loan_status:
+            ((i.loan_status).substring(0, 1)).toUpperCase() + (i.loan_status).substring(1, (i.loan_status).length),
+        });
 
-          // if (this.latestLoanAmount == null) {
-          //   this.latestLoanAmount = i.current_loan_amount;
-          //   this.actualLoan = i.actual_loan_amount;
-          //   this.latestAlreadyPaid = i.total_paid_amount;
-          //   this.latestYear = i.year;
-          //   this.latestMonth = this.getNumFromMonthList(i.month);
-          //   this.latestMonthCount = i.month_count;
-          // }
-        }
-        this.loanHistories.data = responseData;
-        this.loanHistories.sort = this.sort;
-        this.loanHistories.paginator = this.paginator;
-      });
+        count = count + 1;
+        this.loanHistoryIds.push(i.id);
+
+        // if (this.latestLoanAmount == null) {
+        //   this.latestLoanAmount = i.current_loan_amount;
+        //   this.actualLoan = i.actual_loan_amount;
+        //   this.latestAlreadyPaid = i.total_paid_amount;
+        //   this.latestYear = i.year;
+        //   this.latestMonth = this.getNumFromMonthList(i.month);
+        //   this.latestMonthCount = i.month_count;
+        // }
+      }
+
+      this.loanHistories.data = responseData;
+      this.loanHistories.sort = this.sort;
+      this.loanHistories.paginator = this.paginator;
+
     });
   }
 

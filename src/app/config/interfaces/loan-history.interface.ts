@@ -1,4 +1,4 @@
 
 export interface Create {
-  paid_amount: string;
+  user_id: string;
 }

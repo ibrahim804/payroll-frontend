@@ -1,3 +1,7 @@
+import { Create as CreatePF } from './../config/interfaces/provident-fund.interface';
+import { Create as CreateHistory } from './../config/interfaces/loan-history.interface';
+import { LoanHistoryService } from './../all_services/loan-history.service';
+import { ProvidentFundService } from './../all_services/provident-fund.service';
 import { DialogConfirmationComponent } from './../dialogs/dialog-confirmation/dialog-confirmation.component';
 import { Create, SendMail, SalarySheet } from './../config/interfaces/payment.interface';
 import { UserService } from './../all_services/user.service';
@@ -23,12 +27,15 @@ export class PaymentComponent implements AfterViewInit, OnInit {
   employeeIds = [];
   alreadyPaidIds = [];
   employeeUnpaidLeave = [];
+  employeeOnLoan: any = [];
 
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
   constructor(
     private paymentService: PaymentService,
+    private providentFundService: ProvidentFundService,
+    private loanHistoryService: LoanHistoryService,
     private userService: UserService,
     private dialog: MatDialog,
     private sharedService: SharedService
@@ -47,6 +54,7 @@ export class PaymentComponent implements AfterViewInit, OnInit {
     ).subscribe(combinedResponse => {
       this.alreadyPaidIds = combinedResponse[1][0].payments_user_id;
       this.employeeUnpaidLeave = combinedResponse[1][0].userCountMap; // key->value  (user_id -> total_unpaid_leave_count_of_this_month)
+      this.employeeOnLoan = combinedResponse[1][0].userCountLoan; // key->value (user_id -> Monthly Loan Deduction)
       for (let i of combinedResponse[0][0].users) {
         responseData.push({
           serial_no: count,
@@ -58,8 +66,7 @@ export class PaymentComponent implements AfterViewInit, OnInit {
           total_deduction: i.total_deduction,
           payableAmount: this.sharedService.calculatePayableAmount(
             (this.employeeUnpaidLeave[i.id]) ? this.employeeUnpaidLeave[i.id] : 0,
-            i.gross_salary,
-            i.salary
+            i.gross_salary, i.salary, this.employeeOnLoan[i.id]
           ),
           isActive: this.alreadyPaidIds.indexOf(i.id) === -1,
           label: (this.alreadyPaidIds.indexOf(i.id) === -1) ? 'Make Payment' : 'Already Paid',
@@ -83,6 +90,8 @@ export class PaymentComponent implements AfterViewInit, OnInit {
         isExpanded: true,
         unpaidLeave: (this.employeeUnpaidLeave[this.employeeIds[serialNo - 1]]) ?
                       this.employeeUnpaidLeave[this.employeeIds[serialNo - 1]] : 0,
+        onLoan: this.employeeOnLoan[this.employeeIds[serialNo - 1]],
+        payableAmount: this.payments.data[serialNo - 1].payableAmount,
       }
     });
   }
@@ -90,10 +99,10 @@ export class PaymentComponent implements AfterViewInit, OnInit {
   redirectsToMakePayment(serialNo: number) {
     const payload: Create = {
       user_id: String(this.employeeIds[serialNo - 1]),
-      employee_monthly_cost: String(+this.sharedService.calculateLeaveDeduction(
+      employee_monthly_cost: String(+this.sharedService.calculateLeaveDeduction( // unpaid + total + monthly loan
         (this.employeeUnpaidLeave[this.employeeIds[serialNo - 1]]) ? this.employeeUnpaidLeave[this.employeeIds[serialNo - 1]] : 0,
         this.payments.data[serialNo - 1].gross_salary
-      ) + (+this.payments.data[serialNo - 1].total_deduction)),
+      ) + (+this.payments.data[serialNo - 1].total_deduction) + (+this.employeeOnLoan[this.employeeIds[serialNo - 1]])),
       payable_amount: this.payments.data[serialNo - 1].payableAmount,
     };
     this.dialog.open(DialogConfirmationComponent, {
@@ -101,8 +110,9 @@ export class PaymentComponent implements AfterViewInit, OnInit {
     }).afterClosed().subscribe(result => {
       if (result === '1') {
         this.sharedService.showSpinner();
-        this.paymentService.makePayment(payload).subscribe(response => { // Backend will create payment and PF together
+        this.paymentService.makePayment(payload).subscribe(response => {
           if (! this.checkError(response[0])) {
+            this.createProvidentFundAndLoanHistory(this.employeeIds[serialNo - 1]);
             this.setDataSource();
             // this.sendPaymentInfoToMail(String(this.employeeIds[serialNo - 1]));    //  MUST BE UNCOMMENTED
             this.sharedService.hideSpinner(); // MUST BE COMMENTED OUT
@@ -113,6 +123,19 @@ export class PaymentComponent implements AfterViewInit, OnInit {
           this.sharedService.hideSpinner();
         });
       }
+    });
+  }
+
+  createProvidentFundAndLoanHistory(userId: number) {
+    const pfLoad: CreatePF = {user_id: String(userId)};
+    const historyLoad: CreateHistory = {user_id: String(userId)};
+
+    combineLatest(
+      this.providentFundService.createProvidentFund(pfLoad),
+      this.loanHistoryService.createLoanHistory(historyLoad)
+    ).subscribe(combinedResponses => {
+      // console.log(combinedResponses[0][0].message);
+      // console.log(combinedResponses[1][0].message);
     });
   }
 

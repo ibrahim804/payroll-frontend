@@ -31,9 +31,8 @@ export class DialogSalaryDetailsComponent implements OnInit {
           this.employeeSalary.leaveDeduction = this.sharedService.calculateLeaveDeduction(
             +this.employeeSalary.unpaidLeave, this.employeeSalary.gross_salary
           );
-          this.employeeSalary.payableAmount = this.sharedService.calculatePayableAmount(
-            +this.employeeSalary.unpaidLeave, this.employeeSalary.gross_salary, this.employeeSalary.net_salary
-          );
+          this.employeeSalary.monthlyLoanDeduction = this.data.onLoan.toFixed(2);
+          this.employeeSalary.payableAmount = this.data.payableAmount;
         }
       } else {
         this.employeeSalary = null;

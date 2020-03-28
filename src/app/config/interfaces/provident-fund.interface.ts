@@ -1,1 +1,4 @@
-// Empty So Far
+
+export interface Create {
+  user_id: string;
+}

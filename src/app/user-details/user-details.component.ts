@@ -1,7 +1,7 @@
 import { UpdateUserComponent } from './../dialogs/update-user/update-user.component';
 import { MatDialog } from '@angular/material';
 import { AuthService } from './../all_services/auth.service';
-import { urlRoutes, apiRoutes } from './../config/apiRoutes';
+import { urlRoutes } from './../config/apiRoutes';
 import { Component, OnInit } from '@angular/core';
 import { User, UpdatePassword } from './../config/interfaces/user.interface';
 import { UserService } from './../all_services/user.service';

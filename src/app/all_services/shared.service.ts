@@ -20,7 +20,7 @@ export class SharedService {
     designation: 'Designation',
     basic_salary: 'Basic Salary',
     house_rent_allowance: 'House Rent Allowance',
-    medical_allowance: 'Medical Allowance', 
+    medical_allowance: 'Medical Allowance',
     special_allowance: 'Special Allowance',
     fuel_allowance: 'Fuel Allowance',
     phone_bill_allowance: 'Phone Bill Allowance',
@@ -36,8 +36,8 @@ export class SharedService {
     payable_amount: 'Payable Amount',
   };
 
-  calculatePayableAmount(unpaidCount: any, grossSalary: any, netSalary: any) {
-    return (netSalary - this.calculateLeaveDeduction(unpaidCount, grossSalary)).toFixed(2);
+  calculatePayableAmount(unpaidCount: any, grossSalary: any, netSalary: any, onLoan: any) {
+    return (netSalary - this.calculateLeaveDeduction(unpaidCount, grossSalary) - onLoan).toFixed(2);
   }
 
   calculateLeaveDeduction(unpaidCount: any, grossSalary: any) {

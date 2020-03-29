@@ -10,10 +10,6 @@ export class SalaryService {
 
   constructor(private authService: AuthService) { }
 
-  getSalaries() {
-    return this.authService.getFromHTTP(apiRoutes.salaries);
-  }
-
   getSalary(id: string) {
     return this.authService.getFromHTTP(`${apiRoutes.salary}/${id}`);
   }

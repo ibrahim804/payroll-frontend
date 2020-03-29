@@ -8,12 +8,9 @@ export const apiRoutes = {
 
   login: `${baseUrl}/login`,
   register: `${baseUrl}/register`,
-  checkUniqueMail: `${baseUrl}/exists/email`,
-  user: `${baseUrl}/user`,
   userMe: `${baseUrl}/user-me`,
   userDeptDesgIds: `${baseUrl}/user-dept-desg`,
   update: `${baseUrl}/update-user`,
-  delete: `${baseUrl}/delete/user`,
   logout: `${baseUrl}/logout`,
   updatePassword: `${baseUrl}/update-password`,
   forgotPassword: `${baseUrl}/forgot/password`,
@@ -21,24 +18,15 @@ export const apiRoutes = {
   setNewPassword: `${baseUrl}/set/new-password`,
   users: `${baseUrl}/users`,
 
-  companies: `${baseUrl}/companies`,
-  company: `${baseUrl}/company`,
-
-  salaries: `${baseUrl}/salaries`,
   salary: `${baseUrl}/salary`,
   salaryMine: `${baseUrl}/salary-mine`,
-
-  entry: `${baseUrl}/entry`,
-  exit: `${baseUrl}/exit`,
 
   departments: `${baseUrl}/departments`,
   department: `${baseUrl}/department`,
 
   designations: `${baseUrl}/designations`,
-  designation: `${baseUrl}/designation`,
 
   leaveCategories: `${baseUrl}/leave-categories`,
-  leaveCategory: `${baseUrl}/leave-category`,
 
   leaveCountsOfAUser: `${baseUrl}/leave-counts-of-user`,
 
@@ -64,49 +52,44 @@ export const apiRoutes = {
   loanPendingRequest: `${baseUrl}/loan-pending-request`,
   loanableAmount: `${baseUrl}/loan-request/loanable-amount`,
 
-  payThisMonthEligibility: `${baseUrl}/loan-history/pay/eligibility`,
   loanHistory: `${baseUrl}/loan-history`,
-  getAllPendingPayBacks: `${baseUrl}/loan-pay-backs`,
-  acceptPayBack: `${baseUrl}/loan-pay-back-accept`,
   loanHistories: `${baseUrl}/loan-histories`,
-
-  fileUploadCreateUser: `${baseUrl}/file-upload/create/user`,
-  uploadUserProfilePicture: `${baseUrl}/upload/user/profile-picture`,
-  getUserProfilePicture: `${baseUrl}/get-profile-picture`,
 
 };
 
 export const urlRoutes = {
+
   login: `/login`,
   register: `/register`,
 
-  dashboard: `/dashboard`,    // Dashboard
+  dashboard: `/dashboard`,
 
-  departmentsList: `/departments/list`,   // Department
+  departmentsList: `/departments/list`,
   departmentsAdd: `/departments/add`,
 
-  employeesList: `/employees/list`,   // Employee
+  employeesList: `/employees/list`,
   employeesAdd: `/employees/add`,
   employeesDetails: `/employees/details`,
   employeeUpdate: `/employees/update`,
 
-  attendance: `/attendance`,    // Attendance
+  attendance: `/attendance`,
   attendanceReport: `/attendance/report`,
 
-  leaveManagement: `/leave/management`,   // leave
-  leaveApplication: `/leave/application`, // leave
+  leaveManagement: `/leave/management`,
+  leaveApplication: `/leave/application`,
 
-  salaryManagement: `/salary/management`,   // Salary
+  salaryManagement: `/salary/management`,
   salaryUpdate: `/salary/update`,
 
-  payment: `/payment`,    // Payment
+  payment: `/payment`,
 
-  loanRequests: `/loan/requests`, // Loan Requests, Admin
-  payBackRequest: `/loan/paybacks`, // loan payback, Admin
+  loanRequests: `/loan/requests`,
+  payBackRequest: `/loan/paybacks`,
   loanHistories: `/loan/histories`,
-  applyForLoan: `/loan/application`, // Apply For Loan, User
+  applyForLoan: `/loan/application`,
 
-  settings: `/settings`,    // Company
+  settings: `/settings`,
+
 };
 
 export const genericNavConstants = {  // Route Flow: sidebar->urlRoute->appRouting->apiRoute
@@ -202,13 +185,5 @@ export const genericNavConstants = {  // Route Flow: sidebar->urlRoute->appRouti
     }
   },
 };
-/*
-{
-      name:
-      url:
-      icon:
-      role:
-      mini_name:
-    },
-*/
+
 

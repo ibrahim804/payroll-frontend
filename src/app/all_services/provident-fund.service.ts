@@ -10,10 +10,6 @@ export class ProvidentFundService {
 
   constructor(private authService: AuthService) { }
 
-  showEmployeeLatestPF() {
-    return this.authService.getFromHTTP(apiRoutes.providentFund);
-  }
-
   createProvidentFund(data: Create) {
     return this.authService.postInHTTP(apiRoutes.providentFund, data);
   }

@@ -69,7 +69,7 @@ export class LeaveComponent implements AfterViewInit, OnInit {
     ).subscribe(responseForCreatePage => {
       this.leaveCategories = responseForCreatePage[0][0].leave_categories;
       this.leaveCounts = responseForCreatePage[1][0].leave_counts;  // leave counts of all category of an employee. Chill!!
-      //so far, create page. From here, lower part for main page
+      // so far, create page. From here, lower part for main page
       let responseData = [];
       let count = 1;
       this.leaveService.getAllLeavesOfAnEmployee().subscribe(responseForMainPage => {
@@ -262,18 +262,6 @@ export class LeaveComponent implements AfterViewInit, OnInit {
       invalidLogin: true
     });
   }
-
-  /*
-    leaveApplicationForm: FormGroup;
-
-    leaveCategories: any;
-    errMessage: any;
-    formErrorMessage: any;
-    isDefaultView = true;
-    isCreate: boolean;
-    leaveCounts: any;
-    leaveLeft: number;
-  */
 
   alterView(destinationView: string) {
     if (destinationView === 'create') {

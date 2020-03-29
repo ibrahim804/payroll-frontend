@@ -4,7 +4,6 @@ import { Observable } from 'rxjs';
 import { first } from 'rxjs/operators';
 import { apiRoutes } from '../config/apiRoutes';
 import { Login, Register, ForgotPassword, VerifyCode, SetNewPassword, UpdatePassword } from '../config/interfaces/user.interface';
-import { AbstractControl, ValidationErrors } from '@angular/forms';
 
 @Injectable({
   providedIn: 'root'
@@ -84,18 +83,6 @@ export class AuthService {
 
   private clearLocalStorage() {
     localStorage.clear();
-  }
-
-  shouldBeUnique(control: AbstractControl): Observable<ValidationErrors | null> {
-    return new Observable(observer => {
-      this.getFromHTTP(apiRoutes.checkUniqueMail).subscribe(response => {
-        if (response[0].exists === 'yes') {
-          observer.next({shouldBeUnique: true});
-        } else {
-          observer.next(null);
-        }
-      });
-    });
   }
 
   getFromHTTP(endPoint: string): Observable <any> {

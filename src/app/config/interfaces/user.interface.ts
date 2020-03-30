@@ -5,19 +5,17 @@ export interface Login {
 }
 
 export interface User {
-  company_name: string;
-  department_name: string;
-  designation: string;
-  email: string;
-  full_name: string;
   id: string;
-  joining_date: string;
+  full_name: string;
+  email: string;
   phone: string;
   present_address: string;
+  department_name: string;
+  designation: string;
+  joining_date: string;
   net_salary: string;
-  provident_fund?: string;
-  on_loan?: string;
-  available_pf?: string;
+  provident_fund: string;
+  on_loan: string;
 }
 
 export interface Register {

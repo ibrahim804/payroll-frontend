@@ -28,28 +28,30 @@ export class LoanPayBackComponent implements AfterViewInit, OnInit {
 
   setDataSource() {
     this.loanHistoryService.getLatestHistoryOfEach().subscribe(response => {
-      const responseData = [];
-      let count = 1;
+      if  (! this.checkError(response[0])) {
+        const responseData = [];
+        let count = 1;
 
-      for (let i of response[0].latest_histories) {
-        responseData.push({
-          serial_no: count,
-          name: i.name,
-          department: i.department,
-          designation: i.designation,
-          actual_loan_amount: i.actual_loan_amount.toFixed(2) + ' TK',
-          contract_duration: i.contract_duration + ' Months',
-          total_paid_amount: i.total_paid_amount.toFixed(2) + ' TK',
-          loan_status:
-            ((i.loan_status).substring(0, 1)).toUpperCase() + (i.loan_status).substring(1, (i.loan_status).length),
-        });
+        for (let i of response[0].latest_histories) {
+          responseData.push({
+            serial_no: count,
+            name: i.name,
+            department: i.department,
+            designation: i.designation,
+            actual_loan_amount: i.actual_loan_amount.toFixed(2) + ' TK',
+            contract_duration: i.contract_duration + ' Months',
+            total_paid_amount: i.total_paid_amount.toFixed(2) + ' TK',
+            loan_status:
+              ((i.loan_status).substring(0, 1)).toUpperCase() + (i.loan_status).substring(1, (i.loan_status).length),
+          });
 
-        count = count + 1;
+          count = count + 1;
+        }
+
+        this.loanHistories.data = responseData;
+        this.loanHistories.sort = this.sort;
+        this.loanHistories.paginator = this.paginator;
       }
-
-      this.loanHistories.data = responseData;
-      this.loanHistories.sort = this.sort;
-      this.loanHistories.paginator = this.paginator;
     });
   }
 

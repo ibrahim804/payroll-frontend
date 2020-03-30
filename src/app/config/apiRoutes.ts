@@ -54,6 +54,7 @@ export const apiRoutes = {
 
   loanHistory: `${baseUrl}/loan-history`,
   loanHistories: `${baseUrl}/loan-histories`,
+  loanLatestHistoryOfEach: `${baseUrl}/loan-history/user/latest`,
 
 };
 

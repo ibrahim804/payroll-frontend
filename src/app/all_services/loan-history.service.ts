@@ -17,4 +17,8 @@ export class LoanHistoryService {
   getEmployeesHistory() {
     return this.authService.getFromHTTP(apiRoutes.loanHistories);
   }
+
+  getLatestHistoryOfEach() {
+    return this.authService.getFromHTTP(apiRoutes.loanLatestHistoryOfEach);
+  }
 }

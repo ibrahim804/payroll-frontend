@@ -134,8 +134,8 @@ export class PaymentComponent implements AfterViewInit, OnInit {
       this.providentFundService.createProvidentFund(pfLoad),
       this.loanHistoryService.createLoanHistory(historyLoad)
     ).subscribe(combinedResponses => {
-      // console.log(combinedResponses[0][0].message);
-      // console.log(combinedResponses[1][0].message);
+      console.log(combinedResponses[0][0].message);
+      console.log(combinedResponses[1][0].message);
     });
   }
 

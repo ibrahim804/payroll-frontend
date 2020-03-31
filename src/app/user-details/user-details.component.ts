@@ -91,6 +91,8 @@ export class UserDetailsComponent implements OnInit {
         this.isDefaultView = false;
         this.defaultHeader = this.salaryHeader;
         // console.log(this.employeeSalary);
+      } else {
+        alert('Salary not set yet');
       }
     });
   }

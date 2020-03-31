@@ -198,6 +198,30 @@
                     </div>
                 </div>
 
+                <div class="form-group">
+                  <label for="roleId"><span style="color: red;">*</span>Employee Type</label>
+                  <select class="form-control form-control-sm" id="roleId" name="roleId" formControlName="roleId" (change)="showLeaders(this.roleId.value)">
+                      <!-- <option>Select Department</option> -->
+                      <option *ngFor="let role of roles" value={{role.id}}>{{role.type}}</option>
+                  </select>
+                  <div *ngIf="roleId.touched && roleId.invalid">
+                    <div *ngIf="roleId.errors.required"> <mat-error>role is required</mat-error> </div>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label for="leaderId"><span style="color: red;">*</span>Assign To</label>
+                  <select class="form-control form-control-sm" id="leaderId" name="leaderId" formControlName="leaderId">
+                      <!-- <option>Select Department</option> -->
+                      <option *ngFor="let leader of leaders" value={{leader.id}}>{{leader.full_name}}</option>
+                  </select>
+                  <div *ngIf="leaderId.touched && leaderId.invalid">
+                    <div *ngIf="leaderId.errors.required && roleId.value == 3">
+                      <mat-error>General Employee must be assigned to a Team Leader</mat-error>
+                    </div>
+                  </div>
+                </div>
+
                 <label for="joiningDate"><span style="color: red;">*</span>Joining Date</label>
                 <div class="form-group form-inline">
                     <div class="input-group">

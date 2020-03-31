@@ -18,6 +18,9 @@ export const apiRoutes = {
   setNewPassword: `${baseUrl}/set/new-password`,
   users: `${baseUrl}/users`,
 
+  roles: `${baseUrl}/roles`,
+  leaders: `${baseUrl}/roles/leaders`,
+
   salary: `${baseUrl}/salary`,
   salaryMine: `${baseUrl}/salary-mine`,
 

@@ -25,6 +25,8 @@ export interface Register {
   gender: string;
   phone: string;
   joining_date: string;
+  role_id: string;
+  id_of_leader: string;
   // upper must be filled up, lowers are optional
   employee_id?: string;
   user_name?: string;

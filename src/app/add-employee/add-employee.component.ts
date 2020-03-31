@@ -1,3 +1,5 @@
+import { combineLatest } from 'rxjs';
+import { RoleService } from './../all_services/role.service';
 import { Router } from '@angular/router';
 import { Create } from './../config/interfaces/working-day.interface';
 import { Register } from './../config/interfaces/user.interface';
@@ -29,7 +31,9 @@ export class AddEmployeeComponent implements OnInit {
   public departments;
   private departmentIdAttrbute;
   public designations;
-  formErrMessage: any;
+  public roles;
+  public leaders;
+  public formErrMessage: any;
 
   weekDays = [
     { id: 100, name: 'Sunday', value: 'sunday' },
@@ -48,6 +52,7 @@ export class AddEmployeeComponent implements OnInit {
     // private userService: UserService,
     private departmentService: DepartmentService,
     private designationService: DesignationService,
+    private roleService: RoleService,
     // private data: DataService,
     private workingDaysService: WorkingDayService,
     private formBuilder: FormBuilder,
@@ -66,16 +71,27 @@ export class AddEmployeeComponent implements OnInit {
     // });
 
     this.formErrMessage = null;
-    this.getDepartments();
+    this.departments = null;
+    this.departmentIdAttrbute = null;
+    this.designations = null;
+    this.roles = null;
+    this.leaders = null;
+
+    this.retrieveInitialList();
 
     // this.uploader.onAfterAddingFile = (file) => { file.withCredentials = false; };
 
     this.buildForm();
   }
 
-  getDepartments() {
-    this.departmentService.getAllDepartments().subscribe(data => {
-      this.departments = data[0].departments;
+  retrieveInitialList() {
+    combineLatest(
+      this.departmentService.getAllDepartments(),
+      this.roleService.getRoles(),
+    )
+    .subscribe(combinedResponses => {
+      this.departments = combinedResponses[0][0].departments;
+      this.roles = combinedResponses[1][0].roles;
     });
   }
 
@@ -83,6 +99,18 @@ export class AddEmployeeComponent implements OnInit {
     this.departmentIdAttrbute = (document.getElementById('departmentId') as HTMLInputElement).value;
     this.designationService.getDesignationsOfThisDepartment(this.departmentIdAttrbute).subscribe(data => {
       this.designations = data[0].designations;
+    });
+  }
+
+  showLeaders(idOfRole: any) {
+    this.leaders = null;
+
+    if (idOfRole != 3) {  // user role id
+      return;
+    }
+
+    this.roleService.getLeaders().subscribe(response => {
+      this.leaders = response[0].leaders;
     });
   }
 
@@ -106,11 +134,13 @@ export class AddEmployeeComponent implements OnInit {
     const department_id = this.registerForm.value.departmentId;
     const designation_id = (this.designations.length === 1) ?
                             String(this.designations[0].id) : this.registerForm.value.designationId;
+    const role_id = this.registerForm.value.roleId;
+    const id_of_leader = (role_id == 3) ? this.registerForm.value.leaderId : '1';
     const joining_date = this.convertDatePickerToString(this.registerForm.value.joiningDate);
     const deposit_pf = (this.registerForm.value.depositPF.length) ? this.registerForm.value.depositPF : null;
 
     const data: Register = {
-      full_name, gender, email, phone, password, joining_date, deposit_pf,
+      full_name, gender, email, phone, password, joining_date, role_id, id_of_leader, deposit_pf,
       user_name, department_id, designation_id,
       date_of_birth, marital_status, fathers_name, nationality, passport_number, present_address, permanent_address,
     };
@@ -277,6 +307,16 @@ export class AddEmployeeComponent implements OnInit {
         ],
       ],
 
+      roleId: ['', [
+        Validators.required,
+        ],
+      ],
+
+      leaderId: ['', [
+        Validators.required,
+        ],
+      ],
+
       joiningDate: ['', [
           Validators.required,
         ],
@@ -358,6 +398,14 @@ export class AddEmployeeComponent implements OnInit {
     return this.registerForm.get('designationId');
   }
 
+  get roleId() {
+    return this.registerForm.get('roleId');
+  }
+
+  get leaderId() {
+    return this.registerForm.get('leaderId');
+  }
+
   get joiningDate() {
     return this.registerForm.get('joiningDate');
   }
@@ -381,6 +429,8 @@ export class AddEmployeeComponent implements OnInit {
       this.joiningDate.value === null || this.joiningDate.value.length === 0 ||
       this.departmentId.value.length === 0 ||
       this.designationId.value.length === 0 ||
+      this.roleId.value.length === 0 ||
+      (this.roleId.value == 3 && this.leaderId.value.length === 0) ||
       this.forceToFillUpWorkingDay() == false
     ) {
       this.formErrMessage = 'All required fields must be filled out';

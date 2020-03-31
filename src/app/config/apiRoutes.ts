@@ -102,7 +102,7 @@ export const genericNavConstants = {  // Route Flow: sidebar->urlRoute->appRouti
       name: 'Home',
       url: urlRoutes.dashboard,
       icon: 'home',
-      role: [role.ADMIN, role.USER],
+      role: [role.ADMIN, role.LEADER, role.USER],
       mini_name: 'Home'
     },
     {
@@ -123,14 +123,14 @@ export const genericNavConstants = {  // Route Flow: sidebar->urlRoute->appRouti
       name: 'Leave Management',
       url: urlRoutes.leaveManagement,
       icon: 'directions_boat',
-      role: [role.ADMIN],
+      role: [role.ADMIN, role.LEADER],
       mini_name: 'Leave',
     },
     {
       name: 'Leave Application',
       url: urlRoutes.leaveApplication,
       icon: 'directions_boat',
-      role: [role.USER],
+      role: [role.LEADER, role.USER],
       mini_name: 'Leave',
     },
     {
@@ -165,7 +165,7 @@ export const genericNavConstants = {  // Route Flow: sidebar->urlRoute->appRouti
       name: 'Loan Histories',
       url: urlRoutes.loanHistories,
       icon: 'monetization_on',
-      role: [role.USER],
+      role: [role.LEADER, role.USER],
       mini_name: 'Loan',
     },
     {

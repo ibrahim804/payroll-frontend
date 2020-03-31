@@ -7,7 +7,6 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { LoginComponent } from './login/login.component';
 import { NavComponent } from './nav/nav.component';
-import { DashboardComponent } from './dashboard/dashboard.component';
 import { AuthGuard } from './_guard/auth.guard';
 import { DepartmentsComponent } from './departments/departments.component';
 import { AddDepartmentComponent } from './add-department/add-department.component';

@@ -12,7 +12,7 @@ export class UserGuard implements CanActivate {
   constructor(private authService: AuthService, private router: Router,private activeRoute:ActivatedRoute) { }
 
   canActivate(): boolean {
-    if (this.authService.getCurrentRole()==role.USER) {
+    if (this.authService.getCurrentRole() == role.USER) {
       return true;
     } else {
       // this.router.navigate([this.activeRoute.snapshot.params]);

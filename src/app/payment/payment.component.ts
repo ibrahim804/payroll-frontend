@@ -183,6 +183,7 @@ export class PaymentComponent implements AfterViewInit, OnInit {
           net_salary: element.net_salary,
           unpaid_leave_taken: element.unpaid_leave_taken,
           deduction_leave: element.deduction_leave,
+          on_loan: element.on_loan,
           payable_amount: element.payable_amount,
         };
         exportableData.push(rowOfSalarySheet);
@@ -203,7 +204,7 @@ export class PaymentComponent implements AfterViewInit, OnInit {
       gross_salary: null,
       total_deduction: null,
       net_salary: null,
-      unpaid_leave_taken: null, deduction_leave: null,
+      unpaid_leave_taken: null, deduction_leave: null, on_loan: null,
       payable_amount: null
     };
     exportableData.push(emptyRow);

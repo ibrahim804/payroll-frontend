@@ -33,6 +33,7 @@ export class SharedService {
     net_salary: 'Net Salary',
     unpaid_leave_taken: 'Unpaid Leave Taken',
     deduction_leave: 'Deduction For Leave',
+    on_loan: 'Monthly Loan Deduction',
     payable_amount: 'Payable Amount',
   };
 
@@ -64,9 +65,9 @@ export class SharedService {
     obj.D1.v = this.dbColumnToXLColumn.basic_salary;
     obj.E1.v = this.dbColumnToXLColumn.house_rent_allowance;
     obj.F1.v = this.dbColumnToXLColumn.medical_allowance;
-    obj.G1.v = this.dbColumnToXLColumn.special_allowance;
-    obj.H1.v = this.dbColumnToXLColumn.fuel_allowance;
-    obj.I1.v = this.dbColumnToXLColumn.phone_bill_allowance;
+    obj.G1.v = this.dbColumnToXLColumn.fuel_allowance;
+    obj.H1.v = this.dbColumnToXLColumn.phone_bill_allowance;
+    obj.I1.v = this.dbColumnToXLColumn.special_allowance;
     obj.J1.v = this.dbColumnToXLColumn.other_allowance;
     obj.K1.v = this.dbColumnToXLColumn.tax_deduction;
     obj.L1.v = this.dbColumnToXLColumn.provident_fund;
@@ -76,7 +77,8 @@ export class SharedService {
     obj.P1.v = this.dbColumnToXLColumn.net_salary;
     obj.Q1.v = this.dbColumnToXLColumn.unpaid_leave_taken;
     obj.R1.v = this.dbColumnToXLColumn.deduction_leave;
-    obj.S1.v = this.dbColumnToXLColumn.payable_amount;
+    obj.S1.v = this.dbColumnToXLColumn.on_loan;
+    obj.T1.v = this.dbColumnToXLColumn.payable_amount;
     return obj;
   }
 

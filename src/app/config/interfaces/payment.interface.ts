@@ -29,5 +29,6 @@ export interface SalarySheet {
   net_salary: string;
   unpaid_leave_taken: string;
   deduction_leave: string;
+  on_loan: string;
   payable_amount: string;
 }

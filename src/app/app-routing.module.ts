@@ -161,11 +161,11 @@ const routes: Routes = [
         component: ApplyLoanRequestComponent,
         canActivate: [AuthGuard, LeaderUserGuard]
       },
-      {
-        path: 'settings',
-        component: GeneralSettingsComponent,
-        canActivate: [AuthGuard, AdminGuard]
-      }
+      // {
+      //   path: 'settings',
+      //   component: GeneralSettingsComponent,
+      //   canActivate: [AuthGuard, AdminGuard]
+      // }
     ]
   }
 ];

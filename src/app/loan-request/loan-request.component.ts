@@ -3,6 +3,7 @@ import { DialogLoanRequestComponent } from './../dialogs/dialog-loan-request/dia
 import { LoanRequestService } from '../all_services/loan-request.service';
 import { Component, OnInit, AfterViewInit, ViewChild } from '@angular/core';
 import { MatTableDataSource, MatSort, MatPaginator, MatDialog } from '@angular/material';
+import { DialogConfirmationComponent } from '../dialogs/dialog-confirmation/dialog-confirmation.component';
 
 @Component({
   selector: 'app-loan-request',
@@ -72,20 +73,26 @@ export class LoanRequestComponent implements AfterViewInit, OnInit {
         if (result.approval_status === -1) {
           alert('Ok, not responded now');
         } else {
-          const payload: Update = {
-            approval_status: String(result.approval_status),
-            contract_duration: (result.approval_status) ? result.contract_duration : splitedDuration
-          };
-          this.loanRequestService.approveLoanRequest(this.requestsIds[serialNo - 1], payload).subscribe(response => {
-            if (! this.checkError(response[0])) {
-              if (result.approval_status === 1) {
-                alert('Loan Request Accepted');
-              } else {
-                alert('Loan Request Rejected');
-              }
-              this.setDataSource();
-            } else {
-              this.setDataSource();
+          this.dialog.open(DialogConfirmationComponent, {
+            data: {message: 'Are You Sure?'}
+          }).afterClosed().subscribe(confirmationResponse => {
+            if (confirmationResponse == '1') {
+              const payload: Update = {
+                approval_status: String(result.approval_status),
+                contract_duration: (result.approval_status) ? result.contract_duration : splitedDuration
+              };
+              this.loanRequestService.approveLoanRequest(this.requestsIds[serialNo - 1], payload).subscribe(response => {
+                if (! this.checkError(response[0])) {
+                  this.setDataSource();
+                  if (result.approval_status === 1) {
+                    alert('Loan Request Accepted');
+                  } else {
+                    alert('Loan Request Rejected');
+                  }
+                } else {
+                  this.setDataSource();
+                }
+              });
             }
           });
         }

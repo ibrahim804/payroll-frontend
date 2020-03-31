@@ -81,36 +81,38 @@ export class LoanHistoryComponent implements AfterViewInit, OnInit {
 
   redirectsToLoanApply() {
     this.loanRequestService.getLoanableAmount().subscribe(response => {
-      const myConsiderableAmounts = response[0].gross;
-      this.dialog.open(ApplyLoanRequestComponent, {
-        data: {
-          message: 'Make Your Loan Request',
-          responses: myConsiderableAmounts,
-        }
-      }).afterClosed().subscribe(result => {
-        if (result.loanableAmount === -1) {
-          // do nothing
-        } else if (result.requestedAmount <= 0 || result.requestedAmount > result.loanableAmount) {
-          alert('Requested Amount is not in range');
-        } else if (isNaN(result.requestedAmount)) {
-          alert('Invalid Input');
-        } else if (result.contractDuration < 3 || result.contractDuration > 12) {
-          alert('Contract Duration must be in between 3 months to 12 months');
-        } else if (isNaN(result.contractDuration)) {
-          alert('Invalid Input');
-        } else {
-          const payload: LRequest = {
-            requested_amount: String(result.requestedAmount),
-            contract_duration: String(result.contractDuration),
-          };
-          this.loanRequestService.requestForLoan(payload).subscribe(innerResponse => {
-            if (! this.checkError(innerResponse[0])) {
-              alert('Successfully made loan request');
-              this.setDataSource();
-            }
-          });
-        }
-      });
+      if (! this.checkError(response[0])) {
+        const myConsiderableAmounts = response[0].gross;
+        this.dialog.open(ApplyLoanRequestComponent, {
+          data: {
+            message: 'Make Your Loan Request',
+            responses: myConsiderableAmounts,
+          }
+        }).afterClosed().subscribe(result => {
+          if (result.loanableAmount === -1) {
+            // do nothing
+          } else if (result.requestedAmount <= 0 || result.requestedAmount > result.loanableAmount) {
+            alert('Requested Amount is not in range');
+          } else if (isNaN(result.requestedAmount)) {
+            alert('Invalid Input');
+          } else if (result.contractDuration < 3 || result.contractDuration > 12) {
+            alert('Contract Duration must be in between 3 months to 12 months');
+          } else if (isNaN(result.contractDuration)) {
+            alert('Invalid Input');
+          } else {
+            const payload: LRequest = {
+              requested_amount: String(result.requestedAmount),
+              contract_duration: String(result.contractDuration),
+            };
+            this.loanRequestService.requestForLoan(payload).subscribe(innerResponse => {
+              if (! this.checkError(innerResponse[0])) {
+                alert('Successfully made loan request');
+                this.setDataSource();
+              }
+            });
+          }
+        });
+      }
     });
   }
 

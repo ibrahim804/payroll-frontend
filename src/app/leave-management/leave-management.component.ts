@@ -1,5 +1,5 @@
 /*
-  ADMIN SIDE
+  ADMIN-LEADER SIDE
 */
 
 import { DialogLeaveDetailsComponent } from './../dialogs/dialog-leave-details/dialog-leave-details.component';
@@ -21,6 +21,10 @@ export class LeaveManagementComponent implements OnInit {
   leaves = new MatTableDataSource<any>();
   searchKey: string;
   leavesIds = [];
+
+  successClass = 'btn btn-success btn-sm mr-1';
+  danderClass = 'btn btn-danger btn-sm mr-1';
+  readonlyClass = 'btn btn-secondary btn-sm mr-1';
 
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
@@ -51,6 +55,7 @@ export class LeaveManagementComponent implements OnInit {
           leave_description: i.leave_description,
           leave_length: i.leave_length,
           leave_available: i.leave_available,
+          isReadonly: i.is_readonly,
         });
         count = count + 1;
         this.leavesIds.push(i.id);

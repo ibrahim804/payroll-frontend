@@ -1,6 +1,7 @@
+import { LeaderUserGuard } from './_guard/leader-user.guard';
+import { AdminLeaderGuard } from './_guard/admin-leader.guard';
 import { UpdateUserComponent } from './dialogs/update-user/update-user.component';
 import { LoanRequestComponent } from './loan-request/loan-request.component';
-import { UserGuard } from './_guard/user.guard';
 import { LoggedInGuard } from './_guard/logged-in.guard';
 import { BlankComponent } from './blank-component/blank-component.component';
 import { NgModule } from '@angular/core';
@@ -12,8 +13,8 @@ import { DepartmentsComponent } from './departments/departments.component';
 import { AddDepartmentComponent } from './add-department/add-department.component';
 import { EmployeesComponent } from './employees/employees.component';
 import { AddEmployeeComponent } from './add-employee/add-employee.component';
-import { TodaysAttendanceComponent } from './todays-attendance/todays-attendance.component';
-import { AttendanceReportComponent } from './attendance-report/attendance-report.component';
+// import { TodaysAttendanceComponent } from './todays-attendance/todays-attendance.component';
+// import { AttendanceReportComponent } from './attendance-report/attendance-report.component';
 import { LeaveComponent } from './leave/leave.component';
 import { LeaveManagementComponent } from './leave-management/leave-management.component';
 import { SalaryManagementComponent } from './salary-management/salary-management.component';
@@ -59,16 +60,16 @@ const routes: Routes = [
         redirectTo: '/departments/list',
         pathMatch: 'full',
       },
-      {
-        path: 'departments/list',
-        component: DepartmentsComponent,
-        canActivate: [AuthGuard, AdminGuard]
-      },
-      {
-        path: 'departments/add',
-        component: AddDepartmentComponent,
-        canActivate: [AuthGuard, AdminGuard]
-      },
+      // {
+      //   path: 'departments/list',
+      //   component: DepartmentsComponent,
+      //   canActivate: [AuthGuard, AdminGuard]
+      // },
+      // {
+      //   path: 'departments/add',
+      //   component: AddDepartmentComponent,
+      //   canActivate: [AuthGuard, AdminGuard]
+      // },
       {
         path: 'employees',
         redirectTo: '/employees/list',
@@ -95,16 +96,16 @@ const routes: Routes = [
         component: UpdateUserComponent,
         canActivate: [AuthGuard]
       },
-      {
-        path: 'attendance',
-        component: TodaysAttendanceComponent,
-        canActivate: [AuthGuard, AdminGuard]
-      },
-      {
-        path: 'attendance/report',
-        component: AttendanceReportComponent,
-        canActivate: [AuthGuard, AdminGuard]
-      },
+      // {
+      //   path: 'attendance',
+      //   component: TodaysAttendanceComponent,
+      //   canActivate: [AuthGuard, AdminGuard]
+      // },
+      // {
+      //   path: 'attendance/report',
+      //   component: AttendanceReportComponent,
+      //   canActivate: [AuthGuard, AdminGuard]
+      // },
       {
         path: 'leave',
         redirectTo: '/leave/management',
@@ -113,12 +114,12 @@ const routes: Routes = [
       {
         path: 'leave/management',
         component: LeaveManagementComponent,
-        canActivate: [AuthGuard, AdminGuard]
+        canActivate: [AuthGuard, AdminLeaderGuard]
       },
       {
         path: 'leave/application',
         component: LeaveComponent,
-        canActivate: [AuthGuard, UserGuard]
+        canActivate: [AuthGuard, LeaderUserGuard]
       },
       {
         path: 'salary',
@@ -153,12 +154,12 @@ const routes: Routes = [
       {
         path: 'loan/histories',
         component: LoanHistoryComponent,
-        canActivate: [AuthGuard, UserGuard]
+        canActivate: [AuthGuard, LeaderUserGuard]
       },
       {
         path: 'loan/application',
         component: ApplyLoanRequestComponent,
-        canActivate: [AuthGuard, UserGuard]
+        canActivate: [AuthGuard, LeaderUserGuard]
       },
       {
         path: 'settings',

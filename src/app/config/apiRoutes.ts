@@ -112,26 +112,26 @@ export const genericNavConstants = {  // Route Flow: sidebar->urlRoute->appRouti
       role: [role.ADMIN],
       mini_name: 'Employees'
     },
-    {
-      name: 'Department',
-      url: urlRoutes.departmentsList,
-      icon: 'group_work',
-      role: [role.ADMIN],
-      mini_name: 'Department'
-    },
+    // {
+    //   name: 'Department',
+    //   url: urlRoutes.departmentsList,
+    //   icon: 'group_work',
+    //   role: [role.ADMIN],
+    //   mini_name: 'Department'
+    // },
     {
       name: 'Leave Management',
       url: urlRoutes.leaveManagement,
       icon: 'directions_boat',
       role: [role.ADMIN, role.LEADER],
-      mini_name: 'Leave',
+      mini_name: 'Leaves',
     },
     {
       name: 'Leave Application',
       url: urlRoutes.leaveApplication,
       icon: 'directions_boat',
       role: [role.LEADER, role.USER],
-      mini_name: 'Leave',
+      mini_name: 'Take-Leave',
     },
     {
       name: 'Salary Management',
@@ -162,7 +162,7 @@ export const genericNavConstants = {  // Route Flow: sidebar->urlRoute->appRouti
       mini_name: 'Histories',
     },
     {
-      name: 'Loan Histories',
+      name: 'Loan Histories',   // after request accepted
       url: urlRoutes.loanHistories,
       icon: 'monetization_on',
       role: [role.LEADER, role.USER],

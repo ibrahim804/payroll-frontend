@@ -43,8 +43,10 @@ export class UserDetailsComponent implements OnInit {
   redirectsToEmployeeUpdate() {
     // this.router.navigate([urlRoutes.employeeUpdate]);
     this.dialog.open(UpdateUserComponent, {
-      width: '65vw',
-
+      // width: '65vw',
+      data: {
+        user: this.user
+      }
     }).afterClosed().subscribe(response => {
       // console.log(response);
       this.redirectsToEmployeeInformation();

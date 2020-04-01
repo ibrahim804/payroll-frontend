@@ -10,9 +10,13 @@
           <div>Full Name</div>
           <div>Department</div>
           <div>Designation</div>
+          <div>Date Of Birth</div>
+          <div>Fathers Name</div>
+          <div>Marital Status</div>
+          <div>Address</div>
           <div>Email</div>
           <div>Phone</div>
-          <div>Address</div>
+          <div>Passport Number</div>
           <div>Joining Date</div>
           <div>Net Salary</div>
           <div>Provident Fund</div>
@@ -20,15 +24,19 @@
         </div>
         <div fxLayout="column" fxLayoutAlign="center start" [ngClass.xs]="{ 'pl-8 ': true }" [ngClass.sm]="{ 'pl-8 ': true }" ngClass="pl-60" fxLayoutGap="12px">
           <div>{{user?.full_name}}</div>
-            <div>{{user?.department_name}}</div>
-            <div>{{user?.designation}}</div>
-            <div>{{user?.email}}</div>
-            <div>{{user?.phone}}</div>
-            <div>{{user?.present_address}}</div>
-            <div>{{user?.joining_date}}</div>
-            <div>{{user?.net_salary}}</div>
-            <div>{{user?.provident_fund}}</div>
-            <div>{{user?.on_loan}}</div>
+          <div>{{user?.department_name}}</div>
+          <div>{{user?.designation}}</div>
+          <div>{{user?.date_of_birth}}</div>
+          <div>{{user?.fathers_name}}</div>
+          <div>{{user?.marital_status}}</div>
+          <div>{{user?.present_address}}</div>
+          <div>{{user?.email}}</div>
+          <div>{{user?.phone}}</div>
+          <div>{{user?.passport_number}}</div>
+          <div>{{user?.joining_date}}</div>
+          <div>{{user?.net_salary}}</div>
+          <div>{{user?.provident_fund}}</div>
+          <div>{{user?.on_loan}}</div>
         </div>
       </div>
 

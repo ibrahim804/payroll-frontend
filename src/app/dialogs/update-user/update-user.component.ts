@@ -24,13 +24,14 @@ export class UpdateUserComponent implements OnInit {
 
   ngOnInit() {
     this.formErrMessage = null;
+    this.data = this.data.user;
     this.buildForm();
   }
 
   buildForm() {
     this.updateForm = this.formBuilder.group({
 
-      email: ['', [
+      email: [this.data.email, [
           Validators.minLength(3),
           Validators.maxLength(255),
           CustomValidators.cannotContainSpace,
@@ -39,35 +40,42 @@ export class UpdateUserComponent implements OnInit {
         ],
       ],
 
-      dateOfBirth: [''],
+      dateOfBirth: [(this.data.date_of_birth && this.data.date_of_birth != 'N/A') ?
+                    this.data.date_of_birth : ''],
 
-      fathersName: ['', [
+      fathersName: [(this.data.fathers_name && this.data.fathers_name != 'N/A') ?
+                    this.data.fathers_name : '', [
           Validators.minLength(3),
           Validators.maxLength(25),
           CustomValidators.containsOnlyAlphabet,
         ],
       ],
 
-      maritalStatus: [''],
+      maritalStatus: [(this.data.marital_status && this.data.marital_status != 'N/A') ?
+                      this.data.marital_status : ''],
 
-      nationality: ['Bangladeshi'],
+      nationality: [(this.data.nationality && this.data.nationality != 'N/A') ?
+                    this.data.nationality : 'Bangladeshi'],
 
-      passportNumber: [''],
+      passportNumber: [(this.data.passport_number && this.data.passport_number != 'N/A') ?
+                        this.data.passport_number : ''],
 
-      phone: ['', [
+      phone: [this.data.phone, [
           Validators.minLength(10),
           Validators.maxLength(10),
           CustomValidators.containsOnlyNumber,
         ],
       ],
 
-      presentAddress: ['', [
+      presentAddress: [(this.data.present_address && this.data.present_address != 'N/A') ?
+                        this.data.present_address : '', [
           Validators.minLength(10),
           Validators.maxLength(300),
         ],
       ],
 
-      permanentAddress: ['', [
+      permanentAddress: [(this.data.permanent_address && this.data.permanent_address != 'N/A') ?
+                          this.data.permanent_address : '', [
           Validators.minLength(10),
           Validators.maxLength(300),
         ],
@@ -123,14 +131,14 @@ export class UpdateUserComponent implements OnInit {
 
   updateEmployee() {
     const date_of_birth = this.convertDatePickerToString(this.updateForm.value.dateOfBirth);
-    const marital_status = (this.updateForm.value.maritalStatus.length) ? this.updateForm.value.maritalStatus : null;
-    const fathers_name = (this.updateForm.value.fathersName.length) ? this.updateForm.value.fathersName : null;
-    const nationality = (this.updateForm.value.nationality.length) ? this.updateForm.value.nationality : null ;
-    const passport_number = (this.updateForm.value.passportNumber.length) ? this.updateForm.value.passportNumber : null;
-    const email = (this.updateForm.value.email.length) ? this.updateForm.value.email : null;
-    const phone = (this.updateForm.value.phone.length) ? this.updateForm.value.phone : null;
-    const present_address = (this.updateForm.value.presentAddress.length) ? this.updateForm.value.presentAddress : null;
-    const permanent_address = (this.updateForm.value.permanentAddress.length) ? this.updateForm.value.permanentAddress : null;
+    const marital_status = (this.updateForm.value.maritalStatus.length) ? String(this.updateForm.value.maritalStatus) : null;
+    const fathers_name = (this.updateForm.value.fathersName.length) ? String(this.updateForm.value.fathersName) : null;
+    const nationality = (this.updateForm.value.nationality.length) ? String(this.updateForm.value.nationality) : null ;
+    const passport_number = (this.updateForm.value.passportNumber.length) ? String(this.updateForm.value.passportNumber) : null;
+    const email = (this.updateForm.value.email.length) ? String(this.updateForm.value.email) : null;
+    const phone = (this.updateForm.value.phone.length) ? String(this.updateForm.value.phone) : null;
+    const present_address = (this.updateForm.value.presentAddress.length) ? String(this.updateForm.value.presentAddress) : null;
+    const permanent_address = (this.updateForm.value.permanentAddress.length) ? String(this.updateForm.value.permanentAddress) : null;
 
     const data: Update = {
       email, phone,
@@ -151,7 +159,7 @@ export class UpdateUserComponent implements OnInit {
   }
 
   convertDatePickerToString(paramDate: any) {
-    if (! paramDate) {
+    if (! paramDate || typeof paramDate !== 'object') {
       return null;
     }
 

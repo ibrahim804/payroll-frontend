@@ -16,6 +16,12 @@ export interface User {
   net_salary: string;
   provident_fund: string;
   on_loan: string;
+  date_of_birth: string;
+  marital_status: string;
+  fathers_name: string;
+  nationality: string;
+  passport_number: string;
+  permanent_address: string;
 }
 
 export interface Register {

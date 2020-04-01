@@ -45,14 +45,7 @@ export interface Register {
 }
 
 export interface Update {
-  full_name?: string;
   email?: string;
-  password?: string;
-  gender?: string;
-  phone?: string;
-  joining_date?: string;
-  employee_id?: string;
-  user_name?: string;
   date_of_birth?: string;
   fathers_name?: string;
   marital_status?: string;
@@ -60,13 +53,7 @@ export interface Update {
   permanent_address?: string;
   present_address?: string;
   passport_number?: string;
-  photo_path?: string;
-  company_id?: string;
-  designation_id?: string;
-  department_id?: string;
-  salary_id?: string;
-  working_day_id?: string;
-  verification_code?: string;
+  phone?: string;
 }
 
 export interface UpdatePassword {

@@ -2,7 +2,6 @@ import { Update } from './../../config/interfaces/user.interface';
 import { Component, OnInit, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { AuthService } from 'src/app/all_services/auth.service';
 import { CustomValidators } from 'src/app/shared/custom.validators';
 import { UserService } from 'src/app/all_services/user.service';
 
@@ -18,7 +17,6 @@ export class UpdateUserComponent implements OnInit {
 
   constructor(
     @Inject(MAT_DIALOG_DATA) private data: any,
-    private authService: AuthService,
     private userService: UserService,
     private formBuilder: FormBuilder,
     private dialogRef: MatDialogRef <UpdateUserComponent>
@@ -32,30 +30,6 @@ export class UpdateUserComponent implements OnInit {
   buildForm() {
     this.updateForm = this.formBuilder.group({
 
-      name: ['', [
-          Validators.minLength(3),
-          Validators.maxLength(25),
-          CustomValidators.containsOnlyAlphabet,
-        ],
-      ],
-
-      dateOfBirth: [''],
-
-      gender: [''],
-
-      maritalStatus: [''],
-
-      fathersName: ['', [
-        Validators.minLength(3),
-        Validators.maxLength(25),
-        CustomValidators.containsOnlyAlphabet,
-      ],
-    ],
-
-      nationality: ['Bangladeshi'],
-
-      passportNumber: [''],
-
       email: ['', [
           Validators.minLength(3),
           Validators.maxLength(255),
@@ -64,6 +38,21 @@ export class UpdateUserComponent implements OnInit {
           // this.authService.shouldBeUnique,
         ],
       ],
+
+      dateOfBirth: [''],
+
+      fathersName: ['', [
+          Validators.minLength(3),
+          Validators.maxLength(25),
+          CustomValidators.containsOnlyAlphabet,
+        ],
+      ],
+
+      maritalStatus: [''],
+
+      nationality: ['Bangladeshi'],
+
+      passportNumber: [''],
 
       phone: ['', [
           Validators.minLength(10),
@@ -88,16 +77,8 @@ export class UpdateUserComponent implements OnInit {
 
   }
 
-  get name() {
-    return this.updateForm.get('name');
-  }
-
   get dateOfBirth() {
     return this.updateForm.get('dateOfBirth');
-  }
-
-  get gender() {
-    return this.updateForm.get('gender');
   }
 
   get maritalStatus() {
@@ -141,9 +122,7 @@ export class UpdateUserComponent implements OnInit {
   }
 
   updateEmployee() {
-    const full_name = (this.updateForm.value.name.length) ? this.updateForm.value.name : null;
     const date_of_birth = this.convertDatePickerToString(this.updateForm.value.dateOfBirth);
-    const gender = (this.updateForm.value.gender.length) ? this.updateForm.value.gender : null;
     const marital_status = (this.updateForm.value.maritalStatus.length) ? this.updateForm.value.maritalStatus : null;
     const fathers_name = (this.updateForm.value.fathersName.length) ? this.updateForm.value.fathersName : null;
     const nationality = (this.updateForm.value.nationality.length) ? this.updateForm.value.nationality : null ;
@@ -154,11 +133,10 @@ export class UpdateUserComponent implements OnInit {
     const permanent_address = (this.updateForm.value.permanentAddress.length) ? this.updateForm.value.permanentAddress : null;
 
     const data: Update = {
-      full_name, gender, email, phone,
+      email, phone,
       date_of_birth, marital_status, fathers_name, nationality, passport_number, present_address, permanent_address,
     };
     this.userService.update(data).subscribe(response => {
-      // console.log(response[0]);
       if (! this.checkError(response[0])) {
         alert('Employee information updated successfully');
         this.dialogRef.close();

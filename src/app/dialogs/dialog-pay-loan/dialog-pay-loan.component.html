@@ -1,0 +1,48 @@
+
+<div style="width: 600px; height: 400px;">
+  <form [formGroup]="loanPayForm" #credentials="ngForm">
+    <div>
+        <div class="card m-3">
+            <div class="card-header" style="background: #263238">
+                <h4 class="text-center" style="color: white">{{data?.message}}</h4>
+            </div> <br>
+
+            <div class="row">
+                <div class="col-4"></div>
+                <div class="col-5">
+                    <div class="card-body">
+
+                        <div class="form-group">
+                          Loan To Pay:
+                          <input class="form-control" type="text" [placeholder]="loanToPay" readonly>
+                        </div>
+
+                        <div class="form-group">
+                          Amount you want to pay now:
+                          <input type="text" class="form-control form-control-sm rounded-1" id="paid_amount" name="paid_amount" formControlName="paid_amount">
+                          <div *ngIf="paid_amount.touched && paid_amount.invalid">
+                              <div *ngIf="paid_amount.errors.containsDecimalNumber">
+                                <mat-error> Field can contain only non negetive decimal value </mat-error>
+                              </div>
+                          </div>
+                        </div>
+
+                        <div *ngIf="! compareTwoAmounts()">
+                          <mat-error> You are paying more than your taken loan </mat-error>
+                        </div>
+
+                        <div fxLayout="row" fxLayoutAlign="space-between center" class="py-48">
+                            <button mat-raised-button [mat-dialog-close]="returnData(1)" color="primary" cdkFocusInitial>Pay</button>
+                            <button mat-raised-button [mat-dialog-close]="returnData(0)" color="warn">Cancel</button>
+                          </div>
+                    </div>
+                </div>
+                <div class="col-3"></div>
+            </div>
+          </div>
+    </div>
+  </form>
+</div>
+
+
+

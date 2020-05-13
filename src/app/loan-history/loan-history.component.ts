@@ -1,5 +1,7 @@
+import { DialogPayLoanComponent } from './../dialogs/dialog-pay-loan/dialog-pay-loan.component';
 import { combineLatest } from 'rxjs';
-import { Create } from './../config/interfaces/loan-request.interface';
+import { Create as LRequest } from './../config/interfaces/loan-request.interface';
+import { Create as LPay } from './../config/interfaces/loan-history.interface';
 import { LoanHistoryService } from './../all_services/loan-history.service';
 import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { MatTableDataSource, MatSort, MatPaginator, MatDialog } from '@angular/material';
@@ -101,30 +103,56 @@ export class LoanHistoryComponent implements AfterViewInit, OnInit {
           responses: myConsiderableAmounts,
         }
       }).afterClosed().subscribe(result => {
-          if (result.availablePF === -1) {
-            // do nothing
-          } else if (result.requestedAmount <= 0 || result.requestedAmount > result.availablePF) {
-            alert('Requested Amount is not in range');
-          } else if (isNaN(result.requestedAmount)) {
-            alert('Invalid Input');
-          } else {
-            // console.log(result);
-            const payload: Create = {
-              requested_amount: String(result.requestedAmount)
-            };
-            this.loanRequestService.requestForLoan(payload).subscribe(innerResponse => {
-              if (! this.checkError(innerResponse[0])) {
-                alert('Successfully made loan request');
-                this.setDataSource();
-              }
-            });
-          }
+        if (result.availablePF === -1) {
+          // do nothing
+        } else if (result.requestedAmount <= 0 || result.requestedAmount > result.availablePF) {
+          alert('Requested Amount is not in range');
+        } else if (isNaN(result.requestedAmount)) {
+          alert('Invalid Input');
+        } else {
+          // console.log(result);
+          const payload: LRequest = {
+            requested_amount: String(result.requestedAmount)
+          };
+          this.loanRequestService.requestForLoan(payload).subscribe(innerResponse => {
+            if (! this.checkError(innerResponse[0])) {
+              alert('Successfully made loan request');
+              this.setDataSource();
+            }
+          });
+        }
       });
     });
   }
 
-  redirectsToLoanPay() {
-    //
+  redirectsToLoanPay() {            // work with it
+    const loanToPay  = this.latestLoanAmount;
+    this.dialog.open(DialogPayLoanComponent, {
+      data: {
+        message: 'Pay Loan Back',
+        responses: loanToPay,
+      }
+    }).afterClosed().subscribe(result => {
+        console.log(result);
+        if (result.loanToPay === -1) {
+          // do nothing
+        } else if (result.paidAmount <= 0 || result.paidAmount > result.loanToPay) {
+          alert('Paid Amount is not in range');
+        } else if (isNaN(result.paidAmount)) {
+          alert('Invalid Input');
+        } else {
+          // console.log(result);
+          const payload: LPay = {
+            paid_amount: String(result.paidAmount),
+          };
+          this.loanHistoryService.createLoanHistory(payload).subscribe(innerResponse => {
+            if (! this.checkError(innerResponse[0])) {
+              alert('Successfully Paid loan');
+              this.setDataSource();
+            }
+          });
+        }
+    });
   }
 
   ordinal_suffix_of(i: number) {

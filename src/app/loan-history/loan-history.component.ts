@@ -24,6 +24,12 @@ export class LoanHistoryComponent implements AfterViewInit, OnInit {
   isActive: boolean;
 
   latestLoanAmount: any = null;
+  actualLoan: any = null;
+  latestAlreadyPaid: any = null;
+  latestMonth: any = null;
+  latestYear: any = null;
+  latestMonthCount: any = null;
+
   payLoanLabel: string;
   payLoanDisabled: boolean;
 
@@ -42,6 +48,11 @@ export class LoanHistoryComponent implements AfterViewInit, OnInit {
 
   setDefaultValues() {
     this.latestLoanAmount = null;
+    this.actualLoan = null;
+    this.latestAlreadyPaid = null;
+    this.latestMonth = null;
+    this.latestYear = null;
+    this.latestMonthCount = null;
     this.payLoanLabel = 'Pay Loan';
     this.payLoanDisabled = false;
   }
@@ -78,6 +89,11 @@ export class LoanHistoryComponent implements AfterViewInit, OnInit {
           this.loanHistoryIds.push(i.id);
           if (! this.latestLoanAmount) {
             this.latestLoanAmount = i.current_loan_amount;
+            this.actualLoan = i.actual_loan_amount;
+            this.latestAlreadyPaid = i.paid_amount;
+            this.latestYear = i.year;
+            this.latestMonth = this.getNumFromMonthList(i.month);
+            this.latestMonthCount = i.month_count;
           }
         }
         if (this.latestLoanAmount === 0) {
@@ -126,11 +142,15 @@ export class LoanHistoryComponent implements AfterViewInit, OnInit {
   }
 
   redirectsToLoanPay() {            // work with it
-    const loanToPay  = this.latestLoanAmount;
     this.dialog.open(DialogPayLoanComponent, {
       data: {
         message: 'Pay Loan Back',
-        responses: loanToPay,
+        loanToPay: this.latestLoanAmount,
+        actualLoan: this.actualLoan,
+        alreadyPaid: this.latestAlreadyPaid,
+        year: this.latestYear,
+        month: this.latestMonth,
+        monthCount: this.latestMonthCount,
       }
     }).afterClosed().subscribe(result => {
         console.log(result);
@@ -153,6 +173,13 @@ export class LoanHistoryComponent implements AfterViewInit, OnInit {
           });
         }
     });
+  }
+
+  getNumFromMonthList(month: string) {
+    const allMonths = [
+      'Dummy', 'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
+    ];
+    return allMonths.indexOf(month);
   }
 
   ordinal_suffix_of(i: number) {

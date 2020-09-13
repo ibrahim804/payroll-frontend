@@ -12,12 +12,24 @@ export class DialogPayLoanComponent implements OnInit {
 
   loanPayForm: FormGroup;
   loanToPay: any;
+  actualLoan: any;
+  alreadyPaid: any;
+  year: any;
+  month: any;
+  monthCount: any;
+  rate = 0.01;
 
   constructor(@Inject(MAT_DIALOG_DATA) private data: any, private formBuilder: FormBuilder) {}
 
   ngOnInit() {
     this.buildForm();
-    this.loanToPay = this.data.responses;
+    this.loanToPay = this.data.loanToPay;
+    this.actualLoan = this.data.actualLoan;
+    this.alreadyPaid = this.data.alreadyPaid;
+    this.year = +this.data.year;
+    this.month = this.data.month;
+    this.monthCount = this.data.monthCount;
+    this.setLoanToPayForThisMonth();
   }
 
   compareTwoAmounts() {
@@ -39,6 +51,15 @@ export class DialogPayLoanComponent implements OnInit {
         paidAmount: (flag === 1) ? +this.paid_amount.value : 0,
       };
     }
+  }
+
+  setLoanToPayForThisMonth() {
+    const now = new Date();
+    const yearToday = now.getFullYear();
+    const monthToday = now.getMonth() + 1;
+    const monthDiff = (yearToday - this.year) * 12 + (monthToday - this.month) + this.monthCount;
+    // console.log(monthDiff);
+    this.loanToPay = this.actualLoan + this.actualLoan * this.rate * monthDiff - this.alreadyPaid;
   }
 
   buildForm() {
